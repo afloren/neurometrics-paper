@@ -1,0 +1,234 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{color}
+
+\lstset{language=Matlab}
+
+\title{Classifying brain states induced by comlex visual stimuli}
+
+\author{Andrew Floren\\
+1 University Station, C0803\\
+The University of Texas at Austin\\
+Austin TX, 78712-1084 USA\\
+afloren@mail.utexas.edu\\
+(214) 384-2895\\}
+
+\date{}
+
+\bibliographystyle{acm}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In traditional fMRI experiments, investigators seekt o identify relationships between the measured BOLD signal and a carefully designed stimulus in order to tease out the purpose of particular brain regions.
+Recently, a new trend has developed where researchers are instead looking to predict what stimulus was presented given the measured BOLD signal \cite{fmri-ml1,fmri-ml2,fmri-ml3}.
+While successful, most of these experiments involve presenting static images from a limited number classes such as faces and places.
+Then, the researchers try to classify which image or class of images was presented during each frame by analyzing the measured BOLD signal using machine learning classifiers.
+We wanted to test to what extent it is possible to classify a subject's brain state while presenting more realistic stimuli.
+Further, we were interested to see what information could be gleaned from the BOLD signal beyond object categories.
+
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+The general layout of this article is as follows.
+First, we will introduce a number of topics as they are related to foveation.
+These introductions are not meant to be definitive, and we invite interested readers to explore the citations in the respective sections.
+We will introduce the the field of psychophysics and discuss those areas that are relevant for exploring foveation in the human visual system.
+In the same vein, we will introduce ideal observer analysis which will later be used for understanding human fixation selection.
+We will provide an extremely rudimentary introduction to information theory and especially the concept of entropy.
+We will discuss the anatomy and models of operation for the eye and primary visual cortex.
+We will also introduce the reader to the efficient coding hypothesis and its relation to the study of the statistics of natural images.
+
+\section{The Human Visual System}
+The human visual system collects foveated images.
+We present a high level overview of the anatomy, optics, and current understanding of low level vision processing.
+
+\subsection{Anatomy of the Eye}
+The eye is the primary imaging device in the human visual system.
+Figure \ref{eye} illustrates the basic anatomy of the human eye.
+The eye is approximately spherical, and is, on average, 24 mm long by 22 mm across \cite{Hecht2001}.
+The main body of the eye, or the white part of the eye, is called the sclera.
+The cornea is transparent and is located at the front of the eye.
+The primary function of the cornea is to focus the light entering the eye.
+The pupil, which is situated behind the cornea, is a hole that allows light to enter the eye.
+The iris is a muscle and it controls the diameter of the pupil.
+The iris adjust the diameter of the pupil in order to control the amount of light entering the eye.
+In low light, the iris dilates or increases the diameter of the pupil which allows more light into the eye.
+In bright light, it constricts or reduces the diameter of the pupil which allows less light into the eye.
+Located behind the pupil is the lens.
+Similar to the cornea, the lens focuses the light entering the eye.
+Unlike the cornea, the focusing power of the lens is adjustable via the zonular fibers.
+These fibers contort the shape of the lens which changes its focal length.
+The retina is a thin layer of cells located on the back of the inside of the eye.
+Photoreceptors in the retina are responsible for converting impinging light into electrical signals.
+The fovea is a small pit in the retina that is aligned along the optical axis of the cornea and lens.
+The highest concentration of photoreceptors in the retina is found in the fovea.
+The electrical signals from the retina are pooled and transmitted, along the optic nerve, to the brain for processing.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{eye}
+\caption{The basic anatomy of the human eye.}
+\label{eye}
+\end{figure}
+
+\subsection{Optics of the Eye}
+Both the cornea and the lens can be approximated as thin lenses.
+The pupil, situated between these two lenses, functions as an aperture.
+This system can, in turn, be approximated by a single thin lens with an aperture.
+This simple optical approximation is illustrated in figure \ref{eyeoptics}.
+This model can be parameterized using a single focal length and aperture diameter.
+By accommodation of the lens and dilation of the pupil, both of these parameters will vary depending on the scene being viewed.
+The diameter of the pupil can vary from about 2 mm to 8 mm \cite{Hecht2001}.
+However, the minimum and maximum pupil sizes can vary dramatically between individuals.
+The focal length, when the lens is not accommodating, should be approximately equal to the distance from the lens to the retina.
+This results in objects located at infinity, and most objects located at a moderate distance from the viewer, to be properly focused on the retina.
+This gives an average unaccommodated focal length of 24 mm, the diameter of the eye.
+When focusing on objects extremely close to the viewer, this focal length can change significantly.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{eyeoptics}
+\caption{A simple optical approximation of the eye.}
+\label{eyeoptics}
+\end{figure}
+
+\section{Modeling the Human Visual System}
+The cornea, pupil, and lens focus an image on the retina.
+Photoreceptors, embedded in the retina, sample this image. 
+Signals from the photoreceptors are filtered and pooled by the retinal ganglion cells.
+Finally, the signals from the ganglion cells are propagated to the primary visual cortex.
+We can think of these processes as a series of filters that prepare the data for processing by the brain.
+By analyzing the properties of these processes one can gain insights into how the brain efficiently produces foveated imagery.
+
+\subsection{Psychophysics}
+Analyzing the properties of the eye and primary visual cortex offers some insight into how the brain processes visual data, but it doesn't tell us how the brain interprets and uses that data.
+Although there has been much research in this area, directly analyzing processes in the brain beyond the primary visual cortex has proven difficult.
+Fortunately, at least with humans, we can simply ask subjects their perception of presented stimuli.
+Psychophysics is an area of study that seeks to accurately and precisely quantify the relationship between physical stimuli and the induced perceptions.
+\begin{equation}
+Y(t) = A + \frac{K - A}{ \left( 1 + Q e^{ -B ( t - M ) } \right)^{1/v} },
+\end{equation}
+where $A$ is the lower asymptote, $K$ is the upper asymptote, $B$ is the growth rate, and $M$ is the point of inflection.
+The parameters $v$ and $Q$ further control the shape of the curve.
+In many applications, the assumption that $v=Q=1$ is common. 
+The point of just noticeable difference is often defined to be the point on the curve half-way between the lower and upper asymptotes.
+In two-alternative forced-choice tests, this typically corresponds to the point at which the subject is expected to be correct three quarters of the time.
+However, other definitions of just noticeable difference are used in practice.
+In general, it is a good idea to find the definition used for a particular experiment when attempting to compare results.
+
+\subsection{Optical Filtering}
+The filtering effects of the optical system are approximately spatially uniform.
+There are some discrepancies at extreme eccentricities where spherical aberration of the lens becomes an issue.
+This effect only occurs at large pupil diameters and can largely be ignored.
+The primary filtering effect of the optical system is due to the diffraction limit imposed by the pupil \cite{Hecht2001}.
+The diffraction limit is a byproduct of the wave nature of light.
+A wave passing through a small aperture causes constructive and destructive interference on the imaging plane.
+The result is that the image of a point of light produces a blur, which is known as the point spread function.
+This function is conceptually similar to an impulse response function, and characterizes the filtering effects of the optical system.
+
+The diffraction limit restricts the resolvability of high frequency signals. 
+Ignoring all other factors, the maximum resolvable frequency is given by the Rayleigh Criterion:
+\begin{equation}
+\sin \theta_R = 1.22 \frac{\lambda}{d},
+\end{equation}
+where $\theta_R$ is the maximum resolvable frequency, $\lambda$ is the the wavelength of the light, and $d$ is the diameter of the pupil. 
+From this equation, we can see that the maximum resolvable frequency actually depends on the wavelength, or color, of the light.
+Additionally, the maximum resolvable frequency also depends on ambient light levels because they will affect the size of the pupil. 
+When the image is directly on the fovea and under ideal lighting conditions, human subjects can approach the resolvability limit predicted by the Rayleigh Criterion.
+However, other factors also affect resolvability, especially for non-foveal vision.
+Let $\mathbf{x}^f = (x_1^f, x_2^f)^T$ be the location of the fixation point also measured in pixels.
+Let $N$ be the number of pixels per some unit of distance on the screen.
+Let $v$ be the distance of the viewer from the screen measured in the same unit of distance as $N$.
+Eccentricity can be calculated as
+\begin{equation}
+\label{fovealdistance}
+d( \mathbf{x}, \mathbf{x}^f ) = || \mathbf{x} - \mathbf{x}^f ||_2 = \sqrt{ (x_1 - x_1^f)^2 + (x_2 - x_2^f)^2 }
+\end{equation}
+\begin{equation}
+\label{eccentricityeqn}
+e(v,\mathbf{x}) = \tan^{-1}\left( \frac{ d(\mathbf{x}, \mathbf{x}^f ) }{ Nv } \right).
+\end{equation}
+A common unit of distance for measuring $N$ and $v$ is the image width.
+Then $N$ is simply the width of the image in pixels and $v$ is the distance of the viewer from the image measured in image widths.
+Regardless of the measure used, the product $Nv$ will be identical if care is taken with the units of measurement.
+\begin{equation}
+\frac{ \mbox{Cycles} }{ \mbox{Degree} } = \frac{ \mbox{Cycles} }{ \mbox{Pixel} } \times \frac{\pi N v}{180}
+\end{equation}
+Conversions between these two units will be implicit when discussing applications of psychophysical models to digital image and video processing algorithms throughout this article.
+This conversion is fairly standard throughout the literature, however it is worth noting that it is only an approximation.
+For observers placed far from the screen and viewing images located directly on the fovea, the errors incurred by this approximations are small.
+However, when the subject is placed very close to the screen or when viewing images in the periphery, it may be necessary to use more precise calculations.
+Correctly handling frequencies in the periphery is difficult because, unless the screen is curved, the distance from the eye to the screen increases with eccentricity.
+The assumption was also implicitly made that the pixels were square.
+That is, the pixels per distance horizontally is identical to the pixels per distance vertically.
+If this is not the case, both vertical pixels per degree and horizontal pixels per degree must be calculated.
+However, on most monitors this discrepancy is small enough to ignore.
+
+\begin{equation}
+\label{cutofffrequency}
+f_c(e) = \frac{ e_2 \ln \left( \frac{1}{CT_0} \right) }{ \alpha (e + e_2) }
+\end{equation}
+where $f_c$ is the cut-off frequency in cycles per degree.
+However, for eccentricities close to zero, the cut-off frequency can exceed the highest frequency that can be represented on the screen without aliasing.
+As previously explained, this frequency is $0.5$ cycles per pixel. 
+From equation \ref{ppd}, we can compute the pixels per degree and thus the maximum representable frequency in cycles per degree.
+\begin{equation}
+\label{displaylimit}
+\frac{1}{2} \times \mbox{ pixels per degree }= \frac{\pi N v}{360}.
+\end{equation}
+Combining equations \ref{eccentricityeqn}, \ref{cutofffrequency}, and \ref{displaylimit}, we can produce a new equation that calculates the cutoff frequency for a particular pixel $\mathbf{x}$ at a viewing distance $v$.
+Figure \ref{contrastsensitivity} illustrates the eccentricity dependence of the contrast threshold and contrast sensitivity function.
+Contrast sensitivity attempts to quantify how noticeable the frequency components of a given contrast are to a human viewer.
+Both the cut-off frequency and contrast sensitivity function are used extensively in foveated techniques as models of the frequency response of the human visual system.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{contrastsensitivity}
+\caption{The contrast sensitivity with respect to foveal distance in pixels. The solid white line corresponds to the contrast threshold.}
+\label{contrastsensitivity}
+\end{figure}
+
+\section{Implementation/code}
+In this section, we provide complete MATLAB implementations, along with helpful comments, for a number of the models and algorithms that we have discussed.
+These algorithms are intended to be straightforward to understand and easy to implement.
+They should allow the reader to begin experimenting with foveation in a hands-on fashion.
+The full MATLAB implementations for all of these algorithms are provided in an online repository at \url{https://github.com/afloren/foveation_toolbox}.
+If you use these algorithms, we request that you cite this article.
+These algorithms employ the Stanford WaveLab MATLAB toolbox for the discrete wavelet transform \cite{Buckheit1995}.
+
+\subsection{Psychophysical Models}
+Most of the algorithms that we have discussed rely on the contrast threshold or contrast sensitivity function in some way.
+Here we provide MATLAB implementations for several of the more commonly used psychophysical functions.
+Additionally, the psychophysics toolbox \cite{Brainard1997}, is an extremely useful resource for both collecting psychophysical data and fitting psychophysical models to collected data.
+
+\subsubsection{Contrast Threshold}
+%\lstinputlisting{MATLAB/contrast_threshold.m}
+
+\subsubsection{Contrast Sensitivity}
+%\lstinputlisting{MATLAB/contrast_sensitivity.m}
+
+\subsubsection{Cut-Off Frequency}
+%\lstinputlisting{MATLAB/cutoff_frequency.m}
+
+\subsubsection{Cut-Off Eccentricity}
+%\lstinputlisting{MATLAB/cutoff_eccentricity.m}
+
+\section{Conclusions and Future Trends}
+
+The human visual system employs a variable resolution, or foveated, imaging system, and is able to outperform computer algorithms in complex visual tasks.
+Therefore, we expect foveation to be a useful technique for efficiently processing visual information.
+Based on this intuition, we have explored how the human visual system captures and processes data in a non-uniform manner.
+Specifically, we have considered models of the optics of the eye, the distribution of photoreceptors, the visual fields of retinal ganglion cells, and the responses of neurons in the primary visual cortex.
+
+\bibliography{bib}
+
+\end{document}
