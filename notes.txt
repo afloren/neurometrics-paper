@@ -1,0 +1,12 @@
+Intro
+Methods
+-Stimulus
+Need several example frames from stimulus including: empty frame, soldier frame, terrorist frame
+-fMRI
+Possibly show slice RX
+-Classification
+explain harmonic analysis
+Figure depicting how time series data is split and trained on
+Results
+Table with f1 scores for svm and nn, report best score across number of voxels for all subjects
+Conclusions

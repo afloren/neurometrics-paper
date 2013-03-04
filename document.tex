@@ -33,46 +33,24 @@ While successful, most of these experiments involve presenting static images fro
 Then, the researchers try to classify which image or class of images was presented during each frame by analyzing the measured BOLD signal using machine learning classifiers.
 We wanted to test to what extent it is possible to classify a subject's brain state while presenting more realistic stimuli.
 Further, we were interested to see what information could be gleaned from the BOLD signal beyond object categories.
-
 \end{abstract}
 
 \tableofcontents
 
 \section{Introduction}
-The general layout of this article is as follows.
-First, we will introduce a number of topics as they are related to foveation.
-These introductions are not meant to be definitive, and we invite interested readers to explore the citations in the respective sections.
-We will introduce the the field of psychophysics and discuss those areas that are relevant for exploring foveation in the human visual system.
-In the same vein, we will introduce ideal observer analysis which will later be used for understanding human fixation selection.
-We will provide an extremely rudimentary introduction to information theory and especially the concept of entropy.
-We will discuss the anatomy and models of operation for the eye and primary visual cortex.
-We will also introduce the reader to the efficient coding hypothesis and its relation to the study of the statistics of natural images.
+In traditional fMRI experiments, investigators seekt o identify relationships between the measured BOLD signal and a carefully designed stimulus in order to tease out the purpose of particular brain regions.
+Recently, a new trend has developed where researchers are instead looking to predict what stimulus was presented given the measured BOLD signal \cite{fmri-ml1,fmri-ml2,fmri-ml3}.
+While successful, most of these experiments involve presenting static images from a limited number classes such as faces and places.
+Then, the researchers try to classify which image or class of images was presented during each frame by analyzing the measured BOLD signal using machine learning classifiers.
+We wanted to test to what extent it is possible to classify a subject's brain state while presenting more realistic stimuli.
+Further, we were interested to see what information could be gleaned from the BOLD signal beyond object categories.
 
-\section{The Human Visual System}
-The human visual system collects foveated images.
-We present a high level overview of the anatomy, optics, and current understanding of low level vision processing.
+\section{Methods}
 
-\subsection{Anatomy of the Eye}
+\subsection{Stimulus}
 The eye is the primary imaging device in the human visual system.
 Figure \ref{eye} illustrates the basic anatomy of the human eye.
 The eye is approximately spherical, and is, on average, 24 mm long by 22 mm across \cite{Hecht2001}.
-The main body of the eye, or the white part of the eye, is called the sclera.
-The cornea is transparent and is located at the front of the eye.
-The primary function of the cornea is to focus the light entering the eye.
-The pupil, which is situated behind the cornea, is a hole that allows light to enter the eye.
-The iris is a muscle and it controls the diameter of the pupil.
-The iris adjust the diameter of the pupil in order to control the amount of light entering the eye.
-In low light, the iris dilates or increases the diameter of the pupil which allows more light into the eye.
-In bright light, it constricts or reduces the diameter of the pupil which allows less light into the eye.
-Located behind the pupil is the lens.
-Similar to the cornea, the lens focuses the light entering the eye.
-Unlike the cornea, the focusing power of the lens is adjustable via the zonular fibers.
-These fibers contort the shape of the lens which changes its focal length.
-The retina is a thin layer of cells located on the back of the inside of the eye.
-Photoreceptors in the retina are responsible for converting impinging light into electrical signals.
-The fovea is a small pit in the retina that is aligned along the optical axis of the cornea and lens.
-The highest concentration of photoreceptors in the retina is found in the fovea.
-The electrical signals from the retina are pooled and transmitted, along the optic nerve, to the brain for processing.
 
 \begin{figure}[!htbp]
 \centering
@@ -81,7 +59,7 @@ The electrical signals from the retina are pooled and transmitted, along the opt
 \label{eye}
 \end{figure}
 
-\subsection{Optics of the Eye}
+\subsection{fMRI}
 Both the cornea and the lens can be approximated as thin lenses.
 The pupil, situated between these two lenses, functions as an aperture.
 This system can, in turn, be approximated by a single thin lens with an aperture.
@@ -101,6 +79,13 @@ When focusing on objects extremely close to the viewer, this focal length can ch
 \caption{A simple optical approximation of the eye.}
 \label{eyeoptics}
 \end{figure}
+
+\subsection{Classification}
+This is the subsection for explaining the methodology of classification.
+
+\section{Results}
+
+\section{Conclusions}
 
 \section{Modeling the Human Visual System}
 The cornea, pupil, and lens focus an image on the retina.
