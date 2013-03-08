@@ -9,4 +9,9 @@ explain harmonic analysis
 Figure depicting how time series data is split and trained on
 Results
 Table with f1 scores for svm and nn, report best score across number of voxels for all subjects
+A 020211el 2000 
+B 020511bn 2000
+C 101812rm 3000
+D 021911ar 2000
+E 080612af 3000
 Conclusions
