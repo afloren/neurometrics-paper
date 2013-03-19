@@ -1,12 +1,10 @@
-\documentclass[draft]{article}
+\documentclass[twocolumn,draft]{article}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{color}
-
-\graphicspath{ {figures/} }
 
 \title{Classifying brain states induced by comlex visual stimuli}
 
@@ -26,63 +24,171 @@ afloren@mail.utexas.edu\\
 \maketitle
 
 \begin{abstract}
-In traditional fMRI experiments, investigators seekt o identify relationships between the measured BOLD signal and a carefully designed stimulus in order to tease out the purpose of particular brain regions.
-Recently, a new trend has developed where researchers are instead looking to predict what stimulus was presented given the measured BOLD signal \cite{fmri-ml1,fmri-ml2,fmri-ml3}.
-While successful, most of these experiments involve presenting static images from a limited number classes such as faces and places.
-Then, the researchers try to classify which image or class of images was presented during each frame by analyzing the measured BOLD signal using machine learning classifiers.
-We wanted to test to what extent it is possible to classify a subject's brain state while presenting more realistic stimuli.
-Further, we were interested to see what information could be gleaned from the BOLD signal beyond object categories.
+abstract
 \end{abstract}
 
 \tableofcontents
 
 \section{Introduction}
-In traditional fMRI experiments, investigators seekt o identify relationships between the measured BOLD signal and a carefully designed stimulus in order to tease out the purpose of particular brain regions.
-Recently, a new trend has developed where researchers are instead looking to predict what stimulus was presented given the measured BOLD signal \cite{fmri-ml1,fmri-ml2,fmri-ml3}.
+In traditional fMRI experiments, investigators seek to identify relationships between the measured BOLD signal and a carefully designed stimulus in order to tease out the purpose of particular brain regions.
+Recently, a new trend has developed where researchers are instead looking to predict what stimulus was presented given the measured BOLD signal \cite{Haxby2001,Mitchell2003,Haynes2006}.
 While successful, most of these experiments involve presenting static images from a limited number classes such as faces and places.
 Then, the researchers try to classify which image or class of images was presented during each frame by analyzing the measured BOLD signal using machine learning classifiers.
-We wanted to test to what extent it is possible to classify a subject's brain state while presenting more realistic stimuli.
+While this has proven to be a successful approach, it does not mimic the dynamic environment in which brains have evolved.
+Our goal is to analyze brain function with dynamically changing stimuli that portray real world experiences.
 Further, we were interested to see what information could be gleaned from the BOLD signal beyond object categories.
+We used virutal world technology to specify the stimuli in detail.
+Given our long-term interest in PTSD, we created a virtual town intended to suggest the kinds of real-world settings currently encountered by our military forces.
+Virtual character representing firnedly forces and hostile combatentswere presented in a virtual town.
+We then trained linear SVMs (support vector machines) and feed forward neural networks to predict the number of characters in each stimulation.
 
 \section{Methods}
 
 \subsection{Stimulus}
-We developed a virtual reality environment similar to many popular first person video games.
-The stimuli is dunamically rendered and presented from the pointof view of a camera moving through this virutal environmentw hile characters are presented.
-An exmaple frame from this sequence is presented in fgure 1.
-The stimulus is a classic block design, in which the viewpoint moves for 15 seconds through a town, then pauses for 15 seconds amidst a group of characteres that fade into view.
-The camera isconstantlymoving and the characters are animated such that the presented scene is never static.
-The number of characters varies from one to six in each presentation in a quasi-random fashion.
-Each run consists of 24 blocks of 15 seconds each., half with characters and half moving through an empty town.
-4 to 6 runs were obtained in each scanning session.
+We developed a virtual reality environment similar to many popular first person video games using the Unreal Engine 2 SDK \cite{UnrealEngine2}.
+The stimuli is dynamically rendered and presented from the point of view of a camera moving through this virutal environmentw hile characters are presented.
+The stimulus employs a classic block design, in which the viewpoint moves for 15 seconds through the virtual environment (an example frame is presented in figure \ref{fig:stim-movement}), then pauses for 15 seconds during which a group of characteres fades into view (an example frame is presented in figure \ref{fig:stim-characters}).
+The camera is constantly moving (even during the character presention periods the camera slowly pans and rotates) and the characters are animated so that the presented scene is never static.
+The number of characters varies from one to six as well as the locaiton of eah character in each presentation in a quasi-random fashion.
+Specifically, a presentation with a particular number of characters appears twice in each run, however the order of these presentations was randomized.
+It should be noted that, this random ordering was generated once and held constant between subjects.
+Additionally, even between character presentations with the same number of characters, the locations of those characters varies considerably as seen in figure \ref{fig:stim-location}.
+Each run consists of 12 alternations between moving through the virtual environment and character presentations. 
+In each scanning session, 4 to 6 runs were collected.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/stimulus-movement}
+\caption{An example frame from the stimulus while the camera is moving through the virtual envronment.}
+\label{fig:stimulus-movement}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/stimulus-characters}
+\caption{An example frame from the stimulus while characters are being presented.}
+\label{fig:stimulus-characters}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/stimulus-location}
+\caption{Two example frames depicting character presentations with two characters. The locations of the two characters varies considerably between the two frames.}
+\label{fig:stimulus-location}
+\end{figure}
 
 \subsection{fMRI}
 We collected whole brain scans using a GRAPPA-accelerated EPI, with a 2.5 second TR and 2.5 mm cubic voxels on 40 slices that covered the majority of each subjects brain (see figure \ref{fig:rx}).
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{rx}
-\caption{An example perscription from one of the subjects.}
+\includegraphics[width=0.5\textwidth]{figures/rx}
+\caption{An example prescription from one of the subjects.}
 \label{fig:rx}
 \end{figure}
 
 \subsection{Preprocessing}
 We performed motion compensation ad slice timing corrections. 
-Additionally, we applied a Wiener filter using a generic difference-of-gamma HRF \cite{glover-ref} to shift the peak response in time so that it is aligned with the stimulus that caused it.
+Additionally, we applied a Wiener filter using a generic difference-of-gamma HRF \cite{Boynton1996} to shift the peak response in time so that it is aligned with the stimulus that caused it.
 Finally, we reduce the dimensionality of the problem by masking out a subset of he volume using a harmonic power analysis.
-We selected N (~3000) voxels with the greatest power at the frquency of the block alternation and its harmonics.
+We selected N ($\sim$3000) voxels with the greatest power at the frquency of the block alternation and its harmonics.
 In other words, we selected the vosels that responded in any fashion that covaried with the stimulus alternations.
 Thus, the selection was based only on the alternation between presentation of characters and the empty town, without regard to the number of characters.
 
 \subsection{Classification}
 Using the timer series of data from these voxels, we trained a linear SVM and a feed forward neural network.
-Thes algorithms were trained and validated using a cross-fold approach \cite{crossfold}.
+Thes algorithms were trained and validated using a cross-fold approach \cite{Kohavi1995}.
 Each frame or point in the time series was treated as a separate data point instead of averaging across the block.
 However, data points from the same block were not allowed to be split across the training and test set in order to avoid issues with noise correlations causing overly optimistic performace estimates.
+This data splitting strategy is depictied in figure \ref{fig:data-split}.
+The performance of each classifer was characterized by its balanced $F_1$ score as described by the following equations:
+\begin{equation}
+\mbox{precision} = \frac{tp}{tp + fp}
+\label{eqn:precision}
+\end{equation}
+\begin{equation}
+\mbox{recall} = \frac{tp}{tp + fn}
+\label{eqn:recall}
+\end{equation}
+\begin{equation}
+F_1 = 2 \cdot \frac{\mbox{precision} \cdot \mbox{recall}}{\mbox{precision} + \mbox{recall}}
+\label{eqn:f1}
+\end{equation}
+The $F_1$ score is generalized for the mluti-class case by the following equation:
+\begin{equation}
+F_1 = x
+\label{eqn:f1-multi}
+\end{equation}
+This is know as the  [] $F_1$ score.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
+\label{fig:data-split}
+\end{figure}
+
+\subsection{Sensitivity Analysis}
+Sensitivity analysis \cite{Zurada1994}:
+\begin{equation}
+Sensitivity analysis
+\end{equation}
 
 \section{Results}
 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
+\label{tbl:frame-shuffle}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
+\label{tbl:block-shuffle}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
+\label{tbl:run-shuffle}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
+\label{tbl:session-shuffle}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/confusion-average}
+\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
+\label{fig:confusion-average}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/sensitivity-analysis}
+\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
+\label{fig:sensitivity-analysis}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/sensitivity-cutoff}
+\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
+\label{fig:sensitivity-cutoff}
+\end{figure}
+
 \section{Conclusions}
+The reported results are well above chance, indicating there ise useflu information about character number in the BOLD signal.
+The sensitivity analysis indicates that no single region of the brain is responsible for counting characters, and there is not a simple linear relationship between magnitude of activation and cardinality.
+Rather, it is a complex pattern of distributed activation requiring machine-learnign methods to capture the stimulus-response relationship.
 
 Earlier, we presnted this new trend in brain sate classification as a departure from tradiional fMRI experiments which seek to identify the purpose or function of particular brain regions.
 However, it is important to note that through sensitivity analysis these machinelearning classifiers can be repurposed for just that goal.
