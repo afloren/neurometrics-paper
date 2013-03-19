@@ -1,8 +1,9 @@
-\documentclass[twocolumn,draft]{article}
+\documentclass[twocolumn,final]{article}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{graphicx}
+\usepackage{booktabs}
 \usepackage{url}
 \usepackage{color}
 
@@ -47,12 +48,12 @@ We then trained linear SVMs (support vector machines) and feed forward neural ne
 \subsection{Stimulus}
 We developed a virtual reality environment similar to many popular first person video games using the Unreal Engine 2 SDK \cite{UnrealEngine2}.
 The stimuli is dynamically rendered and presented from the point of view of a camera moving through this virutal environmentw hile characters are presented.
-The stimulus employs a classic block design, in which the viewpoint moves for 15 seconds through the virtual environment (an example frame is presented in figure \ref{fig:stim-movement}), then pauses for 15 seconds during which a group of characteres fades into view (an example frame is presented in figure \ref{fig:stim-characters}).
+The stimulus employs a classic block design, in which the viewpoint moves for 15 seconds through the virtual environment (an example frame is presented in figure \ref{fig:stimulus-movement}), then pauses for 15 seconds during which a group of characteres fades into view (an example frame is presented in figure \ref{fig:stimulus-characters}).
 The camera is constantly moving (even during the character presention periods the camera slowly pans and rotates) and the characters are animated so that the presented scene is never static.
 The number of characters varies from one to six as well as the locaiton of eah character in each presentation in a quasi-random fashion.
 Specifically, a presentation with a particular number of characters appears twice in each run, however the order of these presentations was randomized.
 It should be noted that, this random ordering was generated once and held constant between subjects.
-Additionally, even between character presentations with the same number of characters, the locations of those characters varies considerably as seen in figure \ref{fig:stim-location}.
+Additionally, even between character presentations with the same number of characters, the locations of those characters varies considerably as seen in figure \ref{fig:stimulus-location}.
 Each run consists of 12 alternations between moving through the virtual environment and character presentations. 
 In each scanning session, 4 to 6 runs were collected.
 
@@ -136,38 +137,57 @@ Sensitivity analysis
 
 \section{Results}
 
-\begin{figure}[!htbp]
+\begin{table}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{figures/placeholder}
-\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
-\label{tbl:frame-shuffle}
-\end{figure}
+\input{tables/frame-shuffle.tex}
+\caption{
+The multi-class $F_1$ scores of the linear SVM and the feed forward neural network after a 10 fold cross-validation for all 5 subjects. 
+Every frame was shuffled independently into the train, test, and validation sets.}
+\label{tab:frame-shuffle}
+\end{table}
 
-\begin{figure}[!htbp]
+\begin{table}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{figures/placeholder}
-\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
-\label{tbl:block-shuffle}
-\end{figure}
+\input{tables/frame-shuffle.tex}
+\caption{
+The multi-class $F_1$ scores of the linear SVM and the feed forward neural network after a 10 fold cross-validation for all 5 subjects. 
+Every block was shuffled independently into the train, test, and vaidation sets.}
+\label{tab:block-shuffle}
+\end{table}
 
-\begin{figure}[!htbp]
+\begin{table}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{figures/placeholder}
-\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
-\label{tbl:run-shuffle}
-\end{figure}
+\input{tables/frame-shuffle.tex}
+\caption{
+The multi-class $F_1$ scores of the linear SVM and the feed forward neural network after an 8 fold cross-validation for all 5 subjects. 
+Every epoch was shuffled independently into the train, test, and vaidation sets. 
+Only 8 folds were used because most subjects have only 8 epochs of data collected.}
+\label{tab:epoch-shuffle}
+\end{table}
 
-\begin{figure}[!htbp]
+\begin{table}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{figures/placeholder}
-\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
-\label{tbl:session-shuffle}
-\end{figure}
+\input{tables/frame-shuffle.tex}
+\caption{
+The multi-class $F_1$ scores of the linear SVM and the feed forward neural network after a 4 fold cross-validation for all 5 subjects. 
+Every run was shuffled independently into the train, test, and vaidation sets. 
+Only 4 folds were used because most subjects have only 4 runs of data collected.}
+\label{tab:run-shuffle}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\input{tables/frame-shuffle.tex}
+\caption{The multi-class $F_1$ scores of the linear SVM and the feed forward neural network after a 2 fold cross-validation for all 5 subjects. 
+Every session was shuffled independently into the train, test, and vaidation sets. 
+Only 2 folds were used because most subjects have only 2 sessions of data collected.}
+\label{tab:session-shuffle}
+\end{table}
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.5\textwidth]{figures/confusion-average}
-\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
+\caption{The average confusion matrix across all subjects when the train, test, and validation sets were divided by epoch.}
 \label{fig:confusion-average}
 \end{figure}
 
