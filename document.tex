@@ -89,13 +89,36 @@ We collected whole brain scans using a GRAPPA-accelerated EPI, with a 2.5 second
 \end{figure}
 
 \subsection{Preprocessing}
-We performed motion compensation ad slice timing corrections. 
-Additionally, we applied a Wiener filter using a generic difference-of-gamma HRF \cite{Boynton1996} to shift the peak response in time so that it is aligned with the stimulus that caused it.
+We performed motion compensation and slice timing corrections. 
+Additionally, we applied a Wiener filter deconvolution using a generic difference-of-gamma HRF \cite{Boynton1996} to shift the peak response in time so that it is aligned with the stimulus that caused it.
+Given a system:
+\begin{equation}
+y(t) = h(t) \ast x(t) + n(t)
+\end{equation}
+Want to find $g(t)$ such that 
+\begin{equation}
+\hat{x}(t) = g(t) \ast y(t)
+\end{equation}
+minimizes
+\begin{equation}
+\sum_{t}{\left( \hat{x}(t) - x(t) \right)^{2}}
+\end{equation}
+The solution is most easily expressed in the Fourier domain where the solution is:
+\begin{equation}
+g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \mbox{SNR}^{-1}(f)}
+\end{equation}
+
 Finally, we reduce the dimensionality of the problem by masking out a subset of he volume using a harmonic power analysis.
 We selected N ($\sim$3000) voxels with the greatest power at the frquency of the block alternation and its harmonics.
 In other words, we selected the vosels that responded in any fashion that covaried with the stimulus alternations.
 Thus, the selection was based only on the alternation between presentation of characters and the empty town, without regard to the number of characters.
-
+Let $y(t)$ be the recorded discrete time series at some voxel.
+Then let $Y(f)$ be the discrete Fourier transform of $y(t)$.
+The harmonic power of that time series is defined as:
+\begin{equation}
+\frac{\sum_{i = 1}^{M}{\left|Y(i \cdot N)\right|^{2}}}{\sum_{f}{\left|Y(f)\right|^{2}}}
+\end{equation}
+Where $M$ is the number of harmonics and $N$ is the frequency of interest, in our case the period of the block alternations.
 \subsection{Classification}
 Using the timer series of data from these voxels, we trained a linear SVM and a feed forward neural network.
 Thes algorithms were trained and validated using a cross-fold approach \cite{Kohavi1995}.
