@@ -102,7 +102,9 @@ Thes algorithms were trained and validated using a cross-fold approach \cite{Koh
 Each frame or point in the time series was treated as a separate data point instead of averaging across the block.
 However, data points from the same block were not allowed to be split across the training and test set in order to avoid issues with noise correlations causing overly optimistic performace estimates.
 This data splitting strategy is depictied in figure \ref{fig:data-split}.
-The performance of each classifer was characterized by its balanced $F_1$ score as described by the following equations:
+
+The performance of each classifer was characterized by its micro-averaged $F$-measure. 
+The $F$-measure for a single class is described by the following equations:
 \begin{equation}
 \mbox{precision} = \frac{tp}{tp + fp}
 \label{eqn:precision}
@@ -112,15 +114,26 @@ The performance of each classifer was characterized by its balanced $F_1$ score 
 \label{eqn:recall}
 \end{equation}
 \begin{equation}
-F_1 = 2 \cdot \frac{\mbox{precision} \cdot \mbox{recall}}{\mbox{precision} + \mbox{recall}}
+F = 2 \cdot \frac{\mbox{precision} \cdot \mbox{recall}}{\mbox{precision} + \mbox{recall}}
 \label{eqn:f1}
 \end{equation}
-The $F_1$ score is generalized for the mluti-class case by the following equation:
+Where $tp$ is the number of true positives, $fp$ is the number of false positives, and $fn$ is the number of false negatives.
+The $F$-measure is a more robust measure of the performance of a classifier than either precision or recall alone.
+For example, if the classifier labeled everything as positive then the recall would be perfect but the precision would be at chance levels.
+On the other hand, if the classifier only labeled examples it was highly confidant in as positive then precision would be high but recall would be low.
+The $F$-measure can be generalized for multiple classes by summing true positive, false positive, and false negative counts across all classes.
 \begin{equation}
-F_1 = x
-\label{eqn:f1-multi}
+\mbox{precision}_{avg} =\frac{\sum_{i}^{M}{tp_{i}}}{\sum_{i}^{M}{\left( tp_{i} + fp_{i} \right)}}
 \end{equation}
-This is know as the  [] $F_1$ score.
+\begin{equation}
+\mbox{recall}_{avg} = \frac{\sum_{i}^{M}{tp_{i}}}{\sum_{i}^{M}{\left( tp_{i} + fn_{i} \right)}}
+\end{equation}
+Where $M$ is the number of classes.
+The multi-class $F$-measure is then calculated as:
+\begin{equation}
+F_{avg} = 2 \cdot \frac{\mbox{precision}_{avg} \cdot \mbox{recall}_{avg}}{\mbox{precision}_{avg} + \mbox{recall}_{avg}}
+\end{equation}
+This is known in the literature as the  micro-averaged $F$-measure.
 
 \begin{figure}[!htbp]
 \centering
