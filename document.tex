@@ -107,10 +107,16 @@ The solution is most easily expressed in the Fourier domain where the solution i
 \begin{equation}
 g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \mbox{SNR}^{-1}(f)}
 \end{equation}
+Where $\mbox{SNR}(f)$ is the signal to noise ratio $\frac{\left| X(f) \right|}{\left| N(f) \right|}$ at frequency $f$.
+Calculating this function generally requires estimates of the power spectral density of the signal of interest as well as the noise.
+In our case, the noise function corresponds not only to scanner noise but other nuissance factors as well.
+This makes modeling the noise, and thus its power spectral density, very difficult.
+Therefore we have simply set $\mbox{SNR}(f) = 1$ for all frequencies $f$.
+The primary effect of the resulting deconvolution is to shift the time series according to the delay caused by the hemodynamic response.
 
 Finally, we reduce the dimensionality of the problem by masking out a subset of he volume using a harmonic power analysis.
 We selected N ($\sim$3000) voxels with the greatest power at the frquency of the block alternation and its harmonics.
-In other words, we selected the vosels that responded in any fashion that covaried with the stimulus alternations.
+In other words, we selected the voxels that responded in any fashion that covaried with the stimulus alternations.
 Thus, the selection was based only on the alternation between presentation of characters and the empty town, without regard to the number of characters.
 Let $y(t)$ be the recorded discrete time series at some voxel.
 Then let $Y(f)$ be the discrete Fourier transform of $y(t)$.
@@ -121,13 +127,37 @@ The harmonic power of that time series is defined as:
 Where $M$ is the number of harmonics and $N$ is the frequency of interest, in our case the period of the block alternations.
 
 \subsection{Classification}
-Using the timer series of data from these voxels, we trained a linear SVM and a feed forward neural network.
+Using the time series of data from these voxels, we trained a linear SVM and a feed forward neural network.
 Thes algorithms were trained and validated using a cross-fold approach \cite{Kohavi1995}.
 Each frame or point in the time series was treated as a separate data point instead of averaging across the block.
 However, data points from the same block were not allowed to be split across the training and test set in order to avoid issues with noise correlations causing overly optimistic performace estimates.
 This data splitting strategy is depictied in figure \ref{fig:data-split}.
 
-The performance of each classifer was characterized by its micro-averaged $F$-measure. 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
+\label{fig:data-split}
+\end{figure}
+
+Previous studies have discussed issues with optimistic performance estimates due to temporal correlations violating independence assumptions between training and test set examples \cite{Pereira2009}.
+We were interested in more closely examining the relationship between performance estimates and this temporal correlation.
+To accomplis this, we estimated classifier performance using a number of different schemes for splitting the training and test examples.
+First, frames were independently drawn into the training and test sets.
+Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.
+Next, blocks of frames were independently drawn into the training and test sets.
+This ensures an average minimum temporal distance between frames in the test and training sets.
+Similarly, epochs of frames were independently drawn into the training and test sets.
+This ensures a larger average minimum temporal distance between frames in the test and training sets.
+Furthermore, we split runs and sessions into the test and training sets in a similar fashion to ensure still larger average minimum temporal distance between frames in the test and training sets.
+
+For the frame and block splits, the classifier performances were estimated using 10-fold cross-validation.
+That is, the dataset was randomly split into the training and test sets 10 times and a classifier is trained on each split.
+The classifier's performance is then estimated as the average of its performance across all 10 splits.
+For the epoch, run, and session splits, only 8, 4, and 2 unique splits are possible respectively.
+Therefore, only 8-fold, 4-fold, and 2-fold cross-validation was employed for estimating classifier performance on these splits.
+
+The performance of each classifer was characterized by its micro-averaged $F$-measure \cite{Ozgur2005}. 
 The $F$-measure for a single class is described by the following equations:
 \begin{equation}
 \mbox{precision} = \frac{tp}{tp + fp}
@@ -158,20 +188,63 @@ The multi-class $F$-measure is then calculated as:
 F_{avg} = 2 \cdot \frac{\mbox{precision}_{avg} \cdot \mbox{recall}_{avg}}{\mbox{precision}_{avg} + \mbox{recall}_{avg}}
 \end{equation}
 This is known in the literature as the  micro-averaged $F$-measure.
+It should be noted that In a symmetric multi-class scheme such as ours, the micro-averaged precision, recall, and $F$-measure will all be identical.
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.5\textwidth]{figures/placeholder}
-\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
-\label{fig:data-split}
-\end{figure}
+Another convenient tool for examining classifier performance is the confusion matrix.
+If $\mathbf{C}$ is a confusion matrix, then the value of $C_{ij}$ is equal to the number examples of class $i$ that were classified as class $j$.
+Therefore, values along the diagonal of a confusion matrix correspond to correct classifications while other values correspond to incorrect classifications.
+The confusion matrix also simplifies calculating precision and recall for each class.
+The value of $C_{ii}$ divided by the sum of all values along row $i$ is the recall of the $i^{th}$ class.
+Similarly, the value of $C_{jj}$ divided by the sum of all values along column $j$ is the precision of the $j^{th}$ class.
+Finally, the micro-averaged $F$-measure can be calculated by dividing the sum along the diagonal, or the trace, by the sum of the entire matrix.
 
 \subsection{Sensitivity Analysis}
-Sensitivity analysis \cite{Zurada1994}:
+Non-linear multi-variate machine learning classifiers can tell us whether a group of voxels is discriminitive with respect to the task being predicted.
+However, it is not obvious which voxels in a large group were actually important for determining that discrimination.
+This is important for localizing functions in the brain.
+One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area.
+While this technique is effective for simple highly localized functions, the results are less clear when the function is sparsely distributed over the brain.
+No one region may contain enough information for accurate predictions.
+To overcome this limitation, we have trained our classifiers on large regions of the brain and used sensitivity analysis to attempt to tease out the sparsely distributed voxels that are relavent for task discrimination.
+Specifically, we calculate the sensitivity, or magnitude of change, of the output of the classifier with respect to a change in each voxel.
+In feed forward neural networks, this problem has been well explored \cite{Zurada1994}.
+Let $\mathbf{o}$ be the vector of outputs and $\mathbf{x}$ be the vector of inputs.
+Then the sensitivity of output $k$ to input $i$ is defined by:
 \begin{equation}
-Sensitivity analysis
+S_{ki} = \frac{\delta o_{k}}{\delta x_{i}}
 \end{equation}
-
+Or simply, the partial derivative of the output with respect to the input.
+If we let $\mathbf{w}$ be the weight matrix from the hidden layer to the output layer and $\mathbf{v}$ be the weight matrix from the input layer to the hidden layer then the partial derivative can be expressed as follows:
+\begin{equation}
+\frac{\delta o_{k}}{\delta x_{i}} = o'_{k} \sum^{J}_{j=1}{w_{kj}y'_{j}v_{ji}}
+\end{equation}
+Where $J$ is the total number of hidden neurons,  $o'_{k}$ is the value of the derivative of the activation function at output $k$, and $y'_{j}$ is the value of the derivative of the activation function at hidden neuron {j}.
+Finally, the entire sensitivity matrix can be expressed in matrix notation as:
+\begin{equation}
+\mathbf{S} = \mathbf{O}' \times \mathbf{W} \times \mathbf{Y}' \times \mathbf{V}
+\end{equation}
+Where
+\begin{equation}
+\mathbf{O}' = diag(o'_{1},~o'_{2},~\cdots,~o'_{K})
+\end{equation}
+\begin{equation}
+\mathbf{Y}' = diag(y'_{1},~y'_{2},~\cdots,~y'_{K})
+\end{equation}
+However, because the transfer functions are non-linear they can only be evaluated for specific input values.
+Therefore, we calculate the average sensitivity matrix across all input vectors.
+\begin{equation}
+\mathbf{S}_{avg} = \sqrt{ \frac{ \sum_{n = 1}^{N}{ \left( \mathbf{S}^{n}\right)^{2} } }{N} }
+\end{equation}
+Where $N$ is the number of input vectors.
+The magnitude is squared to avoid problems with positive and negative sensitivities cancelling out when averaging.
+The average of the absolute value of sensitivities could also be employed.
+This still gives a sensitivity value for each voxel with respect to every output, whereas it is useful to have a measure of the sensitivity of a voxel with respect to any output.
+To calculate this number we simply take the maximum sensitivity of each voxel across all outputs.
+\begin{equation}
+\Phi_{i} = \max_{k=1 \dots K}{S_{ki,~avg}}
+\end{equation}
+This sensitivity can now be projected back into the volume anatomy space to create an activation map.
+Further, this sensitivity can also be used to reduce the dimensionality of the machine learning classifier by retraining the algorithms using only the voxels that had a sensitivity over some threshold.
 \section{Results}
 
 \begin{table}[!htbp]
@@ -243,7 +316,7 @@ Only 2 folds were used because most subjects have only 2 sessions of data collec
 \end{figure}
 
 \section{Conclusions}
-The reported results are well above chance, indicating there ise useflu information about character number in the BOLD signal.
+The reported results are well above chance, indicating there is useful information about character number in the BOLD signal.
 The sensitivity analysis indicates that no single region of the brain is responsible for counting characters, and there is not a simple linear relationship between magnitude of activation and cardinality.
 Rather, it is a complex pattern of distributed activation requiring machine-learnign methods to capture the stimulus-response relationship.
 
