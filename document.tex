@@ -1,4 +1,4 @@
-\documentclass[twocolumn,final]{article}
+\documentclass[final]{article}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -7,7 +7,7 @@
 \usepackage{url}
 \usepackage{color}
 
-\title{Classifying brain states induced by comlex visual stimuli}
+\title{Classifying brain states induced by complex visual stimuli}
 
 \author{Andrew Floren\\
 1 University Station, C0803\\
@@ -28,8 +28,6 @@ afloren@mail.utexas.edu\\
 abstract
 \end{abstract}
 
-\tableofcontents
-
 \section{Introduction}
 In traditional fMRI experiments, investigators seek to identify relationships between the measured BOLD signal and a carefully designed stimulus in order to tease out the purpose of particular brain regions.
 Recently, a new trend has developed where researchers are instead looking to predict what stimulus was presented given the measured BOLD signal \cite{Haxby2001,Mitchell2003,Haynes2006}.
@@ -38,24 +36,28 @@ Then, the researchers try to classify which image or class of images was present
 While this has proven to be a successful approach, it does not mimic the dynamic environment in which brains have evolved.
 Our goal is to analyze brain function with dynamically changing stimuli that portray real world experiences.
 Further, we were interested to see what information could be gleaned from the BOLD signal beyond object categories.
-We used virutal world technology to specify the stimuli in detail.
+We used virtual world technology to specify the stimuli in detail.
 Given our long-term interest in PTSD, we created a virtual town intended to suggest the kinds of real-world settings currently encountered by our military forces.
-Virtual character representing firnedly forces and hostile combatentswere presented in a virtual town.
+Virtual character representing friendly forces and hostile combatants were presented in a virtual town.
 We then trained linear SVMs (support vector machines) and feed forward neural networks to predict the number of characters in each stimulation.
+[Bruce: this is most of your introduction from the abstract but feel free to rewrite the whole thing. I'll add in the literature review once you are happy with the introduction.]
 
 \section{Methods}
 
 \subsection{Stimulus}
 We developed a virtual reality environment similar to many popular first person video games using the Unreal Engine 2 SDK \cite{UnrealEngine2}.
-The stimuli is dynamically rendered and presented from the point of view of a camera moving through this virutal environmentw hile characters are presented.
-The stimulus employs a classic block design, in which the viewpoint moves for 15 seconds through the virtual environment (an example frame is presented in figure \ref{fig:stimulus-movement}), then pauses for 15 seconds during which a group of characteres fades into view (an example frame is presented in figure \ref{fig:stimulus-characters}).
-The camera is constantly moving (even during the character presention periods the camera slowly pans and rotates) and the characters are animated so that the presented scene is never static.
-The number of characters varies from one to six as well as the locaiton of eah character in each presentation in a quasi-random fashion.
-Specifically, a presentation with a particular number of characters appears twice in each run, however the order of these presentations was randomized.
-It should be noted that, this random ordering was generated once and held constant between subjects.
-Additionally, even between character presentations with the same number of characters, the locations of those characters varies considerably as seen in figure \ref{fig:stimulus-location}.
+The stimuli is dynamically rendered and presented from the point of view of a camera moving through this virtual environment while characters are presented.
+The stimulus employs a classic block design, in which the viewpoint moves for 15 seconds through the virtual environment (an example frame is presented in figure \ref{fig:stimulus-movement}), then pauses for 15 seconds during which a group of characters fades into view (an example frame is presented in figure \ref{fig:stimulus-characters}).
 Each run consists of 12 alternations between moving through the virtual environment and character presentations. 
 In each scanning session, 4 to 6 runs were collected.
+
+The camera is constantly moving (even during the character presentation periods the camera slowly pans and rotates) and the characters are animated so that the presented scene is never static.
+The number and location of characters varies with each presentation in a quasi-random fashion.
+The number of characters presented varied from 1 to 6.
+A presentation with a particular number of characters appears twice in each run, however the order of these presentations was randomized.
+It should be noted that this random ordering was generated once and held constant between subjects.
+Additionally, even between character presentations with the same number of characters, the locations of those characters varies considerably as seen in figure \ref{fig:stimulus-location}.
+[I need another frame from the stimulus to illustrate this point. These figures are all from the original report but I'd like to generate new ones if I can get access to a machine with the stimulus.]
 
 \begin{figure}[!htbp]
 \centering
@@ -89,35 +91,48 @@ We collected whole brain scans using a GRAPPA-accelerated EPI, with a 2.5 second
 \end{figure}
 
 \subsection{Preprocessing}
-We performed motion compensation and slice timing corrections. 
-Additionally, we applied a Wiener filter deconvolution using a generic difference-of-gamma HRF \cite{Boynton1996} to shift the peak response in time so that it is aligned with the stimulus that caused it.
-Given a system:
+We performed motion compensation and slice timing corrections \cite{MotionCompensation,TimingCorrection}. 
+[David: you mentioned there were some good references for these two corrections.]
+Additionally, we applied a Wiener filter deconvolution \cite{Wiener} using a generic difference-of-gamma HRF \cite{Glover} to shift the peak response in time so that it is aligned with the stimulus that caused it.
+
+Wiener filter deconvolution can be summarized as follows:
+Given a system
 \begin{equation}
 y(t) = h(t) \ast x(t) + n(t)
 \end{equation}
-Want to find $g(t)$ such that 
+where $x(t)$ is the signal of interest, $h(t)$ is some blurring kernel, $n(t)$ is independent additive noise, and $y(t)$ is the recorded signal.
+We want to find the deconvolution kernel $g(t)$ such that 
 \begin{equation}
 \hat{x}(t) = g(t) \ast y(t)
 \end{equation}
-minimizes
+minimizes the mean squared error between $x(t)$ and $\hat{x}(t)$, or
 \begin{equation}
 \sum_{t}{\left( \hat{x}(t) - x(t) \right)^{2}}
 \end{equation}
-The solution is most easily expressed in the Fourier domain where the solution is:
+The solution for the optimal $g(t)$ is most easily expressed in the Fourier domain.
 \begin{equation}
 g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \mbox{SNR}^{-1}(f)}
 \end{equation}
 Where $\mbox{SNR}(f)$ is the signal to noise ratio $\frac{\left| X(f) \right|}{\left| N(f) \right|}$ at frequency $f$.
-Calculating this function generally requires estimates of the power spectral density of the signal of interest as well as the noise.
-In our case, the noise function corresponds not only to scanner noise but other nuissance factors as well.
-This makes modeling the noise, and thus its power spectral density, very difficult.
-Therefore we have simply set $\mbox{SNR}(f) = 1$ for all frequencies $f$.
-The primary effect of the resulting deconvolution is to shift the time series according to the delay caused by the hemodynamic response.
 
-Finally, we reduce the dimensionality of the problem by masking out a subset of he volume using a harmonic power analysis.
-We selected N ($\sim$3000) voxels with the greatest power at the frquency of the block alternation and its harmonics.
+In fMRI, $y(t)$ is the recorded BOLD signal, $h(t)$ is the hemodynamic response function, and $x(t)$ is the neuronal population response.
+Calculating $g(t)$ requires estimates of the power spectral density of the signal of interest as well as the noise.
+Unfortunately, the noise function $n(t)$ corresponds not only to scanner noise but other nuisance factors as well.
+This makes modeling the noise, and thus its power spectral density, very difficult.
+Therefore, we have simply set $\mbox{SNR}(f) = 1$ for all frequencies $f$.
+The primary effect of the resulting deconvolution is to shift the time series according to the delay caused by the hemodynamic response.
+Figure \ref{fig:wiener-deconvolution} illustrates the effects of this deconvolution on a simple square wave as well as an example voxel time series.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\caption{(1) The difference-of-gamma HRF employed as $h(t)$. (2) The deconvolution kernel $g(t)$ calculated from $h(t)$. (3) A simple square wave. (4) The same square wave after convolution with $g(t)$. (5) An example voxel time series. (6) The same time series after convolution with $g(t)$.}
+\label{fig:data-split}
+\end{figure}
+
+Finally, we reduce the dimensionality of the problem by masking out a subset of the volume using a harmonic power analysis.
+We selected the N (1000-3000) voxels with the greatest power at the frequency of the block alternation and its harmonics.
 In other words, we selected the voxels that responded in any fashion that covaried with the stimulus alternations.
-Thus, the selection was based only on the alternation between presentation of characters and the empty town, without regard to the number of characters.
 Let $y(t)$ be the recorded discrete time series at some voxel.
 Then let $Y(f)$ be the discrete Fourier transform of $y(t)$.
 The harmonic power of that time series is defined as:
@@ -125,39 +140,40 @@ The harmonic power of that time series is defined as:
 \frac{\sum_{i = 1}^{M}{\left|Y(i \cdot N)\right|^{2}}}{\sum_{f}{\left|Y(f)\right|^{2}}}
 \end{equation}
 Where $M$ is the number of harmonics and $N$ is the frequency of interest, in our case the period of the block alternations.
+[David: feel free to elaborate on why this is a reasonable thing to do.]
+
+Reducing dimensionality using the labels that are ultimately intended for classification is a good example of cross-contamination and will result in optimistic classifier performance estimates \cite{CrossContamination}.
+It should be noted that the harmonic power selection was based on the alternation between presentation of characters and the moving through the virtual environment, but without regard to the number of characters presented.
+Therefore, we will only be presenting classifier accuracy estimates for character count and not for the presence or absence of characters.
 
 \subsection{Classification}
-Using the time series of data from these voxels, we trained a linear SVM and a feed forward neural network.
-Thes algorithms were trained and validated using a cross-fold approach \cite{Kohavi1995}.
+Using the time series from the voxels selected by the harmonic power analysis, we trained a linear SVM and a feed forward neural network.
+These algorithms were trained and validated using a cross-fold approach \cite{Kohavi1995}.
 Each frame or point in the time series was treated as a separate data point instead of averaging across the block.
-However, data points from the same block were not allowed to be split across the training and test set in order to avoid issues with noise correlations causing overly optimistic performace estimates.
-This data splitting strategy is depictied in figure \ref{fig:data-split}.
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.5\textwidth]{figures/placeholder}
-\caption{The strategy employed for splitting up the train, test, and validate sets to minimize optimistic performance estimates.}
-\label{fig:data-split}
-\end{figure}
+[Should I introduce the concept of training, validation and test sets here?]
 
 Previous studies have discussed issues with optimistic performance estimates due to temporal correlations violating independence assumptions between training and test set examples \cite{Pereira2009}.
 We were interested in more closely examining the relationship between performance estimates and this temporal correlation.
-To accomplis this, we estimated classifier performance using a number of different schemes for splitting the training and test examples.
-First, frames were independently drawn into the training and test sets.
+To accomplish this, we estimated classifier performance using 5 different methods for splitting the training and test examples.
+These methods were designed to vary the average temporal distance between frames in the training and test sets.
+The first four methods deal only with frames from a particular session.
+In the first method which we will refer to as the frame split, frames were independently drawn into the training and test sets.
 Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.
-Next, blocks of frames were independently drawn into the training and test sets.
-This ensures an average minimum temporal distance between frames in the test and training sets.
-Similarly, epochs of frames were independently drawn into the training and test sets.
-This ensures a larger average minimum temporal distance between frames in the test and training sets.
-Furthermore, we split runs and sessions into the test and training sets in a similar fashion to ensure still larger average minimum temporal distance between frames in the test and training sets.
+In the second method which we will refer to as the block split, blocks of frames were independently drawn into the training and test sets.
+Similarly, epochs [I am currently calling half-runs epochs but we likely will want to change this and introduce the concept in the stimulus design section.] and entire runs of frames were independently drawn into the training and test sets to produce the epoch split and run split respectively.
+For the fifth method, we split entire sessions between training and test sets to produce the session split.
+This method is the only one to employ frames from different sessions in the training and test sets.
+In existing literature, this method is essentially identical to measures of between session classifier accuracy.
+This final method produces an extremely large average temporal distance between data in the test and training sets that is on the order of several months for some subjects.
 
 For the frame and block splits, the classifier performances were estimated using 10-fold cross-validation.
 That is, the dataset was randomly split into the training and test sets 10 times and a classifier is trained on each split.
 The classifier's performance is then estimated as the average of its performance across all 10 splits.
-For the epoch, run, and session splits, only 8, 4, and 2 unique splits are possible respectively.
+For the epoch, run, and session splits, only 8, 4, and 2 unique splits are possible respectively due to the much smaller number of runs and sessions per subject.
 Therefore, only 8-fold, 4-fold, and 2-fold cross-validation was employed for estimating classifier performance on these splits.
 
-The performance of each classifer was characterized by its micro-averaged $F$-measure \cite{Ozgur2005}. 
+The performance of each classifier was characterized by its micro-averaged $F$-measure \cite{Ozgur2005}. 
 The $F$-measure for a single class is described by the following equations:
 \begin{equation}
 \mbox{precision} = \frac{tp}{tp + fp}
@@ -188,7 +204,7 @@ The multi-class $F$-measure is then calculated as:
 F_{avg} = 2 \cdot \frac{\mbox{precision}_{avg} \cdot \mbox{recall}_{avg}}{\mbox{precision}_{avg} + \mbox{recall}_{avg}}
 \end{equation}
 This is known in the literature as the  micro-averaged $F$-measure.
-It should be noted that In a symmetric multi-class scheme such as ours, the micro-averaged precision, recall, and $F$-measure will all be identical.
+It should be noted that in a symmetric multi-class scheme such as ours, the micro-averaged precision, recall, and $F$-measure will all be identical.
 
 Another convenient tool for examining classifier performance is the confusion matrix.
 If $\mathbf{C}$ is a confusion matrix, then the value of $C_{ij}$ is equal to the number examples of class $i$ that were classified as class $j$.
@@ -199,13 +215,14 @@ Similarly, the value of $C_{jj}$ divided by the sum of all values along column $
 Finally, the micro-averaged $F$-measure can be calculated by dividing the sum along the diagonal, or the trace, by the sum of the entire matrix.
 
 \subsection{Sensitivity Analysis}
-Non-linear multi-variate machine learning classifiers can tell us whether a group of voxels is discriminitive with respect to the task being predicted.
+Non-linear multi-variate machine learning classifiers can tell us whether a group of voxels is discriminative with respect to the task being predicted.
 However, it is not obvious which voxels in a large group were actually important for determining that discrimination.
 This is important for localizing functions in the brain.
 One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area.
 While this technique is effective for simple highly localized functions, the results are less clear when the function is sparsely distributed over the brain.
 No one region may contain enough information for accurate predictions.
-To overcome this limitation, we have trained our classifiers on large regions of the brain and used sensitivity analysis to attempt to tease out the sparsely distributed voxels that are relavent for task discrimination.
+
+To overcome this limitation, we have trained our classifiers on large regions of the brain and used sensitivity analysis to attempt to tease out the sparsely distributed voxels that are relevant for task discrimination.
 Specifically, we calculate the sensitivity, or magnitude of change, of the output of the classifier with respect to a change in each voxel.
 In feed forward neural networks, this problem has been well explored \cite{Zurada1994}.
 Let $\mathbf{o}$ be the vector of outputs and $\mathbf{x}$ be the vector of inputs.
@@ -236,7 +253,7 @@ Therefore, we calculate the average sensitivity matrix across all input vectors.
 \mathbf{S}_{avg} = \sqrt{ \frac{ \sum_{n = 1}^{N}{ \left( \mathbf{S}^{n}\right)^{2} } }{N} }
 \end{equation}
 Where $N$ is the number of input vectors.
-The magnitude is squared to avoid problems with positive and negative sensitivities cancelling out when averaging.
+The magnitude is squared to avoid problems with positive and negative sensitivities canceling out when averaging.
 The average of the absolute value of sensitivities could also be employed.
 This still gives a sensitivity value for each voxel with respect to every output, whereas it is useful to have a measure of the sensitivity of a voxel with respect to any output.
 To calculate this number we simply take the maximum sensitivity of each voxel across all outputs.
@@ -245,6 +262,7 @@ To calculate this number we simply take the maximum sensitivity of each voxel ac
 \end{equation}
 This sensitivity can now be projected back into the volume anatomy space to create an activation map.
 Further, this sensitivity can also be used to reduce the dimensionality of the machine learning classifier by retraining the algorithms using only the voxels that had a sensitivity over some threshold.
+
 \section{Results}
 
 \begin{table}[!htbp]
@@ -316,12 +334,14 @@ Only 2 folds were used because most subjects have only 2 sessions of data collec
 \end{figure}
 
 \section{Conclusions}
+[The conclusion is still mostly pulled from the HBM abstract. I would like to rewrite this after the rest of the paper is more complete. Especially with regards to future research directions.]
+
 The reported results are well above chance, indicating there is useful information about character number in the BOLD signal.
 The sensitivity analysis indicates that no single region of the brain is responsible for counting characters, and there is not a simple linear relationship between magnitude of activation and cardinality.
-Rather, it is a complex pattern of distributed activation requiring machine-learnign methods to capture the stimulus-response relationship.
+Rather, it is a complex pattern of distributed activation requiring machine learning methods to capture the stimulus-response relationship.
 
-Earlier, we presnted this new trend in brain sate classification as a departure from tradiional fMRI experiments which seek to identify the purpose or function of particular brain regions.
-However, it is important to note that through sensitivity analysis these machinelearning classifiers can be repurposed for just that goal.
+Earlier, we presented this new trend in brain sate classification as a departure from traditional fMRI experiments which seek to identify the purpose or function of particular brain regions.
+However, it is important to note that through sensitivity analysis these machine learning classifiers can be re-purposed for just that goal.
 If a region of the brain is highly important for accurately predicting the presence of a particular stimulus then it logically follows that that region must somehow be involved in the processing of that stimulus.
 Furthermore, multi-voxel non-linear machine learning classifiers can potentially identify much more complex interactions between brain regions than the simple GLM.
 
