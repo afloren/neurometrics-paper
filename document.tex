@@ -82,6 +82,7 @@ Additionally, even between character presentations with the same number of chara
 
 \subsection{fMRI}
 We collected whole brain scans using a GRAPPA-accelerated EPI, with a 2.5 second TR and 2.5 mm cubic voxels on 40 slices that covered the majority of each subjects brain (see figure \ref{fig:rx}).
+[David: We may want a little more discussion here.]
 
 \begin{figure}[!htbp]
 \centering
@@ -264,59 +265,70 @@ This sensitivity can now be projected back into the volume anatomy space to crea
 Further, this sensitivity can also be used to reduce the dimensionality of the machine learning classifier by retraining the algorithms using only the voxels that had a sensitivity over some threshold.
 
 \section{Results}
+Table \ref{tab:results} contains the cross-validated $F$-measures of the linear SVM and feed forward neural networks for all 5 subjects and all 5 training and test split methods.
+There is some variation of classifier performance between subjects, but in all cases the performance is well above chance. 
+These variations between subjects could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during the scan.
+It is evident that as the average temporal distance between data in the training and test sets increases, the estimated performance of the classifiers decreases.
+This relationship is plotted in figure \ref{fig:performance-verse-temporal-distance}.
+[I plan to calculate confidence values for this plot].
+
+The average confusion matrix presented in figure \ref{fig:average-confusion} gives a more intuitive look at the performance of the classifier.
+From this matrix we can see that the classifiers are much better at detecting the presence of a single character than any other count.
+In fact, there are almost no cases of confusion between 1 and 2 characters.
+Apparently, these two situations evoke very different responses in the brain.
+The rest of the character counts are distinguished with relatively equal accuracy.
+However, there is a slight tendency to mis-classify the 6 character presentation.
+This could be a result of 6 characters being too much for the subject to consider individually.
+Interestingly, the confusion is not often between 5 and 6 characters, but rather between 1 or 2 and 6 characters.
+This would seem to indicate that when the number of characters grows too large, they are interpreted as a single unit.
+It should also be noted that the majority of the incorrect responses lay just off the main diagonal.
+These responses correspond to the classifier being wrong by a single character in its classification.
+For example, the machine learning algorithm classified a frame as containing 4 characters when it only contained 3 characters.
+The $F$-measure does not take the cardinality of the classes into account and considers mislabeling 1 character as 2 equivalent to mislabeling 1 character as 6 characters.
+Figure \ref{figsoft-measure} presents a soft measure of accuracy for the two classifiers that takes the cardinality of the classes into consideration.
+
+The sensitivity analysis of the feed forward neural network projected back into the anatomy volume is presented in figure \ref{sensitivity-analysis}.
+[David: We need to make come comments on this figure related to neuroscience/brain mapping. We should look at the data to make sure this is true, but since we are still employing the same harmonic analysis the activated regions should be very similar to the original report.]
+After aligning all of the subjects to the MNI template \ref{MNI} and combining these activation maps we found that the majority of activation took place in [need to do this analysis still].
+This combined activation map is presented in figure \ref{fig:MNI-average-sensitivity}.
+
+To better explore the relationship between sensitivity and classifier performance we plotted the performance of the classifier when trained on only a subset of the input voxels as determined by a minimum sensitivity cut off.
+Figure \ref{fig:sensitivity-cutoff} shows this plot on top of the histogram of sensitivity values.
+Interestingly, the performance of the classifier is not significantly affected until a majority of the voxels have been removed.
+This would indicate that either only a small number of voxels are relevant for classification or that the information is highly redundant between voxels.
+In actuality, it is likely a combination of the two.
+The harmonic analysis will select some voxels that only appeared to covary with the stimulus presentation by chance.
+These voxels will be assigned very low sensitivity values by the trained classifiers.
+However, other voxels may actually covary with the stimulus but their patterns of activation may not be highly discriminative with respect to character count.
+These voxels will also be assigned low sensitivity values by the trained classifiers.
+Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
 
 \begin{table}[!htbp]
 \centering
 \input{tables/frame-shuffle.tex}
-\caption{
-The multi-class $F_1$ scores of the linear SVM and the feed forward neural network after a 10 fold cross-validation for all 5 subjects. 
-Every frame was shuffled independently into the train, test, and validation sets.}
-\label{tab:frame-shuffle}
-\end{table}
-
-\begin{table}[!htbp]
-\centering
-\input{tables/frame-shuffle.tex}
-\caption{
-The multi-class $F_1$ scores of the linear SVM and the feed forward neural network after a 10 fold cross-validation for all 5 subjects. 
-Every block was shuffled independently into the train, test, and vaidation sets.}
-\label{tab:block-shuffle}
-\end{table}
-
-\begin{table}[!htbp]
-\centering
-\input{tables/frame-shuffle.tex}
-\caption{
-The multi-class $F_1$ scores of the linear SVM and the feed forward neural network after an 8 fold cross-validation for all 5 subjects. 
-Every epoch was shuffled independently into the train, test, and vaidation sets. 
-Only 8 folds were used because most subjects have only 8 epochs of data collected.}
-\label{tab:epoch-shuffle}
-\end{table}
-
-\begin{table}[!htbp]
-\centering
-\input{tables/frame-shuffle.tex}
-\caption{
-The multi-class $F_1$ scores of the linear SVM and the feed forward neural network after a 4 fold cross-validation for all 5 subjects. 
-Every run was shuffled independently into the train, test, and vaidation sets. 
-Only 4 folds were used because most subjects have only 4 runs of data collected.}
-\label{tab:run-shuffle}
-\end{table}
-
-\begin{table}[!htbp]
-\centering
-\input{tables/frame-shuffle.tex}
-\caption{The multi-class $F_1$ scores of the linear SVM and the feed forward neural network after a 2 fold cross-validation for all 5 subjects. 
-Every session was shuffled independently into the train, test, and vaidation sets. 
-Only 2 folds were used because most subjects have only 2 sessions of data collected.}
-\label{tab:session-shuffle}
+\caption{The multi-class $F$-measures of the linear SVM and the feed forward neural network after cross-validation for all 5 subjects and all 5 training and test split methods. }
+\label{tab:results}
 \end{table}
 
 \begin{figure}[!htbp]
 \centering
+\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\caption{The average performance of the SVM and neural network classifiers plotted against the average temporal distance between data in the training and test sets.}
+\label{fig:performance-verse-temporal-distance}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
 \includegraphics[width=0.5\textwidth]{figures/confusion-average}
-\caption{The average confusion matrix across all subjects when the train, test, and validation sets were divided by epoch.}
-\label{fig:confusion-average}
+\caption{The average confusion matrix across all subjects when the train, test, and validation sets were divided by block.}
+\label{fig:average-confusion}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\caption{The average performance of the linear SVM and feed forward neural network using a soft measure of accuracy.}
+\label{fig:soft-measure}
 \end{figure}
 
 \begin{figure}[!htbp]
@@ -324,6 +336,13 @@ Only 2 folds were used because most subjects have only 2 sessions of data collec
 \includegraphics[width=0.5\textwidth]{figures/sensitivity-analysis}
 \caption{The results of the sensitivity analysis mapped back on to the volume anatomy.}
 \label{fig:sensitivity-analysis}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\caption{The average sensitivity analysis of all subjects mapped onto the slightly inflated MNI template brain.}
+\label{fig:MNI-average-sensitivity}
 \end{figure}
 
 \begin{figure}[!htbp]
