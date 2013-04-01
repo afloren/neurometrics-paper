@@ -10,11 +10,10 @@ xhat = WienerDeconv(y,MakeHRF(dt,length(y)),1);
 
 figure(1);
 clf;
-
-subplot(1,3,1);
 plot(dt*(1:length(h)),h);
 
-subplot(1,3,2);
+figure(2);
+clf;
 hold on;
 plot(dt*(1:length(x)),x,'r');
 plot(dt*(1:length(y)),y,'g');
@@ -28,7 +27,8 @@ y = example_voxel;
 
 xhat = WienerDeconv(y,MakeHRF(dt,length(y)),1);
 
-subplot(1,3,3);
+figure(3);
+clf;
 hold on;
 plot(dt*(1:length(y)),y,'r');
 plot(dt*(1:length(xhat)),xhat,'b');
