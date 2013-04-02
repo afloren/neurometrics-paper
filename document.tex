@@ -53,19 +53,17 @@ Informed consent was obtained from all subjects.
 
 \subsection{Stimulus}
 We developed a virtual reality environment similar to many popular first person video games using the Unreal Engine 2 SDK \cite{UnrealEngine2}.
-The stimuli is dynamically rendered and presented from the point of view of a camera moving through this 
-virtual environment using a block design. First, the viewpoint moves for 15 seconds through the virtual 
-environment with no characters present (Fig. \ref{fig:stimulus}(a)), then pauses for 15 seconds during 
-which a group of characters fades into view (Fig. \ref{fig:stimulus}(b)). Each run consists of 12 
-alternations between moving through the virtual environment and character presentations. 
+The stimuli is dynamically rendered and presented from the point of view of a camera moving through this virtual environment using a block design. 
+First, the viewpoint moves for 15 seconds through the virtual environment with no characters present (Fig. \ref{fig:stimulus-movement}), then pauses for 15 seconds during which a group of characters fades into view (Fig. \ref{fig:stimulus-characters}). 
+Each run consists of 12 alternations between moving through the virtual environment and character presentations. 
 In each scanning session, 4 to 6 runs were collected.
 
 The camera is constantly moving (even during the character presentation periods the camera slowly pans and rotates) and the characters are animated so that the presented scene is never static.
 The number and location of characters varies with each presentation in a quasi-random fashion.
-The number of characters presented varied from 1 to 6.
+The number of characters presented varies from 1 to 6.
 A presentation with a particular number of characters appears twice in each run, however the order of these presentations was randomized.
 It should be noted that this random ordering was generated once and held constant between subjects.
-Additionally, even between character presentations with the same number of characters, the locations of those characters varies considerably; compare Fig. \ref{fig:stimulus} (b) and (c).
+Additionally, even between character presentations with the same number of characters, the locations of those characters varies considerably; compare figures \ref{fig:stimulus-characters} and \ref{fig:stimulus-location}.
 [I need another frame from the stimulus to illustrate this point. These figures are all from the original report but I'd like to generate new ones if I can get access to a machine with the stimulus.]
 
 \begin{figure}[!htbp]
@@ -116,7 +114,7 @@ The structural reference volume was T1-weighted with good gray-white contrast an
 
 \subsection{Preprocessing}
 Preprocessing of the fMRI data was performed using the mrVista software package (available for download at \url{http://vistalab.stanford.edu/}) as well as additional tools developed on the mrVista framework in our lab. 
-The first 15 seconds seconds of data  were discarded fto reduce transient effects.
+The first 15 seconds seconds of data  were discarded to reduce transient effects.
 We then estimated in-scan motion using a robust scheme \cite{Nestares and Heeger 2000}. 
 Between-run motion was corrected using the same intensity-based scheme, this time applied to the temporal average intensity of the entire scan. 
 The last run of the session was used as the reference. 
@@ -180,9 +178,7 @@ The same time series after convolution with $g(t)$.}
 \label{fig:wiener-deconvolution}
 \end{figure}
 
-The high-resolution reference anatomies were segmented using the FreeSurfer analysis package 
-\cite{FreeSurfer} to create approximate masks of the gray matter in each subject, as well as 
-a surface model useful for visualization of the results.
+The high-resolution reference anatomies were segmented using the FreeSurfer analysis package \cite{FreeSurfer} to create approximate masks of the gray matter in each subject, as well as a surface model useful for visualization of the results.
 
 \subsection{Dimensionality reduction}
 We reduce the dimensionality of the problem by masking out a subset of the volume using a harmonic power analysis based upon the block design of our stimulus. 
@@ -197,52 +193,48 @@ The harmonic power of that time series is defined as:
 Where $M$ is the number of harmonics and $N$ is the frequency of interest, in our case the period of the block alternations. 
 Because the BOLD response has a predominantly low-pass temporal frequency response, we chose $M = 4$. 
 Using this metric, we then selected a particular number N (range 1000-3000) voxels with the greatest power. 
-This harmonic-power selection was based on the alternation between characters present and characters 
-absent, without regard to the number of characters presented. Therefore, we will only be presenting 
-classifier accuracy estimates for character count, and not for the presence or absence of 
-characters to avoid cross-contamination between dimension-reduction and  classification criteria that 
-would result in inflated classifier performance estimates \cite{CrossContamination}.
+
+This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
+Therefore, we will only be presenting classifier accuracy estimates for character count, and not for the presence or absence of characters to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \cite{CrossContamination}.
 
 \subsection{Classification}
 Using the time series from the voxels selected by the harmonic power analysis, we trained a linear SVM and a feed forward neural network.
 These algorithms were trained and validated using a cross-fold approach \cite{Kohavi1995}.
-To maximize our temporal resolution, each frame (point in the pre-processed time series) was treated 
-as a separate data value, rather than  of averaging across the block as has been  done in previous work 
-[give references].
+To maximize our temporal resolution, each frame (a point in the pre-processed time series) was treated as a separate data value, rather than of averaged across the block as has been done in previous work \cite{BlockAveraging}.
 
-[Should I introduce the concept of training, validation and test sets here?] [Yes]
+[Quick introduction to training, test, and validation sets will go here.]
 
 Previous studies have discussed issues with optimistic performance estimates due to temporal correlations violating independence assumptions between training and test set examples \cite{Pereira2009}.
 We were interested in more closely examining the relationship between performance estimates and this temporal correlation.
-To accomplish this, we estimated classifier performance using 5 different methods for splitting the 
-training and test examples in order to vary the average temporal delay between frames in the training 
-and test sets. The first four methods deal only with frames from a particular session.
-In the first method, which we will refer to as the frame split, frames were independently drawn into the 
-training and test sets. Although the draws were independent, there is no restriction to prevent adjacent 
-frames being split between the training and test sets.
-In the second method, which we will refer to as the block split, sets of frames corresponding to the 
-various stimulus blocks were independently drawn into the training and test sets.
-Our stimulus design enables us to break runs into two sets that each contain a complete set of 
-character-number presentations. Accordingly, in our third method, which we will refer to as half-run 
-split, sets of frames were independently drawn from these half-runs. Similarly, in our fourth method, 
-termed run split, entire runs of frames were independently drawn. For the fifth method, termed session
-split, we used a single entire session for training and a second session for test.
-This method is similar to measures of between-session classifier accuracy used previously [give refs].
-Table \cite{tempSplitTable} summarizes these temporal-split methods and the mean temporal delay between the 
-training and test data, which varies from ~30 s (frame split) to several months (session split).
+To accomplish this, we estimated classifier performance using 5 different methods for splitting the training and test examples in order to vary the average temporal delay between frames in the training and test sets. 
+The first four methods deal only with frames from a particular session.
+In the first method, which we will refer to as the frame split, frames were independently drawn into the training and test sets. 
+Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.
+In the second method, which we will refer to as the block split, sets of frames corresponding to the stimulus blocks were independently drawn into the training and test sets.
+Our stimulus design enables us to break runs into two sets that each contain a complete set of character-number presentations. 
+Accordingly, in our third method, which we will refer to as the half-run split, sets of frames were independently drawn from these half-runs. 
+Similarly, in our fourth method, termed run split, entire runs of frames were independently drawn. 
+For the fifth method, termed session split, we used one entire session for training and a second session for test.
+This method is similar to measures of between-session classifier accuracy used previously \cite{BetweenSessionAccuracy}.
+Table \ref{tab:training-split} summarizes these training and test set split methods and the mean temporal delay between the training and test data, which varies from $\sim$30 s (frame split) to several months (session split).
+
+\begin{table}[!htbp]
+\centering
+\input{tables/training-split.tex}
+\caption{Summary of training and test set split methods and the mean temporal delay between the training and test data.}
+\label{tab:training-split}
+\end{table}
 
 For the frame and block splits, the classifier performances were estimated using 10-fold cross-validation.
 That is, the dataset was randomly split into the training and test sets 10 times and a classifier is trained on each split.
 The classifier's performance is then estimated as the average of its performance across all 10 splits.
-For the half-run, run, and session splits, only 8, 4, and 2 unique splits are possible, respectively, due to 
-the much smaller number of runs and sessions per subject. Therefore, only 8-fold, 4-fold, and 2-fold 
-cross-validation were employed for estimating classifier performance on these splits.
+For the half-run, run, and session splits, only 8, 4, and 2 unique splits are possible, respectively, due to the much smaller number of runs and sessions per subject. 
+Therefore, only 8-fold, 4-fold, and 2-fold cross-validation were employed for estimating classifier performance on these splits.
 
-Classifier performance has been described by a number of metrics [refs]. In 
-particular, one can define \it{precision} as [...details], and \it{recall} as 
-[details...]. Here, the performance of each classifier was characterized by its micro-averaged
- $F$-measure \cite{Ozgur2005}. The $F$-measure for a single class is described by the following 
- equations:
+Classifier performance has been described by a number of metrics [refs]. 
+In particular, one can define \emph{precision} as [...details], and \emph{recall} as [details...]. 
+Here, the performance of each classifier was characterized by its micro-averaged $F$-measure \cite{Ozgur2005}. 
+The $F$-measure for a single class is described by the following equations:
 \begin{equation}
 \mbox{precision} = \frac{tp}{tp + fp}
 \label{eqn:precision}
@@ -284,9 +276,8 @@ Similarly, the value of $C_{jj}$ divided by the sum of all values along column $
 Finally, the micro-averaged $F$-measure can be calculated by dividing the sum along the diagonal, or the trace, by the sum of the entire matrix.
 
 \subsection{Sensitivity Analysis}
-Non-linear multi-variate machine-learning classifiers can tell us whether the time-series data from a 
-subset of human brain voxels is discriminative with respect to the task being predicted. However, these 
-results do not show which voxels in the large group were actually important for that discrimination
+Non-linear multi-variate machine-learning classifiers can tell us whether the time-series data from a subset of human brain voxels is discriminative with respect to the task being predicted. 
+However, these results do not show which voxels in the large group were actually important for that discrimination.
 This is important for localizing functions in the brain.
 One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area.
 While this technique is effective for simple highly localized functions, the results are less clear when the function is sparsely distributed over the brain.
