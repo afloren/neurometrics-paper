@@ -4,7 +4,7 @@
 \usepackage{amsfonts}
 \usepackage{graphicx}
 \usepackage{caption}
-\usepackage{subcaption}
+\usepackage[subrefformat=parens]{subcaption}
 \usepackage{booktabs}
 \usepackage{url}
 \usepackage{color}
@@ -87,11 +87,10 @@ Additionally, even between character presentations with the same number of chara
 \label{fig:stimulus-location}
 \end{subfigure}
 \caption{
-\ref{fig:stimulus-movement} An example frame from the stimulus while the camera is moving through the virtual envronment. 
-\ref{fig:stimulus-characters} An example frame from the stimulus while characters are being presented.
-\ref{fig:stimulus-location} Another example frame from the stimulus while characters are being presented.
-Note how the locations of the characters varies considerably between these two frames.
-[I'm still playing around with finding the best way to present and reference subfigures.]}
+\subref{fig:stimulus-movement} An example frame from the stimulus while the camera is moving through the virtual envronment. 
+\subref{fig:stimulus-characters} An example frame from the stimulus while characters are being presented.
+\subref{fig:stimulus-location} Another example frame from the stimulus while characters are being presented.
+Note how the locations of the characters varies considerably between these two frames.}
 \label{fig:stimulus}
 \end{figure}
 
@@ -151,8 +150,31 @@ Figure \ref{fig:wiener-deconvolution} illustrates the effects of this deconvolut
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{figures/wiener-deconvolution}
-\caption{(1) The difference-of-gamma HRF employed as $h(t)$. (2) A simple square wave in red. The same square wave after convolution with $h(t)$ in green. The convolution with $g(t)$ in blue. (3) An example voxel time series in red. The same time series after convolution with $g(t)$.}
+\begin{subfigure}[t]{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/hrf}
+\caption{}
+\label{fig:wiener-hrf}
+\end{subfigure}
+\begin{subfigure}[t]{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/wiener-square}
+\caption{}
+\label{fig:wiener-square}
+\end{subfigure}
+\begin{subfigure}[t]{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/wiener-voxel}
+\caption{}
+\label{fig:wiener-voxel}
+\end{subfigure}
+\caption{
+\subref{fig:wiener-hrf} The difference-of-gamma HRF employed as $h(t)$. 
+\subref{fig:wiener-square} A simple square wave in red. 
+The same square wave after convolution with $h(t)$ in green. 
+The convolution with $g(t)$ in blue. 
+\subref{fig:wiener-voxel} An example voxel time series in red. 
+The same time series after convolution with $g(t)$.}
 \label{fig:wiener-deconvolution}
 \end{figure}
 
