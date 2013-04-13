@@ -6,6 +6,7 @@
 \usepackage{caption}
 \usepackage[subrefformat=parens]{subcaption}
 \usepackage{booktabs}
+\usepackage{multirow}
 \usepackage{url}
 \usepackage{color}
 \usepackage{hyperref}
@@ -231,7 +232,7 @@ Table \ref{tab:training-split} summarizes these training and test set split meth
 
 \begin{table}[!htbp]
 \centering
-\input{tables/training-split.tex}
+\input{tables/temporal-delay.tex}
 \caption{Summary of training and test set split methods and the mean temporal delay between the training and test data.}
 \label{tab:training-split}
 \end{table}
@@ -356,7 +357,8 @@ It should also be noted that the majority of the incorrect responses lay just of
 These responses correspond to the classifier being wrong by a single character in its classification.
 For example, the machine learning algorithm classified a frame as containing 4 characters when it only contained 3 characters.
 The $F$-measure does not take the cardinality of the classes into account and considers mislabeling 1 character as 2 equivalent to mislabeling 1 character as 6 characters.
-Figure \ref{figsoft-measure} presents a soft measure of accuracy for the two classifiers that takes the cardinality of the classes into consideration.
+A soft measure of accuracy that takes the cardinality of the classes into consideration may be useful but the results are harder to interpret.
+A confusion matrix gives us the advantages of the soft measure while providing an easily interpretable look into the performance of the classifiers.
 
 The sensitivity analysis of the feed forward neural network projected back into the anatomy volume is presented in figure \ref{sensitivity-analysis}.
 [David: We need to make come comments on this figure related to neuroscience/brain mapping. We should look at the data to make sure this is true, but since we are still employing the same harmonic analysis the activated regions should be very similar to the original report.]
@@ -376,31 +378,31 @@ Therefore, high sensitivity is sufficient but not necessary for the localization
 
 \begin{table}[!htbp]
 \centering
-\input{tables/frame-shuffle.tex}
+\input{tables/accuracy-table.tex}
 \caption{The multi-class $F$-measures of the linear SVM and the feed forward neural network after cross-validation for all 5 subjects and all 5 training and test split methods. }
 \label{tab:results}
 \end{table}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{figures/placeholder}
+\includegraphics[width=0.5\textwidth]{figures/performance-verse-temporal-distance}
 \caption{The average performance of the SVM and neural network classifiers plotted against the average temporal distance between data in the training and test sets.}
 \label{fig:performance-verse-temporal-distance}
 \end{figure}
 
-\begin{figure}[!htbp]
+\begin{table}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{figures/confusion-average}
+\input{tables/svm-confusion.tex}
 \caption{The average confusion matrix across all subjects when the train, test, and validation sets were divided by block.}
 \label{fig:average-confusion}
-\end{figure}
+\end{table}
 
-\begin{figure}[!htbp]
+\begin{table}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{figures/placeholder}
-\caption{The average performance of the linear SVM and feed forward neural network using a soft measure of accuracy.}
-\label{fig:soft-measure}
-\end{figure}
+\input{tables/nn-confusion.tex}
+\caption{The average confusion matrix across all subjects when the train, test, and validation sets were divided by block.}
+\label{fig:average-confusion2}
+\end{table}
 
 \begin{figure}[!htbp]
 \centering
