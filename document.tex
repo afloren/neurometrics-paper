@@ -78,21 +78,21 @@ It should be noted that this random ordering was generated once and held constan
 Additionally, even between character presentations with the same number of characters, the locations of those characters varies considerably; compare figures \ref{fig:stimulus-characters} and \ref{fig:stimulus-location}.
 [I need another frame from the stimulus to illustrate this point. These figures are all from the original report but I'd like to generate new ones if I can get access to a machine with the stimulus.]
 
-\begin{figure}[!htbp]
+\begin{figure}
 \centering
-\begin{subfigure}[t]{0.3\textwidth}
+\begin{subfigure}{0.3\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/stimulus-movement}
 \caption{}
 \label{fig:stimulus-movement}
 \end{subfigure}
-\begin{subfigure}[t]{0.3\textwidth}
+\begin{subfigure}{0.3\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/stimulus-characters}
 \caption{}
 \label{fig:stimulus-characters}
 \end{subfigure}
-\begin{subfigure}[t]{0.3\textwidth}
+\begin{subfigure}{0.3\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/stimulus-location}
 \caption{}
@@ -117,7 +117,7 @@ A set of T1-weighted structural images was obtained on the same prescription at 
 These anatomical images were then used to align the functional data to a structural 3D reference volume, which was acquired for each subject in a separate session. 
 The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D, inversion-prepared, SPGR sequence (minimum TE and TR, TI = 450 ms, 15° flip angle, isometric voxel size of 0.7 mm, 2 excitations, ~28-minimum duration).
 
-\begin{figure}[!htbp]
+\begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{figures/rx}
 \caption{An example prescription from one of the subjects.}
@@ -127,7 +127,7 @@ The structural reference volume was T1-weighted with good gray-white contrast an
 \subsection{Preprocessing}
 Preprocessing of the fMRI data was performed using the mrVista software package (available for download at \url{http://vistalab.stanford.edu/}) as well as additional tools developed on the mrVista framework in our lab. 
 The first 15 seconds seconds of data  were discarded to reduce transient effects.
-We then estimated in-scan motion using a robust scheme \citep{Nestares and Heeger 2000}. 
+We then estimated in-scan motion using a robust scheme \citep{Nestares-and-Heeger-2000}. 
 Between-run motion was corrected using the same intensity-based scheme, this time applied to the temporal average intensity of the entire scan. 
 The last run of the session was used as the reference. 
 Additionally, we applied a Wiener filter deconvolution \citep{Wiener} using a generic difference-of-gamma HRF \citep{Glover} to shift the peak response in time so that it is aligned with its associated stimulus.
@@ -160,21 +160,21 @@ Therefore, we set $\mbox{SNR}(f) = 1$ for all frequencies $f$.
 The primary effect of the resulting deconvolution is to shift the time series according to the delay caused by the hemodynamic response.
 Figure \ref{fig:wiener-deconvolution} illustrates the effects of this deconvolution on a simple square wave as well as an example voxel time series.
 
-\begin{figure}[!htbp]
+\begin{figure}
 \centering
-\begin{subfigure}[t]{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/hrf}
 \caption{}
 \label{fig:wiener-hrf}
 \end{subfigure}
-\begin{subfigure}[t]{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/wiener-square}
 \caption{}
 \label{fig:wiener-square}
 \end{subfigure}
-\begin{subfigure}[t]{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/wiener-voxel}
 \caption{}
@@ -230,7 +230,7 @@ For the fifth method, termed session split, we used one entire session for train
 This method is similar to measures of between-session classifier accuracy used previously \citep{BetweenSessionAccuracy}.
 Table \ref{tab:training-split} summarizes these training and test set split methods and the mean temporal delay between the training and test data, which varies from $\sim$30 s (frame split) to several months (session split).
 
-\begin{table}[!htbp]
+\begin{table}
 \centering
 \input{tables/temporal-delay.tex}
 \caption{Summary of training and test set split methods and the mean temporal delay between the training and test data.}
@@ -376,51 +376,67 @@ However, other voxels may actually covary with the stimulus but their patterns o
 These voxels will also be assigned low sensitivity values by the trained classifiers.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
 
-\begin{table}[!htbp]
+\begin{table}
 \centering
 \input{tables/accuracy-table.tex}
 \caption{The multi-class $F$-measures of the linear SVM and the feed forward neural network after cross-validation for all 5 subjects and all 5 training and test split methods. }
 \label{tab:results}
 \end{table}
 
-\begin{figure}[!htbp]
+\begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{figures/performance-verse-temporal-distance}
+\includegraphics[width=0.7\textwidth]{figures/performance-verse-temporal-distance}
 \caption{The average performance of the SVM and neural network classifiers plotted against the average temporal distance between data in the training and test sets.}
 \label{fig:performance-verse-temporal-distance}
 \end{figure}
 
-\begin{table}[!htbp]
+\begin{table}
 \centering
 \input{tables/svm-confusion.tex}
 \caption{The average confusion matrix across all subjects when the train, test, and validation sets were divided by block.}
 \label{fig:average-confusion}
 \end{table}
 
-\begin{table}[!htbp]
+\begin{table}
 \centering
 \input{tables/nn-confusion.tex}
 \caption{The average confusion matrix across all subjects when the train, test, and validation sets were divided by block.}
 \label{fig:average-confusion2}
 \end{table}
 
-\begin{figure}[!htbp]
+\begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{figures/sensitivity-analysis}
-\caption{The results of the sensitivity analysis mapped back on to the volume anatomy.}
-\label{fig:sensitivity-analysis}
-\end{figure}
-
-\begin{figure}[!htbp]
+\begin{subfigure}{0.4\textwidth}
 \centering
-\includegraphics[width=0.5\textwidth]{figures/placeholder}
-\caption{The average sensitivity analysis of all subjects mapped onto the slightly inflated MNI template brain.}
+\includegraphics[width=\textwidth]{figures/lh-lateral-smax-average}
+\caption{}
+\label{fig:lh-lateral-smax-average}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/lh-medial-smax-average}
+\caption{}
+\label{fig:lh-medial-smax-average}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/rh-lateral-smax-average}
+\caption{}
+\label{fig:rh-lateral-smax-average}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/rh-medial-smax-average}
+\caption{}
+\label{fig:rh-medial-smax-average}
+\end{subfigure}
+\caption{The sensitivity analysis averaged across all subjects mapped onto the slightly inflated MNI template brain.}
 \label{fig:MNI-average-sensitivity}
 \end{figure}
 
-\begin{figure}[!htbp]
+\begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{figures/sensitivity-cutoff}
+\includegraphics[width=0.7\textwidth]{figures/sensitivity-cutoff}
 \caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network $F_1$ score when the inputs are pruned at a particular sensitivity value. }
 \label{fig:sensitivity-cutoff}
 \end{figure}
