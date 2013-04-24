@@ -150,16 +150,15 @@ The solution for the optimal $g(t)$ is most easily expressed in the Fourier doma
 \begin{equation}
 g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \mbox{SNR}^{-1}(f)}
 \end{equation}
-Where $\mbox{SNR}(f)$ is the signal to noise ratio $\frac{\left| X(f) \right|}{\left| N(f) \right|}$ at frequency $f$.
+Where $\mbox{SNR}(f)$ is the signal to noise ratio $\frac{\left| X(f) \right|}{\left| N(f) \right|}$.
 
 In fMRI, $y(t)$ is the recorded BOLD signal, $h(t)$ is the hemodynamic response function, and $x(t)$ is the neuronal population response.
 Calculating $g(t)$ requires estimates of the power spectral density of the signal of interest as well as the noise.
 However, the noise $n(t)$ corresponds not only to scanner noise but other nuisance factors such as pulse and respiration.
 This makes modeling the noise, and its power spectral density, very difficult.
 Therefore, we set $\mbox{SNR}(f) = 1$ for all frequencies $f$.
-The primary effect of the resulting deconvolution is to shift the time series according to the delay caused by the hemodynamic response.
-Figure \ref{fig:wiener-deconvolution} illustrates the effects of this deconvolution on a simple square wave as well as an example voxel time series.
 
+Figure \ref{fig:wiener-deconvolution} illustrates the effects of this deconvolution on a simple square wave as well as an example voxel time series.
 \begin{figure}[!htbp]
 \centering
 \begin{subfigure}[t]{0.3\textwidth}
@@ -183,28 +182,27 @@ Figure \ref{fig:wiener-deconvolution} illustrates the effects of this deconvolut
 \caption{
 \subref{fig:wiener-hrf} The difference-of-gamma HRF employed as $h(t)$. 
 \subref{fig:wiener-square} A simple square wave in red. 
-The same square wave after convolution with $h(t)$ in green. 
-The convolution with $g(t)$ in blue. 
+The same square wave after convolution with $h(t)$ in green, then after Wiener-filter deconvolution in blue. 
 \subref{fig:wiener-voxel} An example voxel time series in red. 
-The same time series after convolution with $g(t)$.}
+The same time series after Wiener-filter deconvolution in blue.}
 \label{fig:wiener-deconvolution}
 \end{figure}
 
 The high-resolution reference anatomies were segmented using the FreeSurfer analysis package \citep{FreeSurfer} to create approximate masks of the gray matter in each subject, as well as a surface model useful for visualization of the results.
 
 \subsection{Dimensionality reduction}
-We reduce the dimensionality of the problem by masking out a subset of the volume using a harmonic power analysis based upon the block design of our stimulus. 
-It is straightforward to show that the spectral response of any linear system to a blocked alternation at frequency f will contain power only at f and its harmonics. 
+We select a relevant subset of the volume using a harmonic power analysis based on the block design of our stimulus. 
+One can show that the response of any linear system to a blocked alternation at frequency f will contain power only at f and its harmonics. 
 Under a linear response assumption, we can therefore form an unbiased estimate of the response power by summing the power at these frequencies. 
 Let $y(t)$ be the recorded discrete time series at some voxel.
 Then let $Y(f)$ be the discrete Fourier transform of $y(t)$.
-The harmonic power of that time series is defined as:
+The fractional harmonic power of that time series is defined as:
 \begin{equation}
-\frac{\sum_{i = 1}^{M}{\left|Y(i \cdot N)\right|^{2}}}{\sum_{f}{\left|Y(f)\right|^{2}}}
+P_h = \frac{\sum_{i = 1}^{M}{\left|Y(i \cdot N)\right|^{2}}}{\sum_{f}{\left|Y(f)\right|^{2}}}
 \end{equation}
-Where $M$ is the number of harmonics and $N$ is the frequency of interest, in our case the period of the block alternations. 
+Where $P_h$ is the fractional harmonic power, $M$ is the number of harmonics, and $N$ is the frequency of interest, in our case the period of the block alternations. 
 Because the BOLD response has a predominantly low-pass temporal frequency response, we chose $M = 4$. 
-Using this metric, we then selected a particular number N (range 1000-3000) voxels with the greatest power. 
+Using $P_h$, we then selected a particular number N (range 1000-3000) voxels with the greatest power. 
 
 This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
 Therefore, we will only be presenting classifier accuracy estimates for character count, and not for the presence or absence of characters to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{CrossContamination}.
@@ -244,42 +242,38 @@ For the half-run, run, and session splits, only 8, 4, and 2 unique splits are po
 Therefore, only 8-fold, 4-fold, and 2-fold cross-validation were employed for estimating classifier performance on these splits.
 
 Classifier performance has been described by a number of metrics [refs]. 
-In particular, one can define \emph{precision} as [...details], and \emph{recall} as [details...]. 
-Here, the performance of each classifier was characterized by its micro-averaged $F$-measure \citep{Ozgur2005}. 
-The $F$-measure for a single class is described by the following equations:
-\begin{equation}
-\mbox{precision} = \frac{tp}{tp + fp}
-\label{eqn:precision}
-\end{equation}
-\begin{equation}
-\mbox{recall} = \frac{tp}{tp + fn}
-\label{eqn:recall}
-\end{equation}
+Here, the performance of each classifier was characterized by its micro-averaged $F$-measure \citep{Ozgur2005}, which we calculate as follows. 
+Analysis begins by calculating two simple accuracy metrics.
+The first is $\mbox{precision} = tp / (tp + fp)$, where $tp$ is the number of true positives and $fp$ is the number of false positives.
+The second metric is $\mbox{recall} = tp / (tp + fn)$, where $fn$ is the number of false negatives.
+Intuitively, $\mbox{precision}$ is the percentage of correctly classified examples out of all examples classified as a particular label, while $\mbox{recall}$ is the percentage of correctly classified examples out of all examples that actually belong to a particular label.
+The $F$-measure for a single class is defined to be:
 \begin{equation}
 F = 2 \cdot \frac{\mbox{precision} \cdot \mbox{recall}}{\mbox{precision} + \mbox{recall}}
 \label{eqn:f1}
 \end{equation}
-Where $tp$ is the number of true positives, $fp$ is the number of false positives, and $fn$ is the number of false negatives.
 The $F$-measure is a more robust measure of the performance of a classifier than either precision or recall alone.
-For example, if the classifier labeled everything as positive then the recall would be perfect but the precision would be at chance levels.
-On the other hand, if the classifier only labeled examples it was highly confidant in as positive then precision would be high but recall would be low.
-The $F$-measure can be generalized for multiple classes by summing true positive, false positive, and false negative counts across all classes.
+For example, if a binary classifier labeled everything as positive then the recall would be perfect but the precision would be at chance levels.
+On the other hand, if the binary classifier only labeled high-confidence examples as positive then precision would be high but recall would be low.
+The $F$-measure combines these two aspects of reliability.
+
+These metrics can be generalized for multiple classes by summing true positive, false positive, and false negative counts across all classes.
 \begin{equation}
 \mbox{precision}_{avg} =\frac{\sum_{i}^{M}{tp_{i}}}{\sum_{i}^{M}{\left( tp_{i} + fp_{i} \right)}}
 \end{equation}
 \begin{equation}
 \mbox{recall}_{avg} = \frac{\sum_{i}^{M}{tp_{i}}}{\sum_{i}^{M}{\left( tp_{i} + fn_{i} \right)}}
 \end{equation}
-Where $M$ is the number of classes. [You used M for harmonic numbers before; use some other symbol]
-The multi-class $F$-measure is then calculated as:
 \begin{equation}
 F_{avg} = 2 \cdot \frac{\mbox{precision}_{avg} \cdot \mbox{recall}_{avg}}{\mbox{precision}_{avg} + \mbox{recall}_{avg}}
 \end{equation}
+Where $M$ is the number of classes. [You used M for harmonic numbers before; use some other symbol]
 This is known in the literature as the  micro-averaged $F$-measure.
-It should be noted that in a symmetric multi-class scheme such as ours, the micro-averaged precision, 
-recall, and $F$-measure will all be identical. [I don't understand this statement; why are we not just using recall in that case?]
+It should be noted that in a symmetric multi-class scheme such as ours, the micro-averaged precision, recall, and $F$-measure will all be identical. 
+Therefore, we will only be reporting a single accuracy metric which we will refer to as the multi-class $F$-measure. 
+[we could just as easily call this the multi-class precision/recall if we wanted to so long as we are consistent]
 
-Another convenient tool for examining classifier performance is the confusion matrix.
+Another tool for examining classifier performance is the confusion matrix.
 If $\mathbf{C}$ is a confusion matrix, then the value of $C_{ij}$ is equal to the number examples of class $i$ that were classified as class $j$.
 Therefore, values along the diagonal of a confusion matrix correspond to correct classifications while other values correspond to incorrect classifications.
 The confusion matrix also simplifies calculating precision and recall for each class.
