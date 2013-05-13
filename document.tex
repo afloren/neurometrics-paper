@@ -210,12 +210,15 @@ Therefore, we will only be presenting classifier accuracy estimates for characte
 
 \subsection{Classification}
 Using the time series from the voxels selected by the harmonic power analysis, we trained a linear SVM and a feed forward neural network.
-These algorithms were trained and validated using a cross-fold approach \citep{Kohavi1995}.
+Generally, the performance of machine learning algorithms is estimated by splitting the available data into train and test sets and testing the performance of the algorithm on the test set after training on only the train set.
+The algorithm's performance on the test set is an estimate of the classifier's performance on new data.
+Certain iterative machine learning algorithms, such as neural networks, further subdivide the data into train, validate, and test sets.
+The algorithm is trained on the training set and after each iteration is tested against the validation set.
+When the performance on validation set stops improving, the algorithm stops iterating and is tested against the test set in order to estimate its performance.
+We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into folds which are used to form multiple train and test sets.
+
 To maximize our temporal resolution, each frame (a point in the pre-processed time series) was treated as a separate data value, rather than of averaged across the block as has been done in previous work \citep{BlockAveraging}.
-
-[Quick introduction to training, test, and validation sets will go here.]
-
-Previous studies have discussed issues with optimistic performance estimates due to temporal correlations violating independence assumptions between training and test set examples \citep{Pereira2009}.
+However, previous studies have discussed issues with optimistic performance estimates due to temporal correlations violating independence assumptions between training and test set examples \citep{Pereira2009}.
 We were interested in more closely examining the relationship between performance estimates and this temporal correlation.
 To accomplish this, we estimated classifier performance using 5 different methods for splitting the training and test examples in order to vary the average temporal delay between frames in the training and test sets. 
 The first four methods deal only with frames from a particular session.
@@ -324,12 +327,16 @@ Where $N$ is the number of input vectors.
 The magnitude is squared to avoid problems with positive and negative sensitivities canceling out when averaging.
 The average of the absolute value of sensitivities could also be employed.
 This still gives a sensitivity value for each voxel with respect to every output, whereas it is useful to have a measure of the sensitivity of a voxel with respect to any output.
-To calculate this number we simply take the maximum sensitivity of each voxel across all outputs.
+To calculate this number, we simply take the maximum sensitivity of each voxel across all outputs.
 \begin{equation}
 \Phi_{i} = \max_{k=1 \dots K}{S_{ki,~avg}}
 \end{equation}
 This sensitivity can now be projected back into the volume anatomy space to create an activation map.
-Further, this sensitivity can also be used to reduce the dimensionality of the machine learning classifier by retraining the algorithms using only the voxels that had a sensitivity over some threshold.
+Further, we used this sensitivity analysis to reduce the dimensionality of the neural network by retraining the algorithm using only the voxels that had a sensitivity over some threshold.
+This threshold was determined by iteratively retraining the neural network with successively higher thresholds until the performance of the classifier began to degrade.
+
+To get a better idea where, on average, the neural network was finding useful information, we aligned each subject's sensitivity map to the MNI template brain using FreeSurfer \citep{FreeSurfer}.
+After alignment, we averaged the sensitivity maps together, projected the results onto the cortical surface, and blurred along the surface by 5 mm full-width half-max (FWHM).
 
 \section{Results}
 Table \ref{tab:results} contains the cross-validated $F$-measures of the linear SVM and feed forward neural networks for all 5 subjects and all 5 training and test split methods.
