@@ -245,50 +245,28 @@ The classifier's performance is then estimated as the average of its performance
 For the half-run, run, and session splits, only 8, 4, and 2 unique splits are possible, respectively, due to the much smaller number of runs and sessions per subject. 
 Therefore, only 8-fold, 4-fold, and 2-fold cross-validation were employed for estimating classifier performance on these splits.
 
-Classifier performance has been described by a number of metrics [refs]. 
-Here, the performance of each classifier was characterized by its micro-averaged $F$-measure \citep{Ozgur2005}, which we calculate as follows. 
-Analysis begins by calculating two simple accuracy metrics.
-The first is $\mbox{precision} = tp / (tp + fp)$, where $tp$ is the number of true positives and $fp$ is the number of false positives.
-The second metric is $\mbox{recall} = tp / (tp + fn)$, where $fn$ is the number of false negatives.
-Intuitively, $\mbox{precision}$ is the percentage of correctly classified examples out of all examples classified as a particular label, while $\mbox{recall}$ is the percentage of correctly classified examples out of all examples that actually belong to a particular label.
-The $F$-measure for a single class is defined to be:
-\begin{equation}
-F = 2 \cdot \frac{\mbox{precision} \cdot \mbox{recall}}{\mbox{precision} + \mbox{recall}}
-\label{eqn:f1}
-\end{equation}
-The $F$-measure is a more robust measure of the performance of a classifier than either precision or recall alone.
-For example, if a binary classifier labeled everything as positive then the recall would be perfect but the precision would be at chance levels.
-On the other hand, if the binary classifier only labeled high-confidence examples as positive then precision would be high but recall would be low.
-The $F$-measure combines these two aspects of reliability.
-
-These metrics can be generalized for multiple classes by summing true positive, false positive, and false negative counts across all classes.
-\begin{equation}
-\mbox{precision}_{avg} =\frac{\sum_{i}^{M}{tp_{i}}}{\sum_{i}^{M}{\left( tp_{i} + fp_{i} \right)}}
-\end{equation}
-\begin{equation}
-\mbox{recall}_{avg} = \frac{\sum_{i}^{M}{tp_{i}}}{\sum_{i}^{M}{\left( tp_{i} + fn_{i} \right)}}
-\end{equation}
-\begin{equation}
-F_{avg} = 2 \cdot \frac{\mbox{precision}_{avg} \cdot \mbox{recall}_{avg}}{\mbox{precision}_{avg} + \mbox{recall}_{avg}}
-\end{equation}
-Where $M$ is the number of classes. [You used M for harmonic numbers before; use some other symbol]
-This is known in the literature as the  micro-averaged $F$-measure.
-It should be noted that in a symmetric multi-class scheme such as ours, the micro-averaged precision, recall, and $F$-measure will all be identical. 
-Therefore, we will only be reporting a single accuracy metric which we will refer to as the multi-class $F$-measure. 
-[we could just as easily call this the multi-class precision/recall if we wanted to so long as we are consistent]
+We define the classifier's overall performance or accuracy to be the probability that it will correctly classify a previously unseen data point or example.
+As such, this measure of performance can only be estimated by dividing the number of correctly classified examples in the test set by the total number of examples in the test set.
+We can also discuss classifier performance with respect to a single class.
+Single class performance is traditionally measured along two axes: \emph{precision} and \emph{recall}.
+\emph{Precision} with respect to class $c$ is the probability that a previously unseen data point was classified correctly given that it was classified as $c$.
+\emph{Recall} with respect to class $c$ is the probability that a previously unseen data point was classified correctly given that it is actually member of $c$.
+Again, these measures can only be estimated from the test set.
+$\mbox{\emph{precision}} = tp / (tp + fp)$, where $tp$ is the number of true positives and $fp$ is the number of false positives.
+$\mbox{\emph{recall}} = tp / (tp + fn)$, where $fn$ is the number of false negatives.
 
 Another tool for examining classifier performance is the confusion matrix.
 If $\mathbf{C}$ is a confusion matrix, then the value of $C_{ij}$ is equal to the number examples of class $i$ that were classified as class $j$.
 Therefore, values along the diagonal of a confusion matrix correspond to correct classifications while other values correspond to incorrect classifications.
-The confusion matrix also simplifies calculating precision and recall for each class.
-The value of $C_{ii}$ divided by the sum of all values along row $i$ is the recall of the $i^{th}$ class.
-Similarly, the value of $C_{jj}$ divided by the sum of all values along column $j$ is the precision of the $j^{th}$ class.
-Finally, the micro-averaged $F$-measure can be calculated by dividing the sum along the diagonal, or the trace, by the sum of the entire matrix.
+The confusion matrix also simplifies estimating precision and recall for each class.
+The value of $C_{ii}$ divided by the sum of all values along row $i$ is the estimate for the recall of the $i^{th}$ class.
+Similarly, the value of $C_{jj}$ divided by the sum of all values along column $j$ is the estimate for the precision of the $j^{th}$ class.
+Finally, overall classifier performance can be estimated by dividing the sum along the diagonal, or the trace, by the sum of the entire matrix.
 
 \subsection{Sensitivity Analysis}
 Non-linear multi-variate machine-learning classifiers can tell us whether the time-series data from a subset of human brain voxels is discriminative with respect to the task being predicted. 
 However, these results do not show which voxels in the large group were actually important for that discrimination.
-This is important for localizing functions in the brain.
+This information is important for localizing functions in the brain.
 One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area.
 While this technique is effective for simple highly localized functions, the results are less clear when the function is sparsely distributed over the brain.
 No one region may contain enough information for accurate predictions.
