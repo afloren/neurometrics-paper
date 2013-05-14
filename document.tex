@@ -232,6 +232,24 @@ For the fifth method, termed session split, we used one entire session for train
 This method is similar to measures of between-session classifier accuracy used previously \citep{BetweenSessionAccuracy}.
 Table \ref{tab:training-split} summarizes these training and test set split methods and the mean temporal delay between the training and test data, which varies from $\sim$30 s (frame split) to several months (session split).
 
+\begin{figure}
+\centering
+\begin{subfigure}{0.6\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/mean-delay-graph}
+\caption{}
+\label{fig:mean-delay-graph}
+\end{subfigure}
+\begin{subfigure}{0.6\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/min-delay-graph}
+\caption{}
+\label{fig:min-delay-graph}
+\end{subfigure}
+\caption{The \subref{fig:mean-delay-graph} mean delay and \subref{fig:min-delay-graph} minimum mean delay between examples in the train and test set for four of the split methods. 
+The session split method is excluded because both the mean and minimum delay are much larger than the other splits and the delays vary significantly between subjects.}
+\end{figure}
+
 \begin{table}
 \centering
 \input{tables/temporal-delay.tex}
@@ -317,23 +335,23 @@ To get a better idea where, on average, the neural network was finding useful in
 After alignment, we averaged the sensitivity maps together, projected the results onto the cortical surface, and blurred along the surface by 5 mm full-width half-max (FWHM).
 
 \section{Results}
-Table \ref{tab:results} contains the cross-validated $F$-measures of the linear SVM and feed forward neural networks for all 5 subjects and all 5 training and test split methods.
+Table \ref{tab:results} contains the cross-validated performance estimates of the linear SVM and feed forward neural networks for all 5 subjects and all 5 training and test split methods.
 There is some variation of classifier performance between subjects, but in all cases the performance is well above chance. 
 
 \begin{table}
 \centering
 \input{tables/accuracy-table.tex}
-\caption{The multi-class $F$-measures of the linear SVM and the feed forward neural network after cross-validation for all 5 subjects and all 5 training and test split methods. }
+\caption{The performance estimates of the linear SVM and the feedforward neural network after cross-validation for all 5 subjects and all 5 training and test split methods. }
 \label{tab:results}
 \end{table}
 
-It is evident that as the average temporal distance between data in the training and test sets increases, the estimated performance of the classifiers decreases.
+It is evident that, as the average temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
 This relationship is plotted in figure \ref{fig:performance-verse-temporal-distance}.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.7\textwidth]{figures/performance-verse-temporal-distance}
-\caption{The average performance of the SVM and neural network classifiers plotted against the average temporal distance between data in the training and test sets.}
+\caption{The average performance of the SVM and neural network classifiers plotted against the average temporal delay between data in the training and test sets.}
 \label{fig:performance-verse-temporal-distance}
 \end{figure}
 
@@ -346,7 +364,7 @@ However, there is a slight tendency to mis-classify the 6 character presentation
 It should also be noted that the majority of the incorrect responses lay just off the main diagonal.
 These responses correspond to the classifier being wrong by a single character in its classification.
 For example, the machine learning algorithm classified a frame as containing 4 characters when it only contained 3 characters.
-The $F$-measure does not take the cardinality of the classes into account and considers mislabeling 1 character as 2 equivalent to mislabeling 1 character as 6 characters.
+The estimated performance does not take the cardinality of the classes into account and considers mislabeling 1 character as 2 equivalent to mislabeling 1 character as 6 characters.
 A soft measure of accuracy that takes the cardinality of the classes into consideration may be useful but the results are harder to interpret.
 A confusion matrix gives us the advantages of the soft measure while providing an easily interpretable look into the performance of the classifiers.
 
@@ -368,8 +386,6 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \label{fig:average-confusion}
 \end{figure}
 
-The sensitivity analysis of the feed forward neural network projected back into the anatomy volume is presented in figure \ref{sensitivity-analysis}.
-[David: We need to make come comments on this figure related to neuroscience/brain mapping. We should look at the data to make sure this is true, but since we are still employing the same harmonic analysis the activated regions should be very similar to the original report.]
 After aligning all of the subjects to the MNI template \ref{MNI} and combining these activation maps we found that the majority of activation took place in [need to do this analysis still].
 This combined activation map is presented in figure \ref{fig:MNI-average-sensitivity}.
 
@@ -422,7 +438,12 @@ Therefore, high sensitivity is sufficient but not necessary for the localization
 \end{figure}
 
 \section{Discussion}
-These variations between subjects could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during the scan.
+Although both classifiers performed at well above chance levels for all subjects, the average performance on individual subjects varied significantly.
+These variations could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during the scan.
+The lack of a task during our stimulus makes these variations difficult to interpret since attention and cognitive state are not well controlled.
+In future experiments, we plan to introduce a difficult task for the subjects to perform and we expect to see the average performance increase and the variation between subjects decrease.
+However, the fact that the classifiers could still perform at well above chance levels without a focused task increases our confidence in the generalizability of the results of machine learning classifiers applied to fMRI data.
+
 
 This could be a result of 6 characters being too much for the subject to consider individually.
 Interestingly, the confusion is not often between 5 and 6 characters, but rather between 1 or 2 and 6 characters.
