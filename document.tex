@@ -3,7 +3,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{graphicx}
-\usepackage{caption}
+\usepackage[small]{caption}
 \usepackage[subrefformat=parens]{subcaption}
 \usepackage{booktabs}
 \usepackage{multirow}
@@ -97,19 +97,19 @@ Additionally, even between character presentations with the same number of chara
 
 \begin{figure}
 \centering
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.8\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/stimulus-movement}
 \caption{}
 \label{fig:stimulus-movement}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/stimulus-characters}
 \caption{}
 \label{fig:stimulus-characters}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/stimulus-location}
 \caption{}
@@ -127,19 +127,12 @@ Note how the locations of the characters varies considerably between these two f
 Imaging was performed an GE Signa Excite HD scanner using the product 8-channel head coil.
 We collected whole-brain image volumes using a custom GRAPPA-accelerated EPI sequence \citep{newbold}. 
 Sequence parameters were g-factor = 2,  TE = 25 ms, TR = 2.5 s, and  2.5-mm cubic voxels across a 200 mm field-of-view. 
-The slice prescription included 40 slices oriented along the AC-PC axis (Fig. \ref{fig:rx}). 
+The slice prescription included 40 slices oriented along the AC-PC axis. 
 A high-order shim was  performed to improve field homogeneity.
 
 A set of T1-weighted structural images was obtained on the same prescription at the end of each machine-learning session using a three-dimensional (3D) RF-spoiled GRASS (SPGR) sequence. 
 These anatomical images were then used to align the functional data to a structural 3D reference volume, which was acquired for each subject in a separate session. 
 The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D, inversion-prepared, SPGR sequence (minimum TE and TR, TI = 450 ms, 15° flip angle, isometric voxel size of 0.7 mm, 2 excitations, ~28-minimum duration).
-
-\begin{figure}
-\centering
-\includegraphics[width=0.5\textwidth]{figures/rx}
-\caption{An example prescription from one of the subjects.}
-\label{fig:rx}
-\end{figure}
 
 \subsection{Preprocessing}
 Preprocessing of the fMRI data was performed using the mrVista software package (available for download at \url{http://vistalab.stanford.edu/}) as well as additional tools developed on the mrVista framework in our lab. 
