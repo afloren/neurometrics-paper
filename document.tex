@@ -44,18 +44,34 @@ keyword1 \sep keyword2
 \end{frontmatter}
 
 \section{Introduction}
-In traditional fMRI experiments, investigators seek to identify relationships between the measured BOLD signal and a carefully designed stimulus in order to tease out the purpose of particular brain regions.
-Recently, a new trend has developed where researchers are instead looking to predict what stimulus was presented given the measured BOLD signal \citep{Haxby2001,Mitchell2003,Haynes2006}.
-While successful, most of these experiments involve presenting static images from a limited number classes such as faces and places.
-Then, the researchers try to classify which image or class of images was presented during each frame by analyzing the measured BOLD signal using machine learning classifiers.
-While this has proven to be a successful approach, it does not mimic the dynamic environment in which brains have evolved.
-Our goal is to analyze brain function with dynamically changing stimuli that portray real world experiences.
-Further, we were interested to see what information could be gleaned from the BOLD signal beyond object categories.
-We used virtual world technology to specify the stimuli in detail.
-Given our long-term interest in PTSD, we created a virtual town intended to suggest the kinds of real-world settings currently encountered by our military forces.
-Virtual character representing friendly forces and hostile combatants were presented in a virtual town.
-We then trained linear SVMs (support vector machines) and feed forward neural networks to predict the number of characters in each stimulation.
-[Bruce: this is most of your introduction from the abstract but feel free to rewrite the whole thing. I'll add in the literature review once you are happy with the introduction.]
+When conducting research using fMRI to analyze how the brain responds to visual stimuli, static images have been  the dominant choice.
+While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which brains have evolved.
+It is resonable to presume that the brain responds in a more complex manner to realistic conditions where the visual stimuli is very dynamic.
+To capture these more complex aspects of brain activity requires a shift to dynamic stimuli.
+We have taken a step towards this by employing virtual worlds, similar to what is commonly used in video games, to generate our visual stimuli in real-time.
+This allows us to create as dynamic a stimuli as needed.
+In addition, virtual worlds have two advantages over videos of the real world: 1) the scene designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
+
+To analyze the brain response to our more complex stimuli, we felt that we needed to use a multi-voxel pattern recognition approach that identifies brain response patterns using all the voxels in a time-slice simultaneoulsy.
+This is in contrast to utlizing the General Linear Model which treats each voxel independently as a time-series of responses over an entire multi-minute scan.
+Multi-voxel pattern recognition \citep{Haxby2001,Mitchell2003,Haynes2006} involves the use of statistical machine learning algorithms, such as artificial neural networks and support vector machines.
+When applying these algorithms to fMRI, the stimulus typically is organized into categories or classifications (e.g. houses, faces, tools etc.).
+The machine learning algorihms use the fMRI data to synthsize models of the classes.
+These models map a single fMRI time-slice to a set of weights, one for each category.
+Each weight provides a prediction relative to the other weights that the time-slice corresponds to the brain responsing to stimuli from that category.
+Comparing the highest predicted class to the known class gives a means of assessing the accuracy of the models.
+Taking the next step of determining the importance of each voxel for selecting each class can be achieved by "inverting" the classifiers using a technique called "sensitivity analysis".
+This gives an anatomical "importance map" for each category that can be displayed on an inflated cortex.
+The net result is the familiar color-coded picture of a brain indicating the distribution of the brain response, but one that is computed very differently from GLM type techniques.
+
+Given our long-term interest in PTSD, we created a virtual town for our stimulus intended to mimic the kinds of real-world settings encountered by our military forces.
+Virtual characters representing friendly forces and hostile combatants were presented at a variey of locations thoughout the virtual town.
+An animation was synthezied in real-time in which the camera moves at eye level throughout the town, stopping at various locations where a varying number and mix of characters where present.
+Both the camera and the characters were animated at all times (no static imagery).
+Instead of limiting the analysis to coarse categoires, such as friends vs. foes, we extented the analysis to the number of characters at each location.
+This introduces to the experiment the identification of those parts of the brain involved in counting human-like characters.
+We synthesized both linear SVMs (support vector machines) and feed forward neural networks to predict the number of characters.
+The results were 3-4 times better than chance.
 
 \section{Methods}
 
