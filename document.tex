@@ -240,28 +240,11 @@ For the fifth method, termed session split, we used one entire session for train
 This method is similar to measures of between-session classifier accuracy used previously \citep{BetweenSessionAccuracy}.
 Table \ref{tab:training-split} summarizes these training and test set split methods and the mean temporal delay between the training and test data, which varies from $\sim$30 s (frame split) to several months (session split).
 
-\begin{figure}
-\centering
-\begin{subfigure}{0.4\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/mean-delay-graph}
-\caption{}
-\label{fig:mean-delay-graph}
-\end{subfigure}
-\begin{subfigure}{0.4\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/min-delay-graph}
-\caption{}
-\label{fig:min-delay-graph}
-\end{subfigure}
-\caption{The \subref{fig:mean-delay-graph} mean delay and \subref{fig:min-delay-graph} minimum mean delay between examples in the train and test set for four of the split methods. 
-The session split method is excluded because both the mean and minimum delay are much larger than the other splits and the delays vary significantly between subjects.}
-\end{figure}
-
 \begin{table}
 \centering
 \input{tables/temporal-delay.tex}
-\caption{Summary of training and test set split methods and the mean temporal delay between the training and test data.}
+\caption{The mean delay and minimum mean delay between examples in the train and test set for four of the split methods.
+The session split method is excluded because both the mean and minimum delay are much larger than the other splits and the delays vary significantly between subjects.}
 \label{tab:training-split}
 \end{table}
 
@@ -346,12 +329,22 @@ After alignment, we averaged the sensitivity maps together, projected the result
 Table \ref{tab:results} contains the cross-validated performance estimates of the linear SVM and feed forward neural networks for all 5 subjects and all 5 training and test split methods.
 There is some variation of classifier performance between subjects, but in all cases the performance is well above chance. 
 
-\begin{table*}
+\begin{figure*}
 \centering
-\input{tables/accuracy-table.tex}
-\caption{The performance estimates of the linear SVM and the feedforward neural network after cross-validation for all 5 subjects and all 5 training and test split methods. }
-\label{tab:results}
-\end{table*}
+\begin{subfigure}{0.8\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/svm-performance-graph}
+\caption{}
+\label{fig:svm-performance-graph}
+\end{subfigure}
+\begin{subfigure}{0.8\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/nn-performance-graph}
+\caption{}
+\label{fig:nn-performance-graph}
+\end{subfigure}
+\caption{The performance estimates of the feedforward neural network after cross-validation for all five subjects and four of the training and test split methods. }
+\end{figure*}
 
 It is evident that, as the average temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
 This relationship is plotted in figure \ref{fig:performance-verse-temporal-distance}.
@@ -399,25 +392,25 @@ This combined activation map is presented in figure \ref{fig:MNI-average-sensiti
 
 \begin{figure}
 \centering
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.36\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/lh-lateral-smax-average}
 \caption{}
 \label{fig:lh-lateral-smax-average}
 \end{subfigure}
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.36\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/lh-medial-smax-average}
 \caption{}
 \label{fig:lh-medial-smax-average}
 \end{subfigure}
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.36\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/rh-lateral-smax-average}
 \caption{}
 \label{fig:rh-lateral-smax-average}
 \end{subfigure}
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.36\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/rh-medial-smax-average}
 \caption{}
