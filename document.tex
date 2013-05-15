@@ -49,35 +49,37 @@ While this has proven to be a successful approach, it does not mimic the dynamic
 It is resonable to presume that the brain responds in a more complex manner to realistic conditions where the visual stimuli is very dynamic.
 To capture these more complex aspects of brain activity requires a shift to dynamic stimuli.
 We have taken a step towards this by employing virtual worlds, similar to what is commonly used in video games, to generate our visual stimuli in real-time.
-This allows us to create as dynamic a stimuli as needed.
-In addition, virtual worlds have two advantages over videos of the real world: 1) the scene designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
+This allows us to create as dynamic a stimulus as needed.
+In addition, virtual worlds have two advantages over videos of the real world: 1) the stimulus designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
 
-To analyze the brain response to our more complex stimuli, we felt that we needed to use a multi-voxel pattern recognition approach that identifies brain response patterns using all the voxels in a time-slice simultaneoulsy.
-This is in contrast to utlizing the General Linear Model which treats each voxel independently as a time-series of responses over an entire multi-minute scan.
+To analyze the brain response to our more complex stimuli, we felt that we needed to use a multi-voxel pattern recognition approach that identifies brain response patterns using all the voxels in a time-slice simultaneously.
+This is in contrast to utlizing the General Linear Model (GLM) which treats each voxel independently as a time-series of responses over an entire many-minute scan.
 Multi-voxel pattern recognition \citep{Haxby2001,Mitchell2003,Haynes2006} involves the use of statistical machine learning algorithms, such as artificial neural networks and support vector machines.
 When applying these algorithms to fMRI, the stimulus typically is organized into categories or classifications (e.g. houses, faces, tools etc.).
 The machine learning algorihms use the fMRI data to synthsize models of the classes.
 These models map a single fMRI time-slice to a set of weights, one for each category.
 Each weight provides a prediction relative to the other weights that the time-slice corresponds to the brain responsing to stimuli from that category.
 Comparing the highest predicted class to the known class gives a means of assessing the accuracy of the models.
-Taking the next step of determining the importance of each voxel for selecting each class can be achieved by "inverting" the classifiers using a technique called "sensitivity analysis".
+Taking the next step of determining the importance of each voxel for determining the predicted values can be achieved by "inverting" the classifiers using a technique called \emph{sensitivity analysis}.
 This gives an anatomical "importance map" for each category that can be displayed on an inflated cortex.
 The net result is the familiar color-coded picture of a brain indicating the distribution of the brain response, but one that is computed very differently from GLM type techniques.
 
-Given our long-term interest in PTSD, we created a virtual town for our stimulus intended to mimic the kinds of real-world settings encountered by our military forces.
-Virtual characters representing friendly forces and hostile combatants were presented at a variey of locations thoughout the virtual town.
+Given our long-term interest in PTSD, we created a virtual town for our stimulus intended to mirror the kinds of real-world settings encountered by our military forces.
+Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations thoughout the virtual town.
 An animation was synthezied in real-time in which the camera moves at eye level throughout the town, stopping at various locations where a varying number and mix of characters where present.
-Both the camera and the characters were animated at all times (no static imagery).
+Both the camera and the characters were animated at all times (no static imagery), but we deliberately choose not to include interactivity for this initial exploration of using virtual worlds.
+
 Instead of limiting the analysis to coarse categoires, such as friends vs. foes, we extented the analysis to the number of characters at each location.
-This introduces to the experiment the identification of those parts of the brain involved in counting human-like characters.
-We synthesized both linear SVMs (support vector machines) and feed forward neural networks to predict the number of characters.
-The results were 3-4 times better than chance.
+This introduces into the experiment the identification of those parts of the brain involved in counting human-like characters.
+We synthesized both support vector machines and artifical neural networks to classify each time-slice with respect to the number of characters.
+The results were typically 3-4 times better than chance, over a range of subjects and machine learning techniques.
+This is arguably good performance  given the absence of any tasks to focus the subjects attention over a 45 min. scanning session.
 
 \section{Methods}
 
 \subsection{Subjects}
-Five male adults, with normal or corrected to normal vision, participated in the experiments. 
-All subjects participated in three sessions, two sessions to collect machine-learning data, and one session to measure a high-resolution volume anatomy. 
+Five adult males, with normal or corrected to normal vision, participated in the experiments. 
+All subjects participated in two fMRI sessions with 36 minutes of sampling over approximately an hour time period. An addition short session was used to measure a high-resolution structural anatomy. 
 Informed consent was obtained from all subjects.
 
 \subsection{Stimulus}
@@ -122,6 +124,7 @@ Additionally, even between character presentations with the same number of chara
 Note how the locations of the characters varies considerably between these two frames.}
 \label{fig:stimulus}
 \end{figure}
+
 
 \subsection{MRI protocols}
 Imaging was performed an GE Signa Excite HD scanner using the product 8-channel head coil.
