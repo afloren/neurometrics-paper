@@ -7,6 +7,6 @@
 *.blg
 *.log
 *.out
-*.pdf
+/*.pdf
 *.spl
 *.synctex.gz

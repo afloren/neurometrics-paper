@@ -92,15 +92,16 @@ In each scanning session, 4 to 6 runs were collected.
 \caption{An example frame from the stimulus while the camera is moving through the virtual envronment.}
 \label{fig:stimulus-movement}
 \end{figure*}
+
 \begin{figure}
 \centering
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.45\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/stimulus-characters}
 \caption{}
 \label{fig:stimulus-characters}
 \end{subfigure}
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.45\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/stimulus-location}
 \caption{}
@@ -170,21 +171,21 @@ Figure \ref{fig:wiener-deconvolution} illustrates the effects of this deconvolut
 
 \begin{figure}
 \centering
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.45\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/hrf}
+\includegraphics[width=\textwidth]{figures/hrf-plot}
 \caption{}
 \label{fig:wiener-hrf}
 \end{subfigure}
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.45\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/wiener-square}
+\includegraphics[width=\textwidth]{figures/square-wiener-deconvolution-plot}
 \caption{}
 \label{fig:wiener-square}
 \end{subfigure}
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.45\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/wiener-voxel}
+\includegraphics[width=\textwidth]{figures/voxel-wiener-deconvolution-plot}
 \caption{}
 \label{fig:wiener-voxel}
 \end{subfigure}
@@ -343,7 +344,7 @@ There is some variation of classifier performance between subjects, but in all c
 \caption{}
 \label{fig:nn-performance-graph}
 \end{subfigure}
-\caption{The performance estimates of the feedforward neural network after cross-validation for all five subjects and four of the training and test split methods. }
+\caption{The performance estimates of the \subref{fig:svm-performance-graph} linear SVM and the \subref{fig:nn-performance-graph} feedforward neural network after cross-validation for all five subjects and four of the training and test split methods. }
 \end{figure*}
 
 It is evident that, as the average temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
@@ -351,7 +352,7 @@ This relationship is plotted in figure \ref{fig:performance-verse-temporal-dista
 
 \begin{figure}
 \centering
-\includegraphics[width=0.4\textwidth]{figures/performance-verse-temporal-distance}
+\includegraphics[width=0.45\textwidth]{figures/performance-verse-temporal-distance}
 \caption{The average performance of the SVM and neural network classifiers plotted against the average temporal delay between data in the training and test sets.}
 \label{fig:performance-verse-temporal-distance}
 \end{figure}
@@ -371,13 +372,13 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 
 \begin{figure}
 \centering
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.45\textwidth}
 \centering
 \input{tables/svm-confusion.tex}
 \caption{}
 \label{fig:average-confusion-svm}
 \end{subfigure}
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.45\textwidth}
 \centering
 \input{tables/nn-confusion.tex}
 \caption{}
@@ -433,7 +434,7 @@ Therefore, high sensitivity is sufficient but not necessary for the localization
 
 \begin{figure}
 \centering
-\includegraphics[width=0.4\textwidth]{figures/sensitivity-cutoff}
+\includegraphics[width=0.45\textwidth]{figures/sensitivity-cutoff}
 \caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network $F_1$ score when the inputs are pruned at a particular sensitivity value. }
 \label{fig:sensitivity-cutoff}
 \end{figure}
