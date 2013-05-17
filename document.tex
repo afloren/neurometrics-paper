@@ -241,6 +241,7 @@ It can then be evaluated against the test set in order to estimate its future pe
 We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into "folds" which are used to form multiple training and test sets.
 To maximize our temporal resolution, each frame (a point in the pre-processed time series) was treated as a separate distinct data value, rather than performing averaging across the 15 sec. block as has been done in previous work \citep{BlockAveraging}.
 Since each time-slice/frame is 2.5 sec., averaging would  replace 15sec/2.5sec. = 6 samples with a single averaged sample, reducing the temporal resolution by a factor of 6.
+We deemed this an unnecessary loss of resolution given that the machine learning algorithms give us a far more subtle result than averaging.
 
 Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}.
 This occurs when the random sampling that divides the data into the different sets yields training and test samples from the same block.
