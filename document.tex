@@ -1,9 +1,9 @@
-\documentclass[preprint,authoryear,12pt]{elsarticle}
+\documentclass[preprint,5p,authoryear]{elsarticle}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{graphicx}
-\usepackage{caption}
+\usepackage[small]{caption}
 \usepackage[subrefformat=parens]{subcaption}
 \usepackage{booktabs}
 \usepackage{multirow}
@@ -53,27 +53,25 @@ This allows us to create as dynamic a stimulus as needed.
 In addition, virtual worlds have two advantages over videos of the real world: 1) the stimulus designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
 
 To analyze the brain response to our more complex stimuli, we felt that we needed to use a multi-voxel pattern recognition approach that identifies brain response patterns using all the voxels in a time-slice simultaneously.
-This is in contrast to utlizing the General Linear Model (GLM) which treats each voxel independently as a time-series of responses over an entire many-minute scan.
-Multi-voxel pattern recognition \citep{Haxby2001,Mitchell2003,Haynes2006} involves the use of statistical machine learning algorithms, such as artificial neural networks and support vector machines.
-When applying these algorithms to fMRI, the stimulus typically is organized into categories or classifications (e.g. houses, faces, tools etc.).
-The machine learning algorihms use the fMRI data to synthsize models of the classes.
+This is in contrast to utlizing the General Linear Model (GLM) which treats each voxel independently as a time-series of responses over an extended period of time.
+Processing the entire brain over a short interval of time should allow for capturing the complex and anatomically distributed interplay of neural processing while permitting the stimulus to continually vary throughout the scan.
+
+Multi-voxel pattern recognition applied to fMRI \citep{Haxby2001,Mitchell2003,Haynes2006} involves the use of statistical machine learning algorithms, such as artificial neural networks and support vector machines.
+When applying these algorithms, the stimulus typically is organized into multiple categories or classifications (e.g. houses, faces, tools etc.).
+The machine learning algorihms use the fMRI data to synthsize a model of the classes.
 These models map a single fMRI time-slice to a set of weights, one for each category.
-Each weight provides a prediction relative to the other weights that the time-slice corresponds to the brain responsing to stimuli from that category.
-Comparing the highest predicted class to the known class gives a means of assessing the accuracy of the models.
-Taking the next step of determining the importance of each voxel for determining the predicted values can be achieved by "inverting" the classifiers using a technique called \emph{sensitivity analysis}.
-This gives an anatomical "importance map" for each category that can be displayed on an inflated cortex.
-The net result is the familiar color-coded picture of a brain indicating the distribution of the brain response, but one that is computed very differently from GLM type techniques.
+Each weight provides a prediction relative to the other weights that the time-slice corresponds to the brain response to stimuli from that category.
+A simple means of assessing the accuracy of the models is to compare the highest predicted class to the correct class for the stimuli being presented at that moment in time.
 
-Given our long-term interest in PTSD, we created a virtual town for our stimulus intended to mirror the kinds of real-world settings encountered by our military forces.
-Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations thoughout the virtual town.
-An animation was synthezied in real-time in which the camera moves at eye level throughout the town, stopping at various locations where a varying number and mix of characters where present.
-Both the camera and the characters were animated at all times (no static imagery), but we deliberately choose not to include interactivity for this initial exploration of using virtual worlds.
-
-Instead of limiting the analysis to coarse categoires, such as friends vs. foes, we extented the analysis to the number of characters at each location.
-This introduces into the experiment the identification of those parts of the brain involved in counting human-like characters.
-We synthesized both support vector machines and artifical neural networks to classify each time-slice with respect to the number of characters.
+Our experiment was structured to identify those parts of the brain involved in counting human-like characters animated in a dynamic virtual world.
+We synthesized both artifical neural networks and support vector machines to classify each time-slice with respect to the number of characters.
+We also tested how sensitive the classifiers were to the separation in time between the data used to synthesize the classifier and the data used to test performance of the classifier, which gave an estimate of how temporally invariant the classifers were.
 The results were typically 3-4 times better than chance, over a range of subjects and machine learning techniques.
-This is arguably good performance  given the absence of any tasks to focus the subjects attention over a 45 min. scanning session.
+This is arguably good performance given the complexity of the stimulus.
+
+The final step of determining the importance of each voxel for classification was achieved by "inverting" the classifiers using a technique called \emph{sensitivity analysis}.
+This gives an anatomical "importance map" that can be displayed on an inflated cortex.
+The net result is the familiar color-coded picture of a brain indicating the distribution of the brain activity, but one that is computed very differently from GLM type techniques.
 
 \section{Methods}
 
@@ -83,66 +81,63 @@ All subjects participated in two fMRI sessions with 36 minutes of sampling over 
 Informed consent was obtained from all subjects.
 
 \subsection{Stimulus}
-We developed a virtual reality environment similar to many popular first person video games using the Unreal Engine 2 SDK \citep{UnrealEngine2}.
-The stimuli is dynamically rendered and presented from the point of view of a camera moving through this virtual environment using a block design. 
-First, the viewpoint moves for 15 seconds through the virtual environment with no characters present (Fig. \ref{fig:stimulus-movement}), then pauses for 15 seconds during which a group of characters fades into view (Fig. \ref{fig:stimulus-characters}). 
-Each run consists of 12 alternations between moving through the virtual environment and character presentations. 
-In each scanning session, 4 to 6 runs were collected.
+\begin{figure*}
+\centering
+\includegraphics[width=0.7\textwidth]{figures/stimulus-movement}
+\caption{An example frame from the stimulus where the camera is travel through the virtual envronment with no charcters presented.}
+\label{fig:stimulus-movement}
+\end{figure*}
+Given our long-term interest in PTSD, we created a virtual town intended to mirror the kinds of real-world settings encountered by our military forces (see Fig. 1).
+The graphics software we used was the Unreal Development Kit, a free to use game engine by Epic Games  \citep{UnrealEngine2}.
+Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations thoughout the virtual town.
+An animation was synthezied in real-time in which the camera moves at eye level throughout the town, stopping at locations where a varying number of characters, either friends or foes, where situated (see Fig. 2a and 2b).
+Both the camera and the characters were animated at all times (no static imagery), but we deliberately choose not to include interactivity for this initial testing of using virtual worlds.
 
-The camera is constantly moving (even during the character presentation periods the camera slowly pans and rotates) and the characters are animated so that the presented scene is never static.
-The number and location of characters varies with each presentation in a quasi-random fashion.
-The number of characters presented varies from 1 to 6.
-A presentation with a particular number of characters appears twice in each run, however the order of these presentations was randomized.
-It should be noted that this random ordering was generated once and held constant between subjects.
-Additionally, even between character presentations with the same number of characters, the locations of those characters varies considerably; compare figures \ref{fig:stimulus-characters} and \ref{fig:stimulus-location}.
-[I need another frame from the stimulus to illustrate this point. These figures are all from the original report but I'd like to generate new ones if I can get access to a machine with the stimulus.]
-
+In keeping with common practice, we used a block design, but one that is different in approach than is usually used. 
+Rather than having the intervals between presentations of each configuration of characters filled with a blank screen or some comparable non-meaningful image, we used traveling through the town without characters instead.
+This avoids abruptly interrupting the cognitive context which we believe would interfer with the goal of testing realistic stimuli.
+The combination of traveling between locations and presenting a configuration of characters was 30 seconds, divided equally between the two phases.
+Thus, the camera moves for 15 seconds at a fairly rapid rate through the virtual environment with no characters present, then slows and hovers for 15 seconds around a group of animated characters while the camera contines to pan and rotate.
+Thus, the combination of continual camera motion and character motion avoids any static imagery.
 \begin{figure}
 \centering
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/stimulus-movement}
-\caption{}
-\label{fig:stimulus-movement}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/stimulus-characters}
 \caption{}
 \label{fig:stimulus-characters}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/stimulus-location}
 \caption{}
 \label{fig:stimulus-location}
 \end{subfigure}
 \caption{
-\subref{fig:stimulus-movement} An example frame from the stimulus while the camera is moving through the virtual envronment. 
 \subref{fig:stimulus-characters} An example frame from the stimulus while characters are being presented.
 \subref{fig:stimulus-location} Another example frame from the stimulus while characters are being presented.
 Note how the locations of the characters varies considerably between these two frames.}
 \label{fig:stimulus}
 \end{figure}
 
+A single continuous stimulus presentation and fMRI data acquitition, referrred to as a "run", consisted of 12 alternations between moving through the virtual environment and character presentations, for a total of 12 * 30 secs. = 6 minutes. 
+In each scanning session, 4 to 6 runs were collected.
+The number of characters presented varied from 1 to 6.
+A presentation with a particular number of characters appears twice in each run; however, the order of these presentations was randomized.
+This random ordering was generated once and repeated for each subject.
+There were 4 locations in the town used for presenting characters, and a single run made 3 loops through the town.
+The order of presentation was chosed such that configurations with the same number of characters vairied in location within the town; compare figures \ref{fig:stimulus-characters} and \ref{fig:stimulus-location}.
 
 \subsection{MRI protocols}
 Imaging was performed an GE Signa Excite HD scanner using the product 8-channel head coil.
 We collected whole-brain image volumes using a custom GRAPPA-accelerated EPI sequence \citep{newbold}. 
 Sequence parameters were g-factor = 2,  TE = 25 ms, TR = 2.5 s, and  2.5-mm cubic voxels across a 200 mm field-of-view. 
-The slice prescription included 40 slices oriented along the AC-PC axis (Fig. \ref{fig:rx}). 
+The slice prescription included 40 slices oriented along the AC-PC axis. 
 A high-order shim was  performed to improve field homogeneity.
 
 A set of T1-weighted structural images was obtained on the same prescription at the end of each machine-learning session using a three-dimensional (3D) RF-spoiled GRASS (SPGR) sequence. 
 These anatomical images were then used to align the functional data to a structural 3D reference volume, which was acquired for each subject in a separate session. 
 The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D, inversion-prepared, SPGR sequence (minimum TE and TR, TI = 450 ms, 15° flip angle, isometric voxel size of 0.7 mm, 2 excitations, ~28-minimum duration).
-
-\begin{figure}
-\centering
-\includegraphics[width=0.5\textwidth]{figures/rx}
-\caption{An example prescription from one of the subjects.}
-\label{fig:rx}
-\end{figure}
 
 \subsection{Preprocessing}
 Preprocessing of the fMRI data was performed using the mrVista software package (available for download at \url{http://vistalab.stanford.edu/}) as well as additional tools developed on the mrVista framework in our lab. 
@@ -211,7 +206,14 @@ The same time series after Wiener-filter deconvolution in blue.}
 The high-resolution reference anatomies were segmented using the FreeSurfer analysis package \citep{FreeSurfer} to create approximate masks of the gray matter in each subject, as well as a surface model useful for visualization of the results.
 
 \subsection{Dimensionality reduction}
-We select a relevant subset of the volume using a harmonic power analysis based on the block design of our stimulus. 
+Each voxel can be thought of as corresponding to a separate dimension of a very high dimenional space.
+In our case, the number of voxels/dimensions was typically 80 x 80 x 48 = 307,200.
+An important first step performed for most all machine learning algorithms is to reduce the total amount of data fed into the algorithms.
+This is called "dimensionality reduction".
+This not only speeds up the algorithm, but if done carefully, can improve the performance of the resulting models.
+
+In our case, we decided to select voxels that correlated the strongest to the 15 secound duty cycle of our block design.
+To accomplish this we employed a harmonic power analysis technique. 
 One can show that the response of any linear system to a blocked alternation at frequency f will contain power only at f and its harmonics. 
 Under a linear response assumption, we can therefore form an unbiased estimate of the response power by summing the power at these frequencies. 
 Let $y(t)$ be the recorded discrete time series at some voxel.
@@ -226,21 +228,27 @@ Using $P_h$, we then selected a particular number N (range 1000-3000) voxels wit
 
 This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
 Therefore, we will only be presenting classifier accuracy estimates for character count, and not for the presence or absence of characters to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{CrossContamination}.
+Indeed, when we built classifiers, as a sanity check, to distinguish between with and without characters, the performance was consistently in the upper 90 percentile.
 
 \subsection{Classification}
 Using the time series from the voxels selected by the harmonic power analysis, we trained a linear SVM and a feed forward neural network.
-Generally, the performance of machine learning algorithms is estimated by splitting the available data into train and test sets and testing the performance of the algorithm on the test set after training on only the train set.
-The algorithm's performance on the test set is an estimate of the classifier's performance on new data.
-Certain iterative machine learning algorithms, such as neural networks, further subdivide the data into train, validate, and test sets.
-The algorithm is trained on the training set and after each iteration is tested against the validation set.
-When the performance on validation set stops improving, the algorithm stops iterating and is tested against the test set in order to estimate its performance.
-We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into folds which are used to form multiple train and test sets.
+Generally, the performance of machine learning algorithms is estimated by splitting the available data into a training set and a test set and then evaluating the performance of the algorithm on the test set after "training" the model on only the training set.
+The idea is that the algorithm's performance on the test set is an estimate of the classifier's performance on new data gathered at a different time.
+Certain iterative machine learning algorithms, such as neural networks, further subdivide the data into training, validation, and test sets.
+The algorithm is trained on the training set and after each iteration is evaluated with the validation set.
+When the performance on validation set stops improving, the algorithm stops iterating.
+It can then be evaluated against the test set in order to estimate its future performance.
+We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into "folds" which are used to form multiple training and test sets.
+To maximize our temporal resolution, each frame (a point in the pre-processed time series) was treated as a separate distinct data value, rather than performing averaging across the 15 sec. block as has been done in previous work \citep{BlockAveraging}.
+Since each time-slice/frame is 2.5 sec., averaging would  replace 15sec/2.5sec. = 6 samples with a single averaged sample, reducing the temporal resolution by a factor of 6.
 
-To maximize our temporal resolution, each frame (a point in the pre-processed time series) was treated as a separate data value, rather than of averaged across the block as has been done in previous work \citep{BlockAveraging}.
-However, previous studies have discussed issues with optimistic performance estimates due to temporal correlations violating independence assumptions between training and test set examples \citep{Pereira2009}.
-We were interested in more closely examining the relationship between performance estimates and this temporal correlation.
-To accomplish this, we estimated classifier performance using 5 different methods for splitting the training and test examples in order to vary the average temporal delay between frames in the training and test sets. 
+Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}.
+This occurs when the random sampling that divides the data into the different sets yields training and test samples from the same block.
+The belief is that unidentified confounds of duration >= block time introduce artifical positive correlations.
+This raises a more general question: what is the relationship between performance estimates and this temporal correlation?
+To explore this, we estimated classifier performance using 5 different methods for splitting the training and test examples in order to vary the average temporal distance between frames in the two sets. 
 The first four methods deal only with frames from a particular session.
+
 In the first method, which we will refer to as the frame split, frames were independently drawn into the training and test sets. 
 Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.
 In the second method, which we will refer to as the block split, sets of frames corresponding to the stimulus blocks were independently drawn into the training and test sets.
@@ -253,13 +261,13 @@ Table \ref{tab:training-split} summarizes these training and test set split meth
 
 \begin{figure}
 \centering
-\begin{subfigure}{0.6\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/mean-delay-graph}
 \caption{}
 \label{fig:mean-delay-graph}
 \end{subfigure}
-\begin{subfigure}{0.6\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/min-delay-graph}
 \caption{}
@@ -357,19 +365,19 @@ After alignment, we averaged the sensitivity maps together, projected the result
 Table \ref{tab:results} contains the cross-validated performance estimates of the linear SVM and feed forward neural networks for all 5 subjects and all 5 training and test split methods.
 There is some variation of classifier performance between subjects, but in all cases the performance is well above chance. 
 
-\begin{table}
+\begin{table*}
 \centering
 \input{tables/accuracy-table.tex}
 \caption{The performance estimates of the linear SVM and the feedforward neural network after cross-validation for all 5 subjects and all 5 training and test split methods. }
 \label{tab:results}
-\end{table}
+\end{table*}
 
 It is evident that, as the average temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
 This relationship is plotted in figure \ref{fig:performance-verse-temporal-distance}.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.7\textwidth]{figures/performance-verse-temporal-distance}
+\includegraphics[width=0.4\textwidth]{figures/performance-verse-temporal-distance}
 \caption{The average performance of the SVM and neural network classifiers plotted against the average temporal delay between data in the training and test sets.}
 \label{fig:performance-verse-temporal-distance}
 \end{figure}
@@ -389,13 +397,13 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 
 \begin{figure}
 \centering
-\begin{subfigure}{\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \input{tables/svm-confusion.tex}
 \caption{}
 \label{fig:average-confusion-svm}
 \end{subfigure}
-\begin{subfigure}{\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \input{tables/nn-confusion.tex}
 \caption{}
@@ -451,7 +459,7 @@ Therefore, high sensitivity is sufficient but not necessary for the localization
 
 \begin{figure}
 \centering
-\includegraphics[width=0.7\textwidth]{figures/sensitivity-cutoff}
+\includegraphics[width=0.4\textwidth]{figures/sensitivity-cutoff}
 \caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network $F_1$ score when the inputs are pruned at a particular sensitivity value. }
 \label{fig:sensitivity-cutoff}
 \end{figure}
