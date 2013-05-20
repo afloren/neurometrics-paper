@@ -207,7 +207,7 @@ The high-resolution reference anatomies were segmented using the FreeSurfer anal
 
 \subsection{Dimensionality reduction}
 Each voxel can be thought of as corresponding to a separate dimension of a very high dimenional space.
-In our case, the number of voxels/dimensions was typically 80 x 80 x 48 = 307,200.
+In our case, the number of voxels/dimensions was typically 80 x 80 x 40 = 256,000.
 An important first step performed for most all machine learning algorithms is to reduce the total amount of data fed into the algorithms.
 This is called "dimensionality reduction".
 This not only speeds up the algorithm, but if done carefully, can improve the performance of the resulting models.
@@ -232,33 +232,34 @@ Indeed, when we built classifiers, as a sanity check, to distinguish between wit
 
 \subsection{Classification}
 Using the time series from the voxels selected by the harmonic power analysis, we trained a linear SVM and a feed forward neural network.
-Generally, the performance of machine learning algorithms is estimated by splitting the available data into a training set and a test set and then evaluating the performance of the algorithm on the test set after "training" the model on only the training set.
+Generally, the performance of machine learning algorithms is estimated by splitting the available data into a training set and a test set and then evaluating the performance of the algorithm on the test set after "training" the model using only the training set.
 The idea is that the algorithm's performance on the test set is an estimate of the classifier's performance on new data gathered at a different time.
 Certain iterative machine learning algorithms, such as neural networks, further subdivide the data into training, validation, and test sets.
 The algorithm is trained on the training set and after each iteration is evaluated with the validation set.
 When the performance on validation set stops improving, the algorithm stops iterating.
 It can then be evaluated against the test set in order to estimate its future performance.
+
 We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into "folds" which are used to form multiple training and test sets.
-To maximize our temporal resolution, each frame (a point in the pre-processed time series) was treated as a separate distinct data value, rather than performing averaging across the 15 sec. block as has been done in previous work \citep{BlockAveraging}.
-Since each time-slice/frame is 2.5 sec., averaging would  replace 15sec/2.5sec. = 6 samples with a single averaged sample, reducing the temporal resolution by a factor of 6.
+To maximize our temporal resolution, each "frame" (time-slice) was treated as a separate distinct data value, rather than performing averaging across the 15 sec. block as has been done in previous work \citep{BlockAveraging}.
+Since each frame is 2.5 sec., averaging would have replaced 15sec/2.5sec. = 6 samples with a single averaged sample, reducing the temporal resolution by a factor of 6.
 We deemed this an unnecessary loss of resolution given that the machine learning algorithms give us a far more subtle result than averaging.
 
 Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}.
-This occurs when the random sampling that divides the data into the different sets yields training and test samples from the same block.
+This occurs when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec.) block.
 The belief is that unidentified confounds of duration >= block time introduce artifical positive correlations.
 This raises a more general question: what is the relationship between performance estimates and this temporal correlation?
 To explore this, we estimated classifier performance using 5 different methods for splitting the training and test examples in order to vary the average temporal distance between frames in the two sets. 
 The first four methods deal only with frames from a particular session.
 
-In the first method, which we will refer to as the frame split, frames were independently drawn into the training and test sets. 
+In the first method, which we will refer to as  "frame split", frames were independently drawn into the training and test sets. 
 Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.
-In the second method, which we will refer to as the block split, sets of frames corresponding to the stimulus blocks were independently drawn into the training and test sets.
-Our stimulus design enables us to break runs into two sets that each contain a complete set of character-number presentations. 
-Accordingly, in our third method, which we will refer to as the half-run split, sets of frames were independently drawn from these half-runs. 
-Similarly, in our fourth method, termed run split, entire runs of frames were independently drawn. 
-For the fifth method, termed session split, we used one entire session for training and a second session for test.
-This method is similar to measures of between-session classifier accuracy used previously \citep{BetweenSessionAccuracy}.
-Table \ref{tab:training-split} summarizes these training and test set split methods and the mean temporal delay between the training and test data, which varies from $\sim$30 s (frame split) to several months (session split).
+In the second method, which we will refer to as" block split", sets of frames corresponding to the 15 sec. blocks were independently drawn into the training and test sets.
+In our third method, we exploit the fact that each 6 min run cycles through all combinations twice, but is a different order the second time.
+Accordingly, sets of frames were independently drawn from these half-runs, refered to as "half-run split". 
+In our fourth method, termed "run split", entire 6 min. runs of frames were independently drawn. 
+Any finally, for the fifth method, termed "session split", we used one entire session for training and a second session for test.
+This method is similar to measures of between-session classifier accuracy used in \citep{BetweenSessionAccuracy}.
+Table \ref{tab:training-split} summarizes these training and test set split methods and the mean temporal distance between the training and test data, which varies from $\sim$30 s (frame split) to several months (session split).
 
 \begin{figure}
 \centering
@@ -291,12 +292,12 @@ The classifier's performance is then estimated as the average of its performance
 For the half-run, run, and session splits, only 8, 4, and 2 unique splits are possible, respectively, due to the much smaller number of runs and sessions per subject. 
 Therefore, only 8-fold, 4-fold, and 2-fold cross-validation were employed for estimating classifier performance on these splits.
 
-We define the classifier's overall performance or accuracy to be the probability that it will correctly classify a previously unseen data point or example.
+We define the classifier's overall performance or accuracy to be the probability that it will correctly classify a previously unseen time-slice.
 As such, this measure of performance can only be estimated by dividing the number of correctly classified examples in the test set by the total number of examples in the test set.
 We can also discuss classifier performance with respect to a single class.
 Single class performance is traditionally measured along two axes: \emph{precision} and \emph{recall}.
 \emph{Precision} with respect to class $c$ is the probability that a previously unseen data point was classified correctly given that it was classified as $c$.
-\emph{Recall} with respect to class $c$ is the probability that a previously unseen data point was classified correctly given that it is actually member of $c$.
+\emph{Recall} with respect to class $c$ is the probability that a previously unseen data point was classified correctly given that it is actually a member of $c$.
 Again, these measures can only be estimated from the test set.
 $\mbox{\emph{precision}} = tp / (tp + fp)$, where $tp$ is the number of true positives and $fp$ is the number of false positives.
 $\mbox{\emph{recall}} = tp / (tp + fn)$, where $fn$ is the number of false negatives.
@@ -317,7 +318,7 @@ One existing technique is to train machine learning classifiers on small localiz
 While this technique is effective for simple highly localized functions, the results are less clear when the function is sparsely distributed over the brain.
 No one region may contain enough information for accurate predictions.
 
-To overcome this limitation, we have trained our classifiers on large regions of the brain and used sensitivity analysis to attempt to tease out the sparsely distributed voxels that are relevant for task discrimination.
+To overcome this limitation, we have trained our classifiers on large regions of the brain and used sensitivity analysis in an attempt to tease out the sparsely distributed voxels that are the most important for identifying the classes.
 Specifically, we calculate the sensitivity, or magnitude of change, of the output of the classifier with respect to a change in each voxel.
 In feed forward neural networks, this problem has been well explored \citep{Zurada1994}.
 Let $\mathbf{o}$ be the vector of outputs and $\mathbf{x}$ be the vector of inputs.
@@ -325,7 +326,7 @@ Then the sensitivity of output $k$ to input $i$ is defined by:
 \begin{equation}
 S_{ki} = \frac{\delta o_{k}}{\delta x_{i}}
 \end{equation}
-Or simply, the partial derivative of the output with respect to the input.
+which is simply the partial derivative of the output with respect to the input.
 If we let $\mathbf{w}$ be the weight matrix from the hidden layer to the output layer and $\mathbf{v}$ be the weight matrix from the input layer to the hidden layer then the partial derivative can be expressed as follows:
 \begin{equation}
 \frac{\delta o_{k}}{\delta x_{i}} = o'_{k} \sum^{J}_{j=1}{w_{kj}y'_{j}v_{ji}}
