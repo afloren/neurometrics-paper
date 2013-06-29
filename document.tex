@@ -20,7 +20,7 @@
 
 \begin{frontmatter}
 
-\title{Identifying Virtual World Induced Brain States using fMRI and Machine Learning}
+\title{Identifying virtual-world stimulus information from fMRI data}
 
 \author[UT]{Andrew Floren\corref{cor}}
 \ead{afloren@utexas.edu}
@@ -45,39 +45,38 @@ keyword1 \sep keyword2
 
 \section{Introduction}
 When conducting research using fMRI to analyze how the brain responds to visual stimuli, static images have been  the dominant choice.
-While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which brains have evolved.
-It is resonable to presume that the brain responds in a more complex manner to realistic conditions where the visual stimuli is very dynamic.
-To capture these more complex aspects of brain activity requires a shift to dynamic stimuli.
-We have taken a step towards this by employing virtual worlds, similar to what is commonly used in video games, to generate our visual stimuli in real-time.
-This allows us to create as dynamic a stimulus as needed.
-In addition, virtual worlds have two advantages over videos of the real world: 1) the stimulus designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
+Such work has generally attempted to focus on a single aspect of the visual world, such as contrast, color, or object class, and create stimuli that isolate that aspect.
+While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
+It is likely that these richer, more dynamic stimuli will evoke a more complex network of brain responses.
+Here, we test the feasibility of extracting complex information from more natural stimuli by employing virtual worlds, similar to what is commonly used in video games, to generate our  stimuli.
+Virtual worlds have two advantages over videos of the real world: 1) the stimulus designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
 
-To analyze the brain response to our more complex stimuli, we felt that we needed to use a multi-voxel pattern recognition approach that identifies brain response patterns using all the voxels in a time-slice simultaneously.
-This is in contrast to utlizing the General Linear Model (GLM) which treats each voxel independently as a time-series of responses over an extended period of time.
-Processing the entire brain over a short interval of time should allow for capturing the complex and anatomically distributed interplay of neural processing while permitting the stimulus to continually vary throughout the scan.
+To analyze the brain response to our more complex stimuli, we employ two multi-voxel pattern recognition approaches that identify brain response patterns using a spatially distributed subset of stimulus-responsive voxels at each time point.
+This is in contrast to utlizing a General Linear Model (GLM), which treats each voxel independently as a time-series of responses over an extended period of time.
+Processing the entire brain over the course of a scanning session should allow for capturing the complex and anatomically distributed interplay of neural processing while permitting the stimulus to continually vary throughout the scan.
 
-Multi-voxel pattern recognition applied to fMRI \citep{Haxby2001,Mitchell2003,Haynes2006} involves the use of statistical machine learning algorithms, such as artificial neural networks and support vector machines.
+Multi-voxel pattern recognition applied to fMRI involves the use of statistical machine learning algorithms, such as artificial neural networks and support vector machines\citep{Haxby2001,Mitchell2003,Haynes2006}.
 When applying these algorithms, the stimulus typically is organized into multiple categories or classifications (e.g. houses, faces, tools etc.).
-The machine learning algorihms use the fMRI data to synthsize a model of the classes.
-These models map a single fMRI time-slice to a set of weights, one for each category.
-Each weight provides a prediction relative to the other weights that the time-slice corresponds to the brain response to stimuli from that category.
-A simple means of assessing the accuracy of the models is to compare the highest predicted class to the correct class for the stimuli being presented at that moment in time.
+The machine learning algorihms use the fMRI data to synthesize a model of the classes.
+These models map a small set of fMRI time points to a set of weights, one for each category.
+Each set of weights provides a prediction that the time sample corresponds to the brain response to stimuli from that category.
+A simple means of assessing the accuracy of the models is to compare the highest predicted class to the correct class for the stimuli being presented during that period of time.
 
-Our experiment was structured to identify those parts of the brain involved in counting human-like characters animated in a dynamic virtual world.
-We synthesized both artifical neural networks and support vector machines to classify each time-slice with respect to the number of characters.
-We also tested how sensitive the classifiers were to the separation in time between the data used to synthesize the classifier and the data used to test performance of the classifier, which gave an estimate of how temporally invariant the classifers were.
-The results were typically 3-4 times better than chance, over a range of subjects and machine learning techniques.
-This is arguably good performance given the complexity of the stimulus.
+\emph{The preceeding paragraph needs some expansion. Give a brief summary of each of the cited experiments and their results. Expand on the accuracy methods a  bit and give references.}
 
-The final step of determining the importance of each voxel for classification was achieved by "inverting" the classifiers using a technique called \emph{sensitivity analysis}.
-This gives an anatomical "importance map" that can be displayed on an inflated cortex.
-The net result is the familiar color-coded picture of a brain indicating the distribution of the brain activity, but one that is computed very differently from GLM type techniques.
+Our experiment was structured to identify those parts of the brain that encode the number of human-like characters realistically presented in a dynamic virtual world.
+Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{countingstuff}, we used a passive-viewing stimulus paradigm and utilized machine-learning methods rather than a GLM analysis.
+We synthesized both artifical neural networks and support vector machines to classify each time point with respect to the number of characters.
+We also tested the temporal invariance of the classifers by examining their performance as a function of the separation in time between the data used to synthesize the classifier and the data used to test performance of the classifier.
+Classification accuracy was typically 3-4 times better than chance, over a range of subjects and machine-learning techniques.
+To permit anatomical evaluation of the results, the spatial distribution of classification-relevant brain activity was then obtained by "inverting" the classifiers using a sensitivity analysis,
+yielding a map that is computed very differently from GLM  techniques.
 
 \section{Methods}
 
 \subsection{Subjects}
-Five adult males, with normal or corrected to normal vision, participated in the experiments. 
-All subjects participated in two fMRI sessions with 36 minutes of sampling over approximately an hour time period. An addition short session was used to measure a high-resolution structural anatomy. 
+Five adult males, with normal or corrected-to-normal vision, participated in the experiments. 
+All subjects participated in two ~1-hour-duration MRI sessions with 36 minutes of fMRI acquisiton. An additional session was performed to measure a high-resolution structural anatomy. 
 Informed consent was obtained from all subjects.
 
 \subsection{Stimulus}
@@ -88,17 +87,15 @@ Informed consent was obtained from all subjects.
 \label{fig:stimulus-movement}
 \end{figure*}
 Given our long-term interest in PTSD, we created a virtual town intended to mirror the kinds of real-world settings encountered by our military forces (see Fig. 1).
-The graphics software we used was the Unreal Development Kit, a free to use game engine by Epic Games  \citep{UnrealEngine2}.
+The graphics software we used was the Unreal Development Kit, a free-to-use game engine by Epic Games  \citep{UnrealEngine2}.
 Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations thoughout the virtual town.
-An animation was synthezied in real-time in which the camera moves at eye level throughout the town, stopping at locations where a varying number of characters, either friends or foes, where situated (see Fig. 2a and 2b).
-Both the camera and the characters were animated at all times (no static imagery), but we deliberately choose not to include interactivity for this initial testing of using virtual worlds.
+An animation was synthezied in real-time, during which the camera moves at eye level throughout the town, stopping at locations where a varying number of characters, either friends or foes, where situated (see Fig. 2a and 2b).
+Both the camera and the characters were animated at all times (no static imagery), but we choose not to include subject interaction (passive viewing) for this first experiment using virtual worlds.
 
-In keeping with common practice, we used a block design, but one that is different in approach than is usually used. 
-Rather than having the intervals between presentations of each configuration of characters filled with a blank screen or some comparable non-meaningful image, we used traveling through the town without characters instead.
-This avoids abruptly interrupting the cognitive context which we believe would interfer with the goal of testing realistic stimuli.
-The combination of traveling between locations and presenting a configuration of characters was 30 seconds, divided equally between the two phases.
+Because evaluation of entire fMRI volume datasets is compuationally intensive, we used a block design to enable selection of all voxels responsive to the character presentation.
+To provide a realistic scenario, blocks consisted of alternations of traveling through an unpopulated town for 15 sec, followed by 15-sec periods of character presentations.
 Thus, the camera moves for 15 seconds at a fairly rapid rate through the virtual environment with no characters present, then slows and hovers for 15 seconds around a group of animated characters while the camera contines to pan and rotate.
-Thus, the combination of continual camera motion and character motion avoids any static imagery.
+
 \begin{figure}
 \centering
 \begin{subfigure}{0.4\textwidth}
@@ -120,13 +117,14 @@ Note how the locations of the characters varies considerably between these two f
 \label{fig:stimulus}
 \end{figure}
 
-A single continuous stimulus presentation and fMRI data acquitition, referrred to as a "run", consisted of 12 alternations between moving through the virtual environment and character presentations, for a total of 12 * 30 secs. = 6 minutes. 
-In each scanning session, 4 to 6 runs were collected.
-The number of characters presented varied from 1 to 6.
+Scanning sessions included 5--6 six-min-duration runs,
+each containing 12 alternations between moving through the virtual environment and character presentations. 
+The number of characters presented in each block varied from 1 to 6.
 A presentation with a particular number of characters appears twice in each run; however, the order of these presentations was randomized.
 This random ordering was generated once and repeated for each subject.
 There were 4 locations in the town used for presenting characters, and a single run made 3 loops through the town.
-The order of presentation was chosed such that configurations with the same number of characters vairied in location within the town; compare figures \ref{fig:stimulus-characters} and \ref{fig:stimulus-location}.
+The order of presentation was chosed such that configurations with the same number of characters varied in location within the town; compare figures \ref{fig:stimulus-characters} and \ref{fig:stimulus-location}.
+A single type of character (friends or foes) was presented in each run. Character type was randomly shuffled between runs.
 
 \subsection{MRI protocols}
 Imaging was performed an GE Signa Excite HD scanner using the product 8-channel head coil.
@@ -135,9 +133,9 @@ Sequence parameters were g-factor = 2,  TE = 25 ms, TR = 2.5 s, and  2.5-mm cubi
 The slice prescription included 40 slices oriented along the AC-PC axis. 
 A high-order shim was  performed to improve field homogeneity.
 
-A set of T1-weighted structural images was obtained on the same prescription at the end of each machine-learning session using a three-dimensional (3D) RF-spoiled GRASS (SPGR) sequence. 
+A set of T1-weighted structural images was obtained on the same prescription at the end of each machine-learning session using a three-dimensional (3D) fast RF-spoiled GRASS (fSPGR) sequence. 
 These anatomical images were then used to align the functional data to a structural 3D reference volume, which was acquired for each subject in a separate session. 
-The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D, inversion-prepared, SPGR sequence (minimum TE and TR, TI = 450 ms, 15° flip angle, isometric voxel size of 0.7 mm, 2 excitations, ~28-minimum duration).
+The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D, inversion-prepared, fSPGR sequence (minimum TE and TR, TI = 450 ms, 15° flip angle, isometric voxel size of 0.7 mm, 2 excitations, ~28-minimum duration).
 
 \subsection{Preprocessing}
 Preprocessing of the fMRI data was performed using the mrVista software package (available for download at \url{http://vistalab.stanford.edu/}) as well as additional tools developed on the mrVista framework in our lab. 
@@ -167,7 +165,7 @@ g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \mbox{SNR
 \end{equation}
 Where $\mbox{SNR}(f)$ is the signal to noise ratio $\frac{\left| X(f) \right|}{\left| N(f) \right|}$.
 
-In fMRI, $y(t)$ is the recorded BOLD signal, $h(t)$ is the hemodynamic response function, and $x(t)$ is the neuronal population response.
+In fMRI, $y(t)$ is the recorded BOLD signal, $h(t)$ is the hemodynamic response function, and $x(t)$ is the neural response.
 Calculating $g(t)$ requires estimates of the power spectral density of the signal of interest as well as the noise.
 However, the noise $n(t)$ corresponds not only to scanner noise but other nuisance factors such as pulse and respiration.
 This makes modeling the noise, and its power spectral density, very difficult.
@@ -209,12 +207,11 @@ The high-resolution reference anatomies were segmented using the FreeSurfer anal
 Each voxel can be thought of as corresponding to a separate dimension of a very high dimenional space.
 In our case, the number of voxels/dimensions was typically 80 x 80 x 40 = 256,000.
 An important first step performed for most all machine learning algorithms is to reduce the total amount of data fed into the algorithms.
-This is called "dimensionality reduction".
-This not only speeds up the algorithm, but if done carefully, can improve the performance of the resulting models.
+This not only speeds up the algorithm, but if done carefully, can improve the performance of the resulting classifiers.
 
-In our case, we decided to select voxels that correlated the strongest to the 15 secound duty cycle of our block design.
-To accomplish this we employed a harmonic power analysis technique. 
-One can show that the response of any linear system to a blocked alternation at frequency f will contain power only at f and its harmonics. 
+In our case, we select voxels that are driven most strongly by the 30-sec duty cycle of our block design
+using a harmonic power analysis technique. 
+One can show that the response of any linear system to a blocked alternation at frequency \it{f} will contain power only at \it{f} and its harmonics. 
 Under a linear response assumption, we can therefore form an unbiased estimate of the response power by summing the power at these frequencies. 
 Let $y(t)$ be the recorded discrete time series at some voxel.
 Then let $Y(f)$ be the discrete Fourier transform of $y(t)$.
@@ -223,41 +220,42 @@ The fractional harmonic power of that time series is defined as:
 P_h = \frac{\sum_{i = 1}^{M}{\left|Y(i \cdot N)\right|^{2}}}{\sum_{f}{\left|Y(f)\right|^{2}}}
 \end{equation}
 Where $P_h$ is the fractional harmonic power, $M$ is the number of harmonics, and $N$ is the frequency of interest, in our case the period of the block alternations. 
-Because the BOLD response has a predominantly low-pass temporal frequency response, we chose $M = 4$. 
-Using $P_h$, we then selected a particular number N (range 1000-3000) voxels with the greatest power. 
+Because the BOLD response has a predominantly low-pass temporal frequency response, we can accept $M = 4$. 
+Using $P_h$, we then selected a particular number \it{N} (typically 2000) voxels with the greatest power. 
 
 This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
 Therefore, we will only be presenting classifier accuracy estimates for character count, and not for the presence or absence of characters to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{CrossContamination}.
-Indeed, when we built classifiers, as a sanity check, to distinguish between with and without characters, the performance was consistently in the upper 90 percentile.
+However, as a check we built classifiers to distinguish between time points with and without characters, and their performance was consistently >95%, confirming the proper operation of our machine-learning algorithms.
 
 \subsection{Classification}
 Using the time series from the voxels selected by the harmonic power analysis, we trained a linear SVM and a feed forward neural network.
-Generally, the performance of machine learning algorithms is estimated by splitting the available data into a training set and a test set and then evaluating the performance of the algorithm on the test set after "training" the model using only the training set.
+Generally, the performance of machine learning algorithms is estimated by splitting the available data into a training set and a test set and then evaluating the performance of the algorithm on the test set after "training" the model using only the training set \citep{needRef1}.
 The idea is that the algorithm's performance on the test set is an estimate of the classifier's performance on new data gathered at a different time.
-Certain iterative machine learning algorithms, such as neural networks, further subdivide the data into training, validation, and test sets.
+Neural network machine learning algorithms, further subdivide the data into training, validation, and test sets.
 The algorithm is trained on the training set and after each iteration is evaluated with the validation set.
-When the performance on validation set stops improving, the algorithm stops iterating.
-It can then be evaluated against the test set in order to estimate its future performance.
+When the performance on validation set stops improving, the algorithm stops iterating; this procedure avoids so-called "over fitting" of the data.
+Performance of the resulting classifier is then evaluated on the test set in order to estimate its future performance \citep{needRef2}.
 
-We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into "folds" which are used to form multiple training and test sets.
-To maximize our temporal resolution, each "frame" (time-slice) was treated as a separate distinct data value, rather than performing averaging across the 15 sec. block as has been done in previous work \citep{BlockAveraging}.
-Since each frame is 2.5 sec., averaging would have replaced 15sec/2.5sec. = 6 samples with a single averaged sample, reducing the temporal resolution by a factor of 6.
-We deemed this an unnecessary loss of resolution given that the machine learning algorithms give us a far more subtle result than averaging.
+\emph{The above paragraph needs a couple of elementary references on machine-learning approaches.}
 
-Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}.
-This occurs when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec.) block.
-The belief is that unidentified confounds of duration >= block time introduce artifical positive correlations.
-This raises a more general question: what is the relationship between performance estimates and this temporal correlation?
+We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into "folds" that are used to form multiple training and test sets.
+To maximize our temporal resolution, each "frame" (time point) was treated as a separate distinct data value, rather than performing averaging across the 15-sec block as has been done in previous work \citep{BlockAveraging}.
+Since each frame is 2.5 sec., averaging would have replaced 15sec/2.5sec. = 6 samples with a single averaged sample, unnecessarily reducing the temporal resolution by a factor of 6.
+
+
+Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}. The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales <15 sec.
+For our data, artificial correlations will occurs when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec.) block.
+
+This raises a more general question: what is the relationship between performance estimates and temporal correlation?
 To explore this, we estimated classifier performance using 5 different methods for splitting the training and test examples in order to vary the average temporal distance between frames in the two sets. 
 The first four methods deal only with frames from a particular session.
-
 In the first method, which we will refer to as  "frame split", frames were independently drawn into the training and test sets. 
-Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.
+Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.We expect this method to exhibit artificially high performance because of the aforementioned temporal correlation of the slow fMRI data.
 In the second method, which we will refer to as" block split", sets of frames corresponding to the 15 sec. blocks were independently drawn into the training and test sets.
-In our third method, we exploit the fact that each 6 min run cycles through all combinations twice, but is a different order the second time.
+In our third method, we exploit the fact that each 6 min run cycles through all combinations twice, but in a different order the second time.
 Accordingly, sets of frames were independently drawn from these half-runs, refered to as "half-run split". 
-In our fourth method, termed "run split", entire 6 min. runs of frames were independently drawn. 
-Any finally, for the fifth method, termed "session split", we used one entire session for training and a second session for test.
+In our fourth method, termed "run split", entire 6-min runs of frames were independently drawn. 
+And finally, for the fifth method, termed "session split", we used one entire session for training and a second session for test.
 This method is similar to measures of between-session classifier accuracy used in \citep{BetweenSessionAccuracy}.
 Table \ref{tab:training-split} summarizes these training and test set split methods and the mean temporal distance between the training and test data, which varies from $\sim$30 s (frame split) to several months (session split).
 
@@ -314,13 +312,13 @@ Finally, overall classifier performance can be estimated by dividing the sum alo
 Non-linear multi-variate machine-learning classifiers can tell us whether the time-series data from a subset of human brain voxels is discriminative with respect to the task being predicted. 
 However, these results do not show which voxels in the large group were actually important for that discrimination.
 This information is important for localizing functions in the brain.
-One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area.
+One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area \citep{needRef3}.
 While this technique is effective for simple highly localized functions, the results are less clear when the function is sparsely distributed over the brain.
 No one region may contain enough information for accurate predictions.
 
-To overcome this limitation, we have trained our classifiers on large regions of the brain and used sensitivity analysis in an attempt to tease out the sparsely distributed voxels that are the most important for identifying the classes.
-Specifically, we calculate the sensitivity, or magnitude of change, of the output of the classifier with respect to a change in each voxel.
-In feed forward neural networks, this problem has been well explored \citep{Zurada1994}.
+To overcome this limitation, we have trained our classifiers on all stimulus-responsive regions of the brain and used a neural-network sensitivity analysis to display the spatially distributed set of voxels that are the most important for identifying the classes.
+Specifically, we calculate the sensitivity, or magnitude of change, of the output of the classifier with respect to a change in each voxel
+ \citep{Zurada1994}.
 Let $\mathbf{o}$ be the vector of outputs and $\mathbf{x}$ be the vector of inputs.
 Then the sensitivity of output $k$ to input $i$ is defined by:
 \begin{equation}
@@ -331,7 +329,7 @@ If we let $\mathbf{w}$ be the weight matrix from the hidden layer to the output 
 \begin{equation}
 \frac{\delta o_{k}}{\delta x_{i}} = o'_{k} \sum^{J}_{j=1}{w_{kj}y'_{j}v_{ji}}
 \end{equation}
-Where $J$ is the total number of hidden neurons,  $o'_{k}$ is the value of the derivative of the activation function at output $k$, and $y'_{j}$ is the value of the derivative of the activation function at hidden neuron {j}.
+Where $J$ is the total number of hidden neurons,  $o'_{k}$ is the value of the derivative of the activation function at output $k$, and $y'_{j}$ is the value of the derivative of the activation function at hidden neuron\it{j}.
 Finally, the entire sensitivity matrix can be expressed in matrix notation as:
 \begin{equation}
 \mathbf{S} = \mathbf{O}' \times \mathbf{W} \times \mathbf{Y}' \times \mathbf{V}
@@ -356,16 +354,16 @@ To calculate this number, we simply take the maximum sensitivity of each voxel a
 \begin{equation}
 \Phi_{i} = \max_{k=1 \dots K}{S_{ki,~avg}}
 \end{equation}
-This sensitivity can now be projected back into the volume anatomy space to create an activation map.
-Further, we used this sensitivity analysis to reduce the dimensionality of the neural network by retraining the algorithm using only the voxels that had a sensitivity over some threshold.
+This sensitivity can now be projected back into the volume anatomy space to create a sensitivity map that reflects the relative incremental importance of each voxel's response to the classification decision.
+Further, we used this sensitivity analysis to further reduce the dimensionality of the neural network by retraining the algorithm using only the voxels that had a sensitivity over some threshold.
 This threshold was determined by iteratively retraining the neural network with successively higher thresholds until the performance of the classifier began to degrade.
 
-To get a better idea where, on average, the neural network was finding useful information, we aligned each subject's sensitivity map to the MNI template brain using FreeSurfer \citep{FreeSurfer}.
-After alignment, we averaged the sensitivity maps together, projected the results onto the cortical surface, and blurred along the surface by 5 mm full-width half-max (FWHM).
+To get a better idea where, on average, the neural network was finding useful information, we aligned each subject's sensitivity map to the MNI template brain \citep{MNItemplate} using FreeSurfer \citep{FreeSurfer}.
+After alignment, we averaged the sensitivity maps together, projected the results onto the cortical surface, and blurred along the surface using a 5 -mm full-width half-maximum (FWHM) Gaussian kernel.
 
 \section{Results}
 Table \ref{tab:results} contains the cross-validated performance estimates of the linear SVM and feed forward neural networks for all 5 subjects and all 5 training and test split methods.
-There is some variation of classifier performance between subjects, but in all cases the performance is well above chance. 
+There is some variation of classifier performance between subjects, but in all cases the performance is significantly ($p < 0.001$) above chance. 
 
 \begin{table*}
 \centering
@@ -388,8 +386,8 @@ The average confusion matrix presented in figure \ref{fig:average-confusion} giv
 From this matrix we can see that the classifiers are much better at detecting the presence of a single character than any other count.
 In fact, there are almost no cases of confusion between 1 and 2 characters.
 Apparently, these two situations evoke very different responses in the brain.
-The rest of the character counts are distinguished with relatively equal accuracy.
-However, there is a slight tendency to mis-classify the 6 character presentation.
+The rest of the character counts are distinguished with relatively equal accuracy,
+except for a slightly larger tendency to mis-classify the 6 character presentation.
 It should also be noted that the majority of the incorrect responses lay just off the main diagonal.
 These responses correspond to the classifier being wrong by a single character in its classification.
 For example, the machine learning algorithm classified a frame as containing 4 characters when it only contained 3 characters.
@@ -415,8 +413,8 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \label{fig:average-confusion}
 \end{figure}
 
-After aligning all of the subjects to the MNI template \ref{MNI} and combining these activation maps we found that the majority of activation took place in [need to do this analysis still].
-This combined activation map is presented in figure \ref{fig:MNI-average-sensitivity}.
+Sensitivity maps show a preponderance of brain activity in posterior parietal lobe, lateral occipital areas, and dorsal early extrastriate visual areas \ref{fig:ExampleSubjects}. Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal frontal cortex. After aligning all of the subjects to the MNI template \ref{MNI} and combining these sensitivity maps, we find that classifier decisions were heavily dependent on activity in occipital and parietal lobes \ref{fig:MNI-average-sensitivity}.  Classifier sensitivity was most affect by, in order of importance, dorsal parietal lobe, cuneus, and lateral occipital regions \ref{sensitivityTable}. 
+
 
 \begin{figure}
 \centering
@@ -451,13 +449,7 @@ This combined activation map is presented in figure \ref{fig:MNI-average-sensiti
 To better explore the relationship between sensitivity and classifier performance we plotted the performance of the classifier when trained on only a subset of the input voxels as determined by a minimum sensitivity cut off.
 Figure \ref{fig:sensitivity-cutoff} shows this plot on top of the histogram of sensitivity values.
 Interestingly, the performance of the classifier is not significantly affected until a majority of the voxels have been removed.
-This would indicate that either only a small number of voxels are relevant for classification or that the information is highly redundant between voxels.
-In actuality, it is likely a combination of the two.
-The harmonic analysis will select some voxels that only appeared to covary with the stimulus presentation by chance.
-These voxels will be assigned very low sensitivity values by the trained classifiers.
-However, other voxels may actually covary with the stimulus but their patterns of activation may not be highly discriminative with respect to character count.
-These voxels will also be assigned low sensitivity values by the trained classifiers.
-Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
+
 
 \begin{figure}
 \centering
@@ -482,7 +474,14 @@ The reported results are well above chance, indicating there is useful informati
 The sensitivity analysis indicates that no single region of the brain is responsible for counting characters, and there is not a simple linear relationship between magnitude of activation and cardinality.
 Rather, it is a complex pattern of distributed activation requiring machine learning methods to capture the stimulus-response relationship.
 
-Earlier, we presented this new trend in brain sate classification as a departure from traditional fMRI experiments which seek to identify the purpose or function of particular brain regions.
+Only a relatively small number of brain voxels were actually needed to perform the classifications with maximal performance. This could indicate that only a small number of voxels are relevant for classification, or that the information is highly redundant between voxels, or, most likely, some a combination of these two.
+Specifically, the harmonic analysis will select some voxels that covary with the stimulus, but their patterns of activation may not be highly discriminative with respect to character count.
+These voxels will also be assigned low sensitivity values by the trained classifiers.
+On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results. Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
+Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
+
+
+Earlier, we presented this new trend in brain state classification as a departure from traditional fMRI experiments which seek to identify the purpose or function of particular brain regions. \emph{This was not clearly stated in the Intro!}
 However, it is important to note that through sensitivity analysis these machine learning classifiers can be re-purposed for just that goal.
 If a region of the brain is highly important for accurately predicting the presence of a particular stimulus then it logically follows that that region must somehow be involved in the processing of that stimulus.
 Furthermore, multi-voxel non-linear machine learning classifiers can potentially identify much more complex interactions between brain regions than the simple GLM.
