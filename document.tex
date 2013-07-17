@@ -345,6 +345,7 @@ There is some variation of classifier performance between subjects, but in all c
 \label{fig:nn-performance-graph}
 \end{subfigure}
 \caption{The performance estimates of the \subref{fig:svm-performance-graph} linear SVM and the \subref{fig:nn-performance-graph} feedforward neural network after cross-validation for all five subjects and four of the training and test split methods. }
+\label{fig:performance-graphs}
 \end{figure*}
 
 It is evident that, as the average temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
@@ -384,7 +385,9 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \caption{}
 \label{fig:average-confusion-nn}
 \end{subfigure}
-\caption{The average confusion matrices for the \subref{fig:average-confusion-svm} SVM and \subref{fig:average-confusion-nn} NN across all subjects using the block split.}
+\caption{The average confusion matrices for the \subref{fig:average-confusion-svm} SVM and \subref{fig:average-confusion-nn} NN across all subjects using the block split.
+The cells are colored according to the percentage of examples in the cell with pure red indicating 0\% and pure green indicating 100\%.
+The variation from red to green follows a sigmoid centered at chance probability.}
 \label{fig:average-confusion}
 \end{figure}
 
@@ -417,7 +420,7 @@ This combined activation map is presented in figure \ref{fig:MNI-average-sensiti
 \caption{}
 \label{fig:rh-medial-smax-average}
 \end{subfigure}
-\caption{The sensitivity analysis agit veraged across all subjects mapped onto the slightly inflated MNI template brain.}
+\caption{The sensitivity analysis averaged across all subjects mapped onto the slightly inflated MNI template brain.}
 \label{fig:MNI-average-sensitivity}
 \end{figure}
 
@@ -435,21 +438,31 @@ Therefore, high sensitivity is sufficient but not necessary for the localization
 \begin{figure}
 \centering
 \includegraphics[width=0.45\textwidth]{figures/performance-verse-sensitivity-cutoff}
-\caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network $F_1$ score when the inputs are pruned at a particular sensitivity value. }
+\caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network performance estimate score when the inputs are pruned at a particular sensitivity value. }
 \label{fig:sensitivity-cutoff}
 \end{figure}
 
 \section{Discussion}
-Although both classifiers performed at well above chance levels for all subjects, the average performance on individual subjects varied significantly.
+Although both classifiers performed at well above chance levels for all subjects, the average performance on individual subjects varied significantly (figure \ref{fig:performance-graphs}).
 These variations could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during the scan.
 The lack of a task during our stimulus makes these variations difficult to interpret since attention and cognitive state are not well controlled.
 In future experiments, we plan to introduce a difficult task for the subjects to perform and we expect to see the average performance increase and the variation between subjects decrease.
-However, the fact that the classifiers could still perform at well above chance levels without a focused task increases our confidence in the generalizability of the results of machine learning classifiers applied to fMRI data.
+However, the fact that the classifiers could still perform at well above chance levels with such a complex stimulus and without a focused task increases our confidence in the generalizability of the results of machine learning classifiers applied to fMRI data.
 
-
-This could be a result of 6 characters being too much for the subject to consider individually.
-Interestingly, the confusion is not often between 5 and 6 characters, but rather between 1 or 2 and 6 characters.
+The average confusion matrix for both machine learning techniques reveals a very interesting pattern (figure \ref{fig:average-confusion}).
+As the character count increases, the classifier is more likely to make an incorrect prediction.
+That is, the classifiers are much better at distinguishing one character from two characters than they are at distinguishing three characters from four characters.
+Previous behavioral experiments suggest that the perception of count is logarithmic \citep{logcounting}, and our confusion matrices seem to support this hypothesis.
+However, the perception of six characters does not seem to follow this same trend.
+Interestingly, the perception of six characters is most often misinterpreted as the perception of two characters.
+This could be a result of six characters being too much for the subject to consider individually.
 This would seem to indicate that when the number of characters grows too large, they are interpreted as a single unit.
+In other words, the subject is perceiving two groups of characters rather than two characters.
+Again, the complexity of our current stimulus makes interpretation difficult because the spacing of the characters is not tightly controlled.
+In fact, the characters are frequently grouped and overlapping during five and six character presentations.
+We intend to test this hypothesis in a future experiment where character overlap and grouping are controlled for.
+
+
 
 The reported results are well above chance, indicating there is useful information about character number in the BOLD signal.
 The sensitivity analysis indicates that no single region of the brain is responsible for counting characters, and there is not a simple linear relationship between magnitude of activation and cardinality.
