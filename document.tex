@@ -79,13 +79,6 @@ All subjects participated in two MRI sessions with 36 minutes of fMRI acquisiton
 An additional session was performed to acquire a high-resolution structural anatomy for each subject. 
 Informed consent was obtained from all subjects.
 
-\subsection{Stimulus}
-\begin{figure*}
-\centering
-\includegraphics[width=0.7\textwidth]{figures/stimulus-movement}
-\caption{An example frame from the stimulus where the camera is travel through the virtual envronment with no charcters presented.}
-\label{fig:stimulus-movement}
-\end{figure*}
 Given our long-term interest in PTSD, we created a virtual town intended to mirror the kinds of real-world settings encountered by our military forces (see Fig. 1).
 The graphics software we used was the Unreal Development Kit by Epic Games  \citep{UnrealEngine2}.
 Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations thoughout the virtual town.
@@ -101,19 +94,26 @@ Thus, the camera moves for 15 seconds at a fairly rapid rate through the virtual
 \centering
 \begin{subfigure}{0.4\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/stimulus-characters}
+\includegraphics[width=\textwidth]{figures/stimulus-town}
 \caption{}
-\label{fig:stimulus-characters}
+\label{fig:stimulus-town}
 \end{subfigure}
 \begin{subfigure}{0.4\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/stimulus-location}
+\includegraphics[width=\textwidth]{figures/stimulus-five-soldiers}
 \caption{}
-\label{fig:stimulus-location}
+\label{fig:stimulus-five-soldiers}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/stimulus-three-insurgents}
+\caption{}
+\label{fig:stimulus-three-insurgents}
 \end{subfigure}
 \caption{
-\subref{fig:stimulus-characters} An example frame from the stimulus while characters are being presented.
-\subref{fig:stimulus-location} Another example frame from the stimulus while characters are being presented.
+\subref{fig:stimulus-town} An example frame from the stimulus where the camera is travel through the virtual envronment with no charcters presented.
+\subref{fig:stimulus-five-soldiers} An example frame from the stimulus while characters are being presented.
+\subref{fig:stimulus-three-insurgents} Another example frame from the stimulus while characters are being presented.
 Note how the locations of the characters varies considerably between these two frames.}
 \label{fig:stimulus}
 \end{figure}
@@ -183,13 +183,13 @@ Figure \ref{fig:wiener-deconvolution} illustrates the effects of this deconvolut
 \end{subfigure}
 \begin{subfigure}{0.4\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/wiener-square}
+\includegraphics[width=\textwidth]{figures/square-wiener-deconvolution}
 \caption{}
 \label{fig:wiener-square}
 \end{subfigure}
 \begin{subfigure}{0.4\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/wiener-voxel}
+\includegraphics[width=\textwidth]{figures/voxel-wiener-deconvolution}
 \caption{}
 \label{fig:wiener-voxel}
 \end{subfigure}
@@ -500,7 +500,7 @@ Interestingly, the performance of the classifier is not significantly affected u
 
 \begin{figure}
 \centering
-\includegraphics[width=0.4\textwidth]{figures/sensitivity-cutoff}
+\includegraphics[width=0.4\textwidth]{figures/performance-verse-sensitivity-cutoff}
 \caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network $F_1$ score when the inputs are pruned at a particular sensitivity value. }
 \label{fig:sensitivity-cutoff}
 \end{figure}
