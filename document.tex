@@ -69,14 +69,13 @@ Unlike previous experiments that examined the neural correlates of object counti
 We synthesized both artifical neural networks and support vector machines to classify each time point with respect to the number of characters.
 We also tested the temporal invariance of the classifers by examining their performance as a function of the separation in time between the data used to synthesize the classifier and the data used to test performance of the classifier.
 Classification accuracy was typically 3-4 times better than chance, over a range of subjects and machine-learning techniques.
-To permit anatomical evaluation of the results, the spatial distribution of classification-relevant brain activity was then obtained by "inverting" the classifiers using a sensitivity analysis,
-yielding a map that is computed very differently from GLM  techniques.
+To permit anatomical evaluation of the results, the spatial distribution of classification-relevant brain activity was then obtained by "inverting" the classifiers using a sensitivity analysis, yielding a map that is computed very differently from GLM  techniques.
 
 \section{Methods}
 
 \subsection{Subjects}
 Five adult males, with normal or corrected-to-normal vision, participated in the experiments. 
-All subjects participated in two ~1-hour-duration MRI sessions with 36 minutes of fMRI acquisiton. An additional session was performed to measure a high-resolution structural anatomy. 
+All subjects participated in two $\sim$1-hour-duration MRI sessions with 36 minutes of fMRI acquisiton. An additional session was performed to measure a high-resolution structural anatomy. 
 Informed consent was obtained from all subjects.
 
 \subsection{Stimulus}
@@ -211,7 +210,7 @@ This not only speeds up the algorithm, but if done carefully, can improve the pe
 
 In our case, we select voxels that are driven most strongly by the 30-sec duty cycle of our block design
 using a harmonic power analysis technique. 
-One can show that the response of any linear system to a blocked alternation at frequency \it{f} will contain power only at \it{f} and its harmonics. 
+One can show that the response of any linear system to a blocked alternation at frequency $f$ will contain power only at $f$ and its harmonics. 
 Under a linear response assumption, we can therefore form an unbiased estimate of the response power by summing the power at these frequencies. 
 Let $y(t)$ be the recorded discrete time series at some voxel.
 Then let $Y(f)$ be the discrete Fourier transform of $y(t)$.
@@ -221,7 +220,7 @@ P_h = \frac{\sum_{i = 1}^{M}{\left|Y(i \cdot N)\right|^{2}}}{\sum_{f}{\left|Y(f)
 \end{equation}
 Where $P_h$ is the fractional harmonic power, $M$ is the number of harmonics, and $N$ is the frequency of interest, in our case the period of the block alternations. 
 Because the BOLD response has a predominantly low-pass temporal frequency response, we can accept $M = 4$. 
-Using $P_h$, we then selected a particular number \it{N} (typically 2000) voxels with the greatest power. 
+Using $P_h$, we then selected a particular number $N$ (typically 2000) voxels with the greatest power. 
 
 This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
 Therefore, we will only be presenting classifier accuracy estimates for character count, and not for the presence or absence of characters to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{CrossContamination}.
@@ -329,7 +328,7 @@ If we let $\mathbf{w}$ be the weight matrix from the hidden layer to the output 
 \begin{equation}
 \frac{\delta o_{k}}{\delta x_{i}} = o'_{k} \sum^{J}_{j=1}{w_{kj}y'_{j}v_{ji}}
 \end{equation}
-Where $J$ is the total number of hidden neurons,  $o'_{k}$ is the value of the derivative of the activation function at output $k$, and $y'_{j}$ is the value of the derivative of the activation function at hidden neuron\it{j}.
+Where $J$ is the total number of hidden neurons,  $o'_{k}$ is the value of the derivative of the activation function at output $k$, and $y'_{j}$ is the value of the derivative of the activation function at hidden neuron $j$.
 Finally, the entire sensitivity matrix can be expressed in matrix notation as:
 \begin{equation}
 \mathbf{S} = \mathbf{O}' \times \mathbf{W} \times \mathbf{Y}' \times \mathbf{V}
@@ -358,14 +357,14 @@ This sensitivity can now be projected back into the volume anatomy space to crea
 Further, we used this sensitivity analysis to further reduce the dimensionality of the neural network by retraining the algorithm using only the voxels that had a sensitivity over some threshold.
 This threshold was determined by iteratively retraining the neural network with successively higher thresholds until the performance of the classifier began to degrade.
 
-To get a better idea where, on average, the neural network was finding useful information, we aligned each subject's sensitivity map to the MNI template brain \citep{MNItemplate} using FreeSurfer \citep{FreeSurfer}.
+To get a better idea where, on average, the neural network was finding useful information, we aligned each subject's sensitvity map to the MNI template brain \citep{MNItemplate} using FreeSurfer \citep{FreeSurfer}.
 After alignment, we averaged the sensitivity maps together, projected the results onto the cortical surface, and blurred along the surface using a 5 -mm full-width half-maximum (FWHM) Gaussian kernel.
 
 \section{Results}
 Table \ref{tab:results} contains the cross-validated performance estimates of the linear SVM and feed forward neural networks for all 5 subjects and all 5 training and test split methods.
 There is some variation of classifier performance between subjects, but in all cases the performance is significantly ($p < 0.001$) above chance. 
 
-\begin{table*}
+\begin{figure*}
 \centering
 \begin{subfigure}{0.8\textwidth}
 \centering
