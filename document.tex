@@ -75,7 +75,8 @@ To permit anatomical evaluation of the results, the spatial distribution of clas
 
 \subsection{Subjects}
 Five adult males, with normal or corrected-to-normal vision, participated in the experiments. 
-All subjects participated in two $\sim$1-hour-duration MRI sessions with 36 minutes of fMRI acquisiton. An additional session was performed to measure a high-resolution structural anatomy. 
+All subjects participated in two MRI sessions with 36 minutes of fMRI acquisiton. 
+An additional session was performed to acquire a high-resolution structural anatomy for each subject. 
 Informed consent was obtained from all subjects.
 
 \subsection{Stimulus}
@@ -86,13 +87,14 @@ Informed consent was obtained from all subjects.
 \label{fig:stimulus-movement}
 \end{figure*}
 Given our long-term interest in PTSD, we created a virtual town intended to mirror the kinds of real-world settings encountered by our military forces (see Fig. 1).
-The graphics software we used was the Unreal Development Kit, a free-to-use game engine by Epic Games  \citep{UnrealEngine2}.
+The graphics software we used was the Unreal Development Kit by Epic Games  \citep{UnrealEngine2}.
 Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations thoughout the virtual town.
-An animation was synthezied in real-time, during which the camera moves at eye level throughout the town, stopping at locations where a varying number of characters, either friends or foes, where situated (see Fig. 2a and 2b).
+The stimulus was rendered in real-time from the point of view of a camera moving at eye level through the town. 
+At 12 predefined locations where a varying number of characters were situated, the camera stopped to watch the characters for 15 seconds while they animated.
 Both the camera and the characters were animated at all times (no static imagery), but we choose not to include subject interaction (passive viewing) for this first experiment using virtual worlds.
 
 Because evaluation of entire fMRI volume datasets is compuationally intensive, we used a block design to enable selection of all voxels responsive to the character presentation.
-To provide a realistic scenario, blocks consisted of alternations of traveling through an unpopulated town for 15 sec, followed by 15-sec periods of character presentations.
+To provide a realistic scenario, blocks consisted of alternations of traveling through an unpopulated town for 15 seconds, followed by 15-second periods of character presentations.
 Thus, the camera moves for 15 seconds at a fairly rapid rate through the virtual environment with no characters present, then slows and hovers for 15 seconds around a group of animated characters while the camera contines to pan and rotate.
 
 \begin{figure}
@@ -134,14 +136,14 @@ A high-order shim was  performed to improve field homogeneity.
 
 A set of T1-weighted structural images was obtained on the same prescription at the end of each machine-learning session using a three-dimensional (3D) fast RF-spoiled GRASS (fSPGR) sequence. 
 These anatomical images were then used to align the functional data to a structural 3D reference volume, which was acquired for each subject in a separate session. 
-The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D, inversion-prepared, fSPGR sequence (minimum TE and TR, TI = 450 ms, 15° flip angle, isometric voxel size of 0.7 mm, 2 excitations, ~28-minimum duration).
+The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D, inversion-prepared, fSPGR sequence (minimum TE and TR, TI = 450 ms, 15$^\circ$ flip angle, isometric voxel size of 0.7 mm, 2 excitations, $\sim$28-minute duration).
 
 \subsection{Preprocessing}
 Preprocessing of the fMRI data was performed using the mrVista software package (available for download at \url{http://vistalab.stanford.edu/}) as well as additional tools developed on the mrVista framework in our lab. 
-The first 15 seconds seconds of data  were discarded to reduce transient effects.
+The first 15 seconds of data  were discarded to reduce transient effects.
 We then estimated in-scan motion using a robust scheme \citep{Nestares-and-Heeger-2000}. 
 Between-run motion was corrected using the same intensity-based scheme, this time applied to the temporal average intensity of the entire scan. 
-The last run of the session was used as the reference. 
+The first run of the session was used as the reference. 
 Additionally, we applied a Wiener filter deconvolution \citep{Wiener} using a generic difference-of-gamma HRF \citep{Glover} to shift the peak response in time so that it is aligned with its associated stimulus.
 
 Wiener filter deconvolution can be summarized as follows:
@@ -224,37 +226,37 @@ Using $P_h$, we then selected a particular number $N$ (typically 2000) voxels wi
 
 This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
 Therefore, we will only be presenting classifier accuracy estimates for character count, and not for the presence or absence of characters to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{CrossContamination}.
-However, as a check we built classifiers to distinguish between time points with and without characters, and their performance was consistently >95%, confirming the proper operation of our machine-learning algorithms.
+However, as a check we built classifiers to distinguish between time points with and without characters, and their performance was consistently above 95\%, confirming the proper operation of our machine-learning algorithms.
 
 \subsection{Classification}
 Using the time series from the voxels selected by the harmonic power analysis, we trained a linear SVM and a feed forward neural network.
-Generally, the performance of machine learning algorithms is estimated by splitting the available data into a training set and a test set and then evaluating the performance of the algorithm on the test set after "training" the model using only the training set \citep{needRef1}.
+Generally, the performance of machine learning algorithms is estimated by splitting the available data into a training set and a test set and then evaluating the performance of the algorithm on the test set after ``training" the model using only the training set \citep{needRef1}.
 The idea is that the algorithm's performance on the test set is an estimate of the classifier's performance on new data gathered at a different time.
 Neural network machine learning algorithms, further subdivide the data into training, validation, and test sets.
 The algorithm is trained on the training set and after each iteration is evaluated with the validation set.
-When the performance on validation set stops improving, the algorithm stops iterating; this procedure avoids so-called "over fitting" of the data.
+When the performance on validation set stops improving, the algorithm stops iterating; this procedure avoids so-called ``over fitting" of the data.
 Performance of the resulting classifier is then evaluated on the test set in order to estimate its future performance \citep{needRef2}.
 
 \emph{The above paragraph needs a couple of elementary references on machine-learning approaches.}
 
-We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into "folds" that are used to form multiple training and test sets.
-To maximize our temporal resolution, each "frame" (time point) was treated as a separate distinct data value, rather than performing averaging across the 15-sec block as has been done in previous work \citep{BlockAveraging}.
+We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into ``folds" that are used to form multiple training and test sets.
+To maximize our temporal resolution, each ``frame" (time point) was treated as a separate distinct data value, rather than performing averaging across the 15-sec block as has been done in previous work \citep{BlockAveraging}.
 Since each frame is 2.5 sec., averaging would have replaced 15sec/2.5sec. = 6 samples with a single averaged sample, unnecessarily reducing the temporal resolution by a factor of 6.
 
 
-Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}. The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales <15 sec.
-For our data, artificial correlations will occurs when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec.) block.
+Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}. The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales less than 15 seconds.
+For our data, artificial correlations occur when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec.) block.
 
 This raises a more general question: what is the relationship between performance estimates and temporal correlation?
 To explore this, we estimated classifier performance using 5 different methods for splitting the training and test examples in order to vary the average temporal distance between frames in the two sets. 
 The first four methods deal only with frames from a particular session.
-In the first method, which we will refer to as  "frame split", frames were independently drawn into the training and test sets. 
+In the first method, which we will refer to as  ``frame split", frames were independently drawn into the training and test sets. 
 Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.We expect this method to exhibit artificially high performance because of the aforementioned temporal correlation of the slow fMRI data.
-In the second method, which we will refer to as" block split", sets of frames corresponding to the 15 sec. blocks were independently drawn into the training and test sets.
+In the second method, which we will refer to as ``block split", sets of frames corresponding to the 15 sec. blocks were independently drawn into the training and test sets.
 In our third method, we exploit the fact that each 6 min run cycles through all combinations twice, but in a different order the second time.
-Accordingly, sets of frames were independently drawn from these half-runs, refered to as "half-run split". 
-In our fourth method, termed "run split", entire 6-min runs of frames were independently drawn. 
-And finally, for the fifth method, termed "session split", we used one entire session for training and a second session for test.
+Accordingly, sets of frames were independently drawn from these half-runs, refered to as ``half-run split". 
+In our fourth method, termed ``run split", entire 6-min runs of frames were independently drawn. 
+And finally, for the fifth method, termed ``session split", we used one entire session for training and a second session for test.
 This method is similar to measures of between-session classifier accuracy used in \citep{BetweenSessionAccuracy}.
 Table \ref{tab:training-split} summarizes these training and test set split methods and the mean temporal distance between the training and test data, which varies from $\sim$30 s (frame split) to several months (session split).
 
@@ -357,11 +359,34 @@ This sensitivity can now be projected back into the volume anatomy space to crea
 Further, we used this sensitivity analysis to further reduce the dimensionality of the neural network by retraining the algorithm using only the voxels that had a sensitivity over some threshold.
 This threshold was determined by iteratively retraining the neural network with successively higher thresholds until the performance of the classifier began to degrade.
 
-To get a better idea where, on average, the neural network was finding useful information, we aligned each subject's sensitvity map to the MNI template brain \citep{MNItemplate} using FreeSurfer \citep{FreeSurfer}.
-After alignment, we averaged the sensitivity maps together, projected the results onto the cortical surface, and blurred along the surface using a 5 -mm full-width half-maximum (FWHM) Gaussian kernel.
+We employed FreeSurfer \citep{FreeSurfer} to construct cortical surfaces for each of our subjects using the previously collected high resolution anatomy volumes.
+Then, we constructed 10 anatomical labels on each surface based on FreeSurfer's automatically generated labels.
+These labels are presented in figure \ref{fig:labels}.
+The labels we used largely overlap with FreeSurfer's labels.
+However, the label for the banks of the superior temporal sulcus was subdivided and incorporated back in to the superior and middle temporal labels.
+Additionally, the supramarginal label was merged with the inferior parietal label.
+For most subjects, several of the automatic labels were also edited by hand to better conform with the sulcal boundaries of the subject.
+We then projected each subject's volume sensitivity map onto their cortical surface and blurred along the surface using a five millimeter full-width half-maximum (FWHM) Gaussian kernel.
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.4\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/lh-lateral-labels}
+\caption{lateral labels}
+\label{fig:leteral-labels}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/lh-medial-labels}
+\caption{medial labels}
+\label{fig:medial-labels}
+\end{subfigure}
+\caption{Color coded region labels used for aggregating sensitivity results: light blue -- superior temporal, dark blue -- middle temporal, light green -- inferior temporal, dark green -- fusiform, dark red -- superior perietal, light red -- inferior parietal, light orange -- lateral occipital, dark orange -- cuneus, light purple -- pericalcarine, dark purple -- lingual}
+\end{figure}
 
 \section{Results}
-Table \ref{tab:results} contains the cross-validated performance estimates of the linear SVM and feed forward neural networks for all 5 subjects and all 5 training and test split methods.
+Table \ref{tab:results} contains the cross-validated performance estimates of the linear SVM and feed forward neural networks for all five subjects and all five training and test split methods.
 There is some variation of classifier performance between subjects, but in all cases the performance is significantly ($p < 0.001$) above chance. 
 
 \begin{figure*}
@@ -424,36 +449,49 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 
 Sensitivity maps show a preponderance of brain activity in posterior parietal lobe, lateral occipital areas, and dorsal early extrastriate visual areas \ref{fig:ExampleSubjects}. Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal frontal cortex. After aligning all of the subjects to the MNI template \ref{MNI} and combining these sensitivity maps, we find that classifier decisions were heavily dependent on activity in occipital and parietal lobes \ref{fig:MNI-average-sensitivity}.  Classifier sensitivity was most affect by, in order of importance, dorsal parietal lobe, cuneus, and lateral occipital regions \ref{sensitivityTable}. 
 
+\begin{figure*}
+\centering
+\input{tables/full-sensitivity-table.tex}
+\caption{Sensitivity values integrated across cortical surface labels.}
+\label{tab:full-sensitivity}
+\end{figure*}
 
-\begin{figure}
+\begin{figure*}
 \centering
 \begin{subfigure}{0.4\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/lh-lateral-smax-average}
+\includegraphics[width=\textwidth]{figures/s1-lh-lateral-sensitivity}
 \caption{}
-\label{fig:lh-lateral-smax-average}
 \end{subfigure}
 \begin{subfigure}{0.4\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/lh-medial-smax-average}
+\includegraphics[width=\textwidth]{figures/s1-lh-medial-sensitivity}
 \caption{}
-\label{fig:lh-medial-smax-average}
 \end{subfigure}
 \begin{subfigure}{0.4\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/rh-lateral-smax-average}
+\includegraphics[width=\textwidth]{figures/s2-rh-lateral-sensitivity}
 \caption{}
-\label{fig:rh-lateral-smax-average}
 \end{subfigure}
 \begin{subfigure}{0.4\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/rh-medial-smax-average}
+\includegraphics[width=\textwidth]{figures/s2-rh-medial-sensitivity}
 \caption{}
-\label{fig:rh-medial-smax-average}
 \end{subfigure}
-\caption{The sensitivity analysis agit veraged across all subjects mapped onto the slightly inflated MNI template brain.}
-\label{fig:MNI-average-sensitivity}
-\end{figure}
+\begin{subfigure}{0.4\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/s3-lh-lateral-sensitivity}
+\caption{}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/s3-lh-medial-sensitivity}
+\caption{}
+\end{subfigure}
+\caption{Individual sensitivity maps for three different subjects. 
+The left hemisphere is presented for the first and third subjects while the right hemisphere is presented for the second subject.}
+\label{fig:individual-sensitivity}
+\end{figure*}
 
 To better explore the relationship between sensitivity and classifier performance we plotted the performance of the classifier when trained on only a subset of the input voxels as determined by a minimum sensitivity cut off.
 Figure \ref{fig:sensitivity-cutoff} shows this plot on top of the histogram of sensitivity values.
