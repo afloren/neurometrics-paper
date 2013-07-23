@@ -44,16 +44,14 @@ keyword1 \sep keyword2
 \end{frontmatter}
 
 \section{Introduction}
-When conducting research using fMRI to analyze how the brain responds to visual stimuli, static images have been  the dominant choice.
-Such work has generally attempted to focus on a single aspect of the visual world, such as contrast, color, or object class, and create stimuli that isolate that aspect.
+When conducting research using functional magnetic resonance imaging (fMRI) to analyze how the brain responds to stimuli, static experimental paradigms have been the dominant choice.
+Such work has generally attempted to focus on a single variable of interest, such as contrast, color, or object class, and create stimuli that isolate that aspect.
 While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
-It is likely that these richer, more dynamic stimuli will evoke a more complex network of brain responses.
-Here, we test the feasibility of extracting complex information from more natural stimuli by employing virtual worlds, similar to what is commonly used in video games, to generate our  stimuli.
-Virtual worlds have two advantages over videos of the real world: 1) the stimulus designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
+It is likely that more natural and dynamic stimuli will evoke a more complex network of brain responses.
+Furthermore, it is possible that the context in which a stimuli is presented affects the way it is processed; (need example here).
 
-To analyze the brain response to our more complex stimuli, we employ two multi-voxel pattern recognition approaches that identify brain response patterns using a spatially distributed subset of stimulus-responsive voxels at each time point.
-This is in contrast to utlizing a General Linear Model (GLM), which treats each voxel independently as a time-series of responses over an extended period of time.
-Processing the entire brain over the course of a scanning session should allow for capturing the complex and anatomically distributed interplay of neural processing while permitting the stimulus to continually vary throughout the scan.
+Researchers have begun utilizing dynamic stimuli in the form of both prerecorded movies and, to a lesser extent, virtual reality environments.
+\citep{Spiers2007} - Review article discussing both types of dynamic stimuli (movie and virtual reality) and methods for interrogating dynamic stimuli (SPM, ICA, reverse correlation, MVPA).
 
 Multi-voxel pattern recognition applied to fMRI involves the use of statistical machine learning algorithms, such as artificial neural networks and support vector machines\citep{Haxby2001,Mitchell2003,Haynes2006}.
 When applying these algorithms, the stimulus typically is organized into multiple categories or classifications (e.g. houses, faces, tools etc.).
@@ -62,7 +60,28 @@ These models map a small set of fMRI time points to a set of weights, one for ea
 Each set of weights provides a prediction that the time sample corresponds to the brain response to stimuli from that category.
 A simple means of assessing the accuracy of the models is to compare the highest predicted class to the correct class for the stimuli being presented during that period of time.
 
-\emph{The preceeding paragraph needs some expansion. Give a brief summary of each of the cited experiments and their results. Expand on the accuracy methods a  bit and give references.}
+\citep{Han2005} - Indicates that processing diverges even between real (recorded) and virtual visual worlds. However, cartoons are used to represent virtual visual worlds.
+
+\citep{Maguire1998} - Experiment utilizing PET and virtual reality to study brain regions associated with navigation and internal spacial representations (GLM). Averaged across blocks.
+\citep{Calhoun2002} - Experiment utilizing fMRI and virtual reality to study brain regions associated with driving (SPM, ICA). Analyzed at each frame.
+\citep{King2005} - Experiment utilizing fMRI and virtual reality to study brain regions associated with episodic memory (GLM). Averaged across blocks.
+\citep{King2006} - Experiment utilizing fMRI and virtual reality to study brain regions associated with identifying appropriate and inappropriate behavior (GLM). Averaged across blocks.
+\citep{Mathiak2006} - Experiment utilizing fMRI and virtual reality to study brain regions associated with violent behavior (SPM). Analyzed at each frame.
+\citep{Spiers2007a} - Experiment utilizing fMRI and virtual reality to study brain regions associated with driving behavior (GLM). Analyzed at each frame. Utilized verbal reports.
+\citep{Hassabis2009} - Experiment utilizing fMRI and virtual reality to study brain regions associated with internal representations of space in the hippocampus (MVPA). Analyzed at each frame.
+
+\citep{Hasson2004} - Experiment utilizing fMRI and a movie to exhibit homogeneous functional activation between different subjects when viewing a complex and dynamic visual scene.
+\citep{Chadwick2010} - Experiment utilizing fMRI and movies to decode episodic memories in the hippocampus (MVPA). Analyzed at each frame.
+\citep{Nishimoto2011} - Experiment utilizing fMRI and movies to decode/reconstruct the visual experience of a subject using a generative functional activation model.
+
+Us - Experiment utilizing fMRI and virtual reality to study brain regions associated high level object recognition and visual scene perception -- not really (MVPA). Analyzed at each frame.
+
+Here, we test the feasibility of extracting complex information from more natural stimuli by employing virtual worlds, similar to what is commonly used in video games, to generate our  stimuli.
+Virtual worlds have two advantages over videos of the real world: 1) the stimulus designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
+
+To analyze the brain response to our more complex stimuli, we employ two multi-voxel pattern recognition approaches that identify brain response patterns using a spatially distributed subset of stimulus-responsive voxels at each time point.
+This is in contrast to utlizing a General Linear Model (GLM), which treats each voxel independently as a time-series of responses over an extended period of time.
+Processing the entire brain over the course of a scanning session should allow for capturing the complex and anatomically distributed interplay of neural processing while permitting the stimulus to continually vary throughout the scan.
 
 Our experiment was structured to identify those parts of the brain that encode the number of human-like characters realistically presented in a dynamic virtual world.
 Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{countingstuff}, we used a passive-viewing stimulus paradigm and utilized machine-learning methods rather than a GLM analysis.
