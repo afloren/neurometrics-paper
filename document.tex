@@ -50,37 +50,59 @@ While this has proven to be a successful approach, it does not mimic the dynamic
 It is likely that more natural and dynamic stimuli will evoke a more complex network of brain responses.
 Furthermore, it is possible that the context in which a stimuli is presented affects the way it is processed; (need example here).
 
-Researchers have begun utilizing dynamic stimuli in the form of both prerecorded movies and, to a lesser extent, virtual reality environments.
-\citep{Spiers2007} - Review article discussing both types of dynamic stimuli (movie and virtual reality) and methods for interrogating dynamic stimuli (SPM, ICA, reverse correlation, MVPA).
-
-Multi-voxel pattern recognition applied to fMRI involves the use of statistical machine learning algorithms, such as artificial neural networks and support vector machines\citep{Haxby2001,Mitchell2003,Haynes2006}.
-When applying these algorithms, the stimulus typically is organized into multiple categories or classifications (e.g. houses, faces, tools etc.).
-The machine learning algorihms use the fMRI data to synthesize a model of the classes.
-These models map a small set of fMRI time points to a set of weights, one for each category.
-Each set of weights provides a prediction that the time sample corresponds to the brain response to stimuli from that category.
-A simple means of assessing the accuracy of the models is to compare the highest predicted class to the correct class for the stimuli being presented during that period of time.
-
-\citep{Han2005} - Indicates that processing diverges even between real (recorded) and virtual visual worlds. However, cartoons are used to represent virtual visual worlds.
-
-\citep{Maguire1998} - Experiment utilizing PET and virtual reality to study brain regions associated with navigation and internal spacial representations (GLM). Averaged across blocks.
-\citep{Calhoun2002} - Experiment utilizing fMRI and virtual reality to study brain regions associated with driving (SPM, ICA). Analyzed at each frame.
-\citep{King2005} - Experiment utilizing fMRI and virtual reality to study brain regions associated with episodic memory (GLM). Averaged across blocks.
-\citep{King2006} - Experiment utilizing fMRI and virtual reality to study brain regions associated with identifying appropriate and inappropriate behavior (GLM). Averaged across blocks.
-\citep{Mathiak2006} - Experiment utilizing fMRI and virtual reality to study brain regions associated with violent behavior (SPM). Analyzed at each frame.
-\citep{Spiers2007a} - Experiment utilizing fMRI and virtual reality to study brain regions associated with driving behavior (GLM). Analyzed at each frame. Utilized verbal reports.
-\citep{Hassabis2009} - Experiment utilizing fMRI and virtual reality to study brain regions associated with internal representations of space in the hippocampus (MVPA). Analyzed at each frame.
-
+Researchers have begun using dynamic stimuli in the form of prerecorded movies and, to a lesser extent, virtual reality (VR) environments.
 \citep{Hasson2004} - Experiment utilizing fMRI and a movie to exhibit homogeneous functional activation between different subjects when viewing a complex and dynamic visual scene.
-\citep{Chadwick2010} - Experiment utilizing fMRI and movies to decode episodic memories in the hippocampus (MVPA). Analyzed at each frame.
-\citep{Nishimoto2011} - Experiment utilizing fMRI and movies to decode/reconstruct the visual experience of a subject using a generative functional activation model.
+In \cite{Spiers2007}, the authors review a number of experiments that use either movies or VR and discussed the wide variety of methods used to interrogate these dynamic stimuli: general linear models (GLM), statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multi-voxel pattern analysis (MVPA) being among the most popular.
+These analysis methods can generally be split into stimulus-driven methods -- such as GLM and SPM -- which measure the statistical significance of a hypothesis, and data-driven methods -- such as ICA and MVPA -- which look for patterns in the fMRI signal.
+Stimulus-driven analyses provide more easily interpretable results but become less and less tractable as the complexity of the stimulus increases.
+Data-driven analyses, on the other hand, can cope with more complex stimuli but are difficult to interpret in terms of understanding how the brain works.
+Ideally, data-driven analyses should be used to uncover hidden patterns in complex stimuli which in turn are used to help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses (potentially move these last couple of sentences to discussion).
 
-Us - Experiment utilizing fMRI and virtual reality to study brain regions associated high level object recognition and visual scene perception -- not really (MVPA). Analyzed at each frame.
-
-Here, we test the feasibility of extracting complex information from more natural stimuli by employing virtual worlds, similar to what is commonly used in video games, to generate our  stimuli.
-Virtual worlds have two advantages over videos of the real world: 1) the stimulus designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
-
-To analyze the brain response to our more complex stimuli, we employ two multi-voxel pattern recognition approaches that identify brain response patterns using a spatially distributed subset of stimulus-responsive voxels at each time point.
+MVPA is a data-driven analysis method that has been used in a wide variety of applications \citep{Haxby2001,Mitchell2003,Haynes2006} and has seen an increase in popularity lately.
+However, MVPA has been used as somewhat of a blanket term for the application of any machine learning algorithm to fMRI data.
+When applying these algorithms, the stimulus is typically organized into multiple categories or classifications (e.g. houses, faces, tools etc.).
+(add more info on general machine learning).
 This is in contrast to utlizing a General Linear Model (GLM), which treats each voxel independently as a time-series of responses over an extended period of time.
+Discuss timing issues.
+Discuss sensitivity, search light in particular.
+
+Although prerecorded movies have been used more frequently for dynamic stimuli, VR stimuli have a number of inherent advantages.
+Virtual worlds have two advantages over videos of the real world: 1) the stimulus designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
+First and foremost, very precise control can be exercised over VR environments.
+Second, manipulating variables in the presentation of a VR environment is much less time consuming than recording multiple videos.
+Third, the environment can be automatically coded.
+That is, the presence or absence of faces, apparent motion, etc. can all be extracted for each frame directly from the stimulus without requiring manual viewing and labeling of each frame.
+Finaly, VR stimuli allow for real-time interaction and feedback.
+However, VR does have some disadvantages.
+Recording a movie is generally much easier than programming a VR environment.
+Movies are also generally more realistic looking than VR environments.
+The results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
+However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergance in processing will decrease.
+
+Although underutilized, VR stimuli have been used for sometime, including positron emission tomography (PET) experiments.
+In \cite{Maguire1998}, the authors use PET and a VR stimuli to study brain regions associated with navigation and internal spacial representations. 
+In \cite{Calhoun2002}, the authors use fMRI and a VR stimuli to study brain regions associated with driving.
+In \cite{King2005}, the authors use fMRI and a VR stimuli to study brain regions associated with episodic memory.
+In \cite{King2006}, the authors use fMRI and a VR stimuli to study brain regions associated with identifying appropriate and inappropriate behavior.
+In \cite{Mathiak2006}, the authors use fMRI and a VR stimuli to study brain regions associated with violent behavior.
+In \cite{Spiers2007a}, the authors use fMRI and a VR stimuli to study brain regions associated with driving behavior.
+All of the studies discusses so far used stimulus-driven analysis methods, that is, some form of GLM or SPM anlysis.
+In \cite{Hassabis2009}, the authors used MVPA to analyze their experiment which used fMRI and a VR stimulus to study brain regions associated with internal representations of space in the hippocampus.
+
+More recently, the use of VR stimuli has waned.
+However, there are still a number of groups utilizing dynamic stimuli in the form of movies.
+In \cite{Chadwick2010}, the authors use fMRI and a movie stimulus to decode episodic memories in the hippocampus.
+MVPA was used to analyze this experiment.
+In \cite{Nishimoto2011}, the authors use fMRI and a movie stimulus to decode the visual experience of a subject using a generative functional activation model.
+Interestingly, this experiment was analyzed using a stimulus-driven method unlike most recent decoding experiments which employ MVPA.
+The results were very positive, but the complex modelling required perfectly illustrates the difficulties of such an approach.
+
+\emph{need to play up that we are more about solving technical issues related to applying MVPA to VR stimuli than doing neuroscience.}
+Our experiment uses fMRI and a VR stimuli to study brain regions associated high level object recognition and visual scene perception. 
+We analysed the resulting fMRI data using MVPA.
+We test the feasibility of extracting complex information from more natural stimuli by employing a VR environment that is similar to what is commonly used in video games.
+To analyze the brain response to our more complex stimuli, we employ two different machine learning algorithms: the more traditional support vector machine (SVM) and a feedforward neural network (NN).
+These algorithms were trained using a spatially distributed subset of stimulus-responsive voxels at each time point.
 Processing the entire brain over the course of a scanning session should allow for capturing the complex and anatomically distributed interplay of neural processing while permitting the stimulus to continually vary throughout the scan.
 
 Our experiment was structured to identify those parts of the brain that encode the number of human-like characters realistically presented in a dynamic virtual world.
@@ -261,7 +283,6 @@ Performance of the resulting classifier is then evaluated on the test set in ord
 We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into ``folds" that are used to form multiple training and test sets.
 To maximize our temporal resolution, each ``frame" (time point) was treated as a separate distinct data value, rather than performing averaging across the 15-sec block as has been done in previous work \citep{BlockAveraging}.
 Since each frame is 2.5 sec., averaging would have replaced 15sec/2.5sec. = 6 samples with a single averaged sample, unnecessarily reducing the temporal resolution by a factor of 6.
-
 
 Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}. The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales less than 15 seconds.
 For our data, artificial correlations occur when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec.) block.
