@@ -48,10 +48,30 @@ When conducting research using functional magnetic resonance imaging (fMRI) and 
 Such work has generally attempted to focus on a single variable of interest and create stimuli that isolate that aspect.
 While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
 More natural and dynamic stimuli will evoke a more complex network of brain responses.
-These complex responses can make interpretation difficult, but it is important to test whether currently accepted neural correlates remain valid in more natural settings because the context in which a stimuli is presented could affect how it is processed.
-Researchers have begun using dynamic stimuli in the form of prerecorded movies and, to a lesser extent, virtual reality (VR) environments.
+These complex responses can make interpretation difficult, but it is important to test whether currently accepted neural correlates remain valid in more natural settings because the context in which a stimuli is presented may affect how it is processed.
+\emph{could also throw in a line that it is important for engineering/practical purposes as well.}
 
-Although difficult, interpreting complex stimuli is not intractable; \cite{Hasson2004} showed that subjects can exhibit relatively homogeneous functional activation when viewing natural and complex stimuli (the movie \emph{The Good, the Bad and the Ugly}).
+Researchers have been using dynamic stimuli in the form of prerecorded movies and virtual reality (VR) environments for some time.
+Although prerecorded movies have been used more frequently, VR stimuli have a number of inherent advantages: the stimulus designer has complete control over the stimuli and the subject can interact with the VR environment in real time.
+Precise control of the VR environment allows for the interrogation of very subtle parameters as well as automatic coding of the scene.
+That is, many variables of interest, such as semantic labels for visible objects, can be extracted automatically without having to manually label each frame as is usually done in experiments employing movies.
+Furthermore, realtime interaction allows for stimuli that examine feedback and learning mechanisms.
+However, VR environments do carry some disadvantages: recording a movie is typically easier than programming a VR environment and movies can be more realistic looking than VR environments.
+Additionally, the results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
+However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergance in processing will decrease.
+
+In \cite{Maguire1998}, the authors use PET and a VR stimuli to study brain regions associated with navigation and internal spacial representations. 
+In \cite{Calhoun2002}, the authors use fMRI and a VR stimuli to study brain regions associated with driving.
+In \cite{King2005}, the authors use fMRI and a VR stimuli to study brain regions associated with episodic memory.
+In \cite{King2006}, the authors use fMRI and a VR stimuli to study brain regions associated with identifying appropriate and inappropriate behavior.
+In \cite{Mathiak2006}, the authors use fMRI and a VR stimuli to study brain regions associated with violent behavior.
+In \cite{Spiers2007a}, the authors use fMRI and a VR stimuli to study brain regions associated with driving behavior.
+In \cite{Hassabis2009}, the authors used fMRI and a VR stimulus to study brain regions associated with internal representations of space in the hippocampus.
+More recently, the use of VR stimuli has waned.
+However, there are still a number of groups utilizing dynamic stimuli in the form of movies.
+In \cite{Chadwick2010}, the authors use fMRI and a movie stimulus to decode episodic memories in the hippocampus.
+In \cite{Nishimoto2011}, the authors use fMRI and a movie stimulus to decode the visual experience of a subject using a generative functional activation model.
+
 More complex stimuli require more complex analysis methods.
 In \cite{Spiers2007}, the authors review a number of experiments that use either movies or VR and discussed the wide variety of methods used to interrogate these dynamic stimuli: general linear models (GLM), statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multi-voxel pattern analysis (MVPA) being among the most popular.
 These analysis methods can generally be split into stimulus-driven methods -- such as GLM and SPM -- which measure the statistical significance of a hypothesis, and data-driven methods -- such as ICA and MVPA -- which look for patterns in the fMRI signal.
@@ -59,6 +79,11 @@ Stimulus-driven analyses provide more easily interpretable results but become le
 Data-driven analyses, on the other hand, can cope with more complex stimuli but are difficult to interpret in terms of understanding how the brain works.
 Ideally, data-driven analyses should be used to uncover hidden patterns in complex stimuli which in turn are used to help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses.
 \emph{we could move these last couple of sentences to discussion but I was hoping to assuage GLM and SPM diehards.}
+\cite{Maguire1998}\cite{Calhoun2002}\cite{King2005}\cite{King2006}\cite{Mathiak2006}\cite{Spiers2007a}
+All of the studies discusses so far used stimulus-driven analysis methods, that is, some form of GLM or SPM anlysis.
+In \cite{Hassabis2009}\cite{Chadwick2010}, the authors used MVPA to analyze their experiment
+\cite{Nishimoto2011} was analyzed using a stimulus-driven method unlike most recent decoding experiments which employ MVPA.
+The results were positive, but the complex modelling required illustrates the difficulties of such an approach.
 
 MVPA is a data-driven analysis method that has been used in a wide variety of applications \citep{Haxby2001,Mitchell2003,Haynes2006} and has seen an increase in popularity lately.
 However, MVPA has been used as somewhat of a blanket term for the application of any machine learning algorithm to fMRI data.
@@ -67,37 +92,6 @@ When applying these algorithms, the stimulus is typically organized into multipl
 This is in contrast to utlizing a General Linear Model (GLM), which treats each voxel independently as a time-series of responses over an extended period of time.
 Discuss timing issues.
 Discuss sensitivity, search light in particular.
-
-Although prerecorded movies have been used more frequently for dynamic stimuli, VR stimuli have a number of inherent advantages.
-Virtual worlds have two advantages over videos of the real world: 1) the stimulus designer has complete control over the stimuli 2) the subject can interact with the virtual world by making a sequence of decisions while in the scanner.
-First and foremost, very precise control can be exercised over VR environments.
-Second, manipulating variables in the presentation of a VR environment is much less time consuming than recording multiple videos.
-Third, the environment can be automatically coded.
-That is, the presence or absence of faces, apparent motion, etc. can all be extracted for each frame directly from the stimulus without requiring manual viewing and labeling of each frame.
-Finaly, VR stimuli allow for real-time interaction and feedback.
-However, VR does have some disadvantages.
-Recording a movie is generally much easier than programming a VR environment.
-Movies are also generally more realistic looking than VR environments.
-The results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
-However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergance in processing will decrease.
-
-Although underutilized, VR stimuli have been used for sometime, including positron emission tomography (PET) experiments.
-In \cite{Maguire1998}, the authors use PET and a VR stimuli to study brain regions associated with navigation and internal spacial representations. 
-In \cite{Calhoun2002}, the authors use fMRI and a VR stimuli to study brain regions associated with driving.
-In \cite{King2005}, the authors use fMRI and a VR stimuli to study brain regions associated with episodic memory.
-In \cite{King2006}, the authors use fMRI and a VR stimuli to study brain regions associated with identifying appropriate and inappropriate behavior.
-In \cite{Mathiak2006}, the authors use fMRI and a VR stimuli to study brain regions associated with violent behavior.
-In \cite{Spiers2007a}, the authors use fMRI and a VR stimuli to study brain regions associated with driving behavior.
-All of the studies discusses so far used stimulus-driven analysis methods, that is, some form of GLM or SPM anlysis.
-In \cite{Hassabis2009}, the authors used MVPA to analyze their experiment which used fMRI and a VR stimulus to study brain regions associated with internal representations of space in the hippocampus.
-
-More recently, the use of VR stimuli has waned.
-However, there are still a number of groups utilizing dynamic stimuli in the form of movies.
-In \cite{Chadwick2010}, the authors use fMRI and a movie stimulus to decode episodic memories in the hippocampus.
-MVPA was used to analyze this experiment.
-In \cite{Nishimoto2011}, the authors use fMRI and a movie stimulus to decode the visual experience of a subject using a generative functional activation model.
-Interestingly, this experiment was analyzed using a stimulus-driven method unlike most recent decoding experiments which employ MVPA.
-The results were positive, but the complex modelling required illustrates the difficulties of such an approach.
 
 The application of MVPA analysis to VR stimuli can create some very exciting experimental possibilities.
 However, the difficulty of designing and building VR environments along with complexities of applying and interpreting MVPA analysis have limited the utilization of this combination.
