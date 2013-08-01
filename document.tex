@@ -44,19 +44,21 @@ keyword1 \sep keyword2
 \end{frontmatter}
 
 \section{Introduction}
-When conducting research using functional magnetic resonance imaging (fMRI) to analyze how the brain responds to stimuli, static experimental paradigms have been the dominant choice.
-Such work has generally attempted to focus on a single variable of interest, such as contrast, color, or object class, and create stimuli that isolate that aspect.
+When conducting research using functional magnetic resonance imaging (fMRI) and the blood oxygen level dependent (BOLD) signal to analyze how the brain responds to stimuli, static experimental paradigms have been the dominant choice.
+Such work has generally attempted to focus on a single variable of interest and create stimuli that isolate that aspect.
 While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
-It is likely that more natural and dynamic stimuli will evoke a more complex network of brain responses.
-Furthermore, it is possible that the context in which a stimuli is presented affects the way it is processed; (need example here).
-
+More natural and dynamic stimuli will evoke a more complex network of brain responses.
+These complex responses can make interpretation difficult, but it is important to test whether currently accepted neural correlates remain valid in more natural settings because the context in which a stimuli is presented could affect how it is processed.
 Researchers have begun using dynamic stimuli in the form of prerecorded movies and, to a lesser extent, virtual reality (VR) environments.
-\citep{Hasson2004} - Experiment utilizing fMRI and a movie to exhibit homogeneous functional activation between different subjects when viewing a complex and dynamic visual scene.
+
+Although difficult, interpreting complex stimuli is not intractable; \cite{Hasson2004} showed that subjects can exhibit relatively homogeneous functional activation when viewing natural and complex stimuli (the movie \emph{The Good, the Bad and the Ugly}).
+More complex stimuli require more complex analysis methods.
 In \cite{Spiers2007}, the authors review a number of experiments that use either movies or VR and discussed the wide variety of methods used to interrogate these dynamic stimuli: general linear models (GLM), statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multi-voxel pattern analysis (MVPA) being among the most popular.
 These analysis methods can generally be split into stimulus-driven methods -- such as GLM and SPM -- which measure the statistical significance of a hypothesis, and data-driven methods -- such as ICA and MVPA -- which look for patterns in the fMRI signal.
 Stimulus-driven analyses provide more easily interpretable results but become less and less tractable as the complexity of the stimulus increases.
 Data-driven analyses, on the other hand, can cope with more complex stimuli but are difficult to interpret in terms of understanding how the brain works.
-Ideally, data-driven analyses should be used to uncover hidden patterns in complex stimuli which in turn are used to help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses (potentially move these last couple of sentences to discussion).
+Ideally, data-driven analyses should be used to uncover hidden patterns in complex stimuli which in turn are used to help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses.
+\emph{we could move these last couple of sentences to discussion but I was hoping to assuage GLM and SPM diehards.}
 
 MVPA is a data-driven analysis method that has been used in a wide variety of applications \citep{Haxby2001,Mitchell2003,Haynes2006} and has seen an increase in popularity lately.
 However, MVPA has been used as somewhat of a blanket term for the application of any machine learning algorithm to fMRI data.
@@ -95,22 +97,29 @@ In \cite{Chadwick2010}, the authors use fMRI and a movie stimulus to decode epis
 MVPA was used to analyze this experiment.
 In \cite{Nishimoto2011}, the authors use fMRI and a movie stimulus to decode the visual experience of a subject using a generative functional activation model.
 Interestingly, this experiment was analyzed using a stimulus-driven method unlike most recent decoding experiments which employ MVPA.
-The results were very positive, but the complex modelling required perfectly illustrates the difficulties of such an approach.
+The results were positive, but the complex modelling required illustrates the difficulties of such an approach.
 
-\emph{need to play up that we are more about solving technical issues related to applying MVPA to VR stimuli than doing neuroscience.}
-Our experiment uses fMRI and a VR stimuli to study brain regions associated high level object recognition and visual scene perception. 
-We analysed the resulting fMRI data using MVPA.
-We test the feasibility of extracting complex information from more natural stimuli by employing a VR environment that is similar to what is commonly used in video games.
-To analyze the brain response to our more complex stimuli, we employ two different machine learning algorithms: the more traditional support vector machine (SVM) and a feedforward neural network (NN).
-These algorithms were trained using a spatially distributed subset of stimulus-responsive voxels at each time point.
-Processing the entire brain over the course of a scanning session should allow for capturing the complex and anatomically distributed interplay of neural processing while permitting the stimulus to continually vary throughout the scan.
-
-Our experiment was structured to identify those parts of the brain that encode the number of human-like characters realistically presented in a dynamic virtual world.
-Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{countingstuff}, we used a passive-viewing stimulus paradigm and utilized machine-learning methods rather than a GLM analysis.
-We synthesized both artifical neural networks and support vector machines to classify each time point with respect to the number of characters.
-We also tested the temporal invariance of the classifers by examining their performance as a function of the separation in time between the data used to synthesize the classifier and the data used to test performance of the classifier.
-Classification accuracy was typically 3-4 times better than chance, over a range of subjects and machine-learning techniques.
-To permit anatomical evaluation of the results, the spatial distribution of classification-relevant brain activity was then obtained by "inverting" the classifiers using a sensitivity analysis, yielding a map that is computed very differently from GLM  techniques.
+The application of MVPA analysis to VR stimuli can create some very exciting experimental possibilities.
+However, the difficulty of designing and building VR environments along with complexities of applying and interpreting MVPA analysis have limited the utilization of this combination.
+We hope that by rigorously exploring the methodologies involved in applying MVPA to VR stimuli we can increase their utilization.
+\emph{we could potentially move the last few sentences to discussion but I want to get the reader into the mindset of methodology before introducing our experiment}
+We test the feasibility of extracting complex information from fMRI data while subjects view natural and dynamic stimuli.
+Our experiment was structured to identify those parts of the brain that are related to the perception and apparent number of human characters in a scene.
+Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{countingstuff}, we used a passive-viewing stimulus paradigm.
+To analyze the fMRI data from our more complex stimuli, we employed MVPA.
+More specifically, we tested two different machine learning algorithms: the support vector machine (SVM) and feedforward neural network (NN).
+These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using cross-fold validation.
+The spatially distributed subset was extracted using a novel stimulus-driven analysis which we have termed harmonic analysis.
+Harmonic analysis identifies voxels which covary in any way with the alternation of a blocked stimulus.
+We examined the relationship between an optimistic bias in the performance estimate and the temporal separation of the folds in the validation procedure.
+We have found that this analysis is crucial for minimizing bias and variance in the performance estimate of MVPA techniques.
+Our classification accuracy was 3-4 times better than chance for all subjects and all machine-learning techniques tested.
+Although it is not possible to calculate explicit confidence values without a full permutation test, these results indicate a significant effect.
+\emph{Not sure how to word that last sentence. I want to say the results are significant without explicitly calculating a p value. I wouldn't be surprised if doing the permutation test is something the reviewers ask for.}
+In order to identify voxels that are important for classification and are thus likely involved in processing the information that the classifiers were trained to identify, we have developed a sensitivity mapping technique.
+This sensitivity analysis employs an iterative approach to identify a sparse and potentially distributed set of voxels that are highly discriminative.
+This analysis contrasts the popular ``searchlight'' technique which only evaluates small localized sets of voxels.
+\emph{Should throw in a quick overview of results here.}
 
 \section{Methods}
 
@@ -120,6 +129,7 @@ All subjects participated in two MRI sessions with 36 minutes of fMRI acquisiton
 An additional session was performed to acquire a high-resolution structural anatomy for each subject. 
 Informed consent was obtained from all subjects.
 
+\subsection{Stimulus}
 Given our long-term interest in PTSD, we created a virtual town intended to mirror the kinds of real-world settings encountered by our military forces (see Fig. 1).
 The graphics software we used was the Unreal Development Kit by Epic Games  \citep{UnrealEngine2}.
 Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations thoughout the virtual town.
