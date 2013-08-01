@@ -49,10 +49,10 @@ Such work has generally attempted to focus on a single variable of interest and 
 While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
 More natural and dynamic stimuli will evoke a more complex network of brain responses.
 These complex responses can make interpretation difficult, but it is important to test whether currently accepted neural correlates remain valid in more natural settings because the context in which a stimuli is presented may affect how it is processed.
-\emph{could also throw in a line that it is important for engineering/practical purposes as well.}
+\emph{could also throw in a line that it is important for engineering and/or practical purposes as well.}
 
-Researchers have been using dynamic stimuli in the form of prerecorded movies and virtual reality (VR) environments for some time.
-Although prerecorded movies have been used more frequently, VR stimuli have a number of inherent advantages: the stimulus designer has complete control over the stimuli and the subject can interact with the VR environment in real time.
+Researchers have been using dynamic stimuli in the form of virtual reality (VR) environments \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a,Hassabis2009} and prerecorded movies \citep{Hasson2004,Chadwick2010,Nishimoto2011} for some time.
+Although the use of VR stimuli has waned recently compared to movies, VR stimuli have a number of inherent advantages: the stimulus designer has complete control over the stimuli and the subject can interact with the VR environment in real time.
 Precise control of the VR environment allows for the interrogation of very subtle parameters as well as automatic coding of the scene.
 That is, many variables of interest, such as semantic labels for visible objects, can be extracted automatically without having to manually label each frame as is usually done in experiments employing movies.
 Furthermore, realtime interaction allows for stimuli that examine feedback and learning mechanisms.
@@ -60,38 +60,24 @@ However, VR environments do carry some disadvantages: recording a movie is typic
 Additionally, the results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
 However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergance in processing will decrease.
 
-In \cite{Maguire1998}, the authors use PET and a VR stimuli to study brain regions associated with navigation and internal spacial representations. 
-In \cite{Calhoun2002}, the authors use fMRI and a VR stimuli to study brain regions associated with driving.
-In \cite{King2005}, the authors use fMRI and a VR stimuli to study brain regions associated with episodic memory.
-In \cite{King2006}, the authors use fMRI and a VR stimuli to study brain regions associated with identifying appropriate and inappropriate behavior.
-In \cite{Mathiak2006}, the authors use fMRI and a VR stimuli to study brain regions associated with violent behavior.
-In \cite{Spiers2007a}, the authors use fMRI and a VR stimuli to study brain regions associated with driving behavior.
-In \cite{Hassabis2009}, the authors used fMRI and a VR stimulus to study brain regions associated with internal representations of space in the hippocampus.
-More recently, the use of VR stimuli has waned.
-However, there are still a number of groups utilizing dynamic stimuli in the form of movies.
-In \cite{Chadwick2010}, the authors use fMRI and a movie stimulus to decode episodic memories in the hippocampus.
-In \cite{Nishimoto2011}, the authors use fMRI and a movie stimulus to decode the visual experience of a subject using a generative functional activation model.
-
 More complex stimuli require more complex analysis methods.
-In \cite{Spiers2007}, the authors review a number of experiments that use either movies or VR and discussed the wide variety of methods used to interrogate these dynamic stimuli: general linear models (GLM), statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multi-voxel pattern analysis (MVPA) being among the most popular.
-These analysis methods can generally be split into stimulus-driven methods -- such as GLM and SPM -- which measure the statistical significance of a hypothesis, and data-driven methods -- such as ICA and MVPA -- which look for patterns in the fMRI signal.
+In \cite{Spiers2007}, the authors review a number of experiments that use either movies or VR and discussed the wide variety of methods used to interrogate these dynamic stimuli: general linear models (GLM) including statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multi-voxel pattern analysis (MVPA) being among the most popular.
+These analysis methods can generally be split into stimulus-driven methods---such as SPM---which measure the statistical significance of a hypothesis, and data-driven methods---such as MVPA---which look for patterns in the fMRI signal.
 Stimulus-driven analyses provide more easily interpretable results but become less and less tractable as the complexity of the stimulus increases.
 Data-driven analyses, on the other hand, can cope with more complex stimuli but are difficult to interpret in terms of understanding how the brain works.
 Ideally, data-driven analyses should be used to uncover hidden patterns in complex stimuli which in turn are used to help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses.
-\emph{we could move these last couple of sentences to discussion but I was hoping to assuage GLM and SPM diehards.}
-\cite{Maguire1998}\cite{Calhoun2002}\cite{King2005}\cite{King2006}\cite{Mathiak2006}\cite{Spiers2007a}
-All of the studies discusses so far used stimulus-driven analysis methods, that is, some form of GLM or SPM anlysis.
-In \cite{Hassabis2009}\cite{Chadwick2010}, the authors used MVPA to analyze their experiment
-\cite{Nishimoto2011} was analyzed using a stimulus-driven method unlike most recent decoding experiments which employ MVPA.
-The results were positive, but the complex modelling required illustrates the difficulties of such an approach.
+\emph{we could move these last couple of sentences to discussion but I was hoping to assuage GLM and SPM diehards asap.}
+Although many dynamic stimuli experiments employ GLM based methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010}.
 
-MVPA is a data-driven analysis method that has been used in a wide variety of applications \citep{Haxby2001,Mitchell2003,Haynes2006} and has seen an increase in popularity lately.
-However, MVPA has been used as somewhat of a blanket term for the application of any machine learning algorithm to fMRI data.
-When applying these algorithms, the stimulus is typically organized into multiple categories or classifications (e.g. houses, faces, tools etc.).
-(add more info on general machine learning).
-This is in contrast to utlizing a General Linear Model (GLM), which treats each voxel independently as a time-series of responses over an extended period of time.
-Discuss timing issues.
-Discuss sensitivity, search light in particular.
+MVPA is a data-driven analysis method that has been used in a wide variety of applications \citep{Haxby2001,Mitchell2003,Haynes2006}.
+The term MVPA has been used as a blanket term for the application of any classification algorithm to fMRI data, although the support vector machine (SVM) is by far the most popular choice.
+When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as the presentation of houses or faces.
+The classifier is then trained to classify the pattern of BOLD activation into these categories at a particular timepoint using labeled examples.
+The performance of the classifier is defined to be the probability that it will successfully classify a previously unseen example.
+In practice, this measure of performance can only be estimated using statistical methods.
+MVPA can be applied to the whole brain as well as to small localized regions such as in the ``searchlight'' technique \citep{searchlight} which can be used to localize functional processing.
+MVPA methods consider the pattern of activation of many voxels at a particular instant in time in contrast to GLM which treats each voxel independently as a time-series of responses over an extended period of time.
+By considering multiple voxels simultaneously, MVPA has been used to identify effects that had previously seemed too fine scale to resolve with fMRI \citep{Hassabis2009}.
 
 The application of MVPA analysis to VR stimuli can create some very exciting experimental possibilities.
 However, the difficulty of designing and building VR environments along with complexities of applying and interpreting MVPA analysis have limited the utilization of this combination.
@@ -107,7 +93,7 @@ The spatially distributed subset was extracted using a novel stimulus-driven ana
 Harmonic analysis identifies voxels which covary in any way with the alternation of a blocked stimulus.
 We examined the relationship between an optimistic bias in the performance estimate and the temporal separation of the folds in the validation procedure.
 We have found that this analysis is crucial for minimizing bias and variance in the performance estimate of MVPA techniques.
-Our classification accuracy was 3-4 times better than chance for all subjects and all machine-learning techniques tested.
+Our classification accuracy was 3--4 times better than chance for all subjects and all machine-learning techniques tested.
 Although it is not possible to calculate explicit confidence values without a full permutation test, these results indicate a significant effect.
 \emph{Not sure how to word that last sentence. I want to say the results are significant without explicitly calculating a p value. I wouldn't be surprised if doing the permutation test is something the reviewers ask for.}
 In order to identify voxels that are important for classification and are thus likely involved in processing the information that the classifiers were trained to identify, we have developed a sensitivity mapping technique.
