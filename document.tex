@@ -49,7 +49,6 @@ Such work has generally attempted to focus on a single variable of interest and 
 While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
 More natural and dynamic stimuli will evoke a more complex network of brain responses.
 These complex responses can make interpretation difficult, but it is important to test whether currently accepted neural correlates remain valid in more natural settings because the context in which a stimuli is presented may affect how it is processed.
-\emph{could also throw in a line that it is important for engineering and/or practical purposes as well.}
 
 Researchers have been using dynamic stimuli in the form of virtual reality (VR) environments \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a,Hassabis2009} and prerecorded movies \citep{Hasson2004,Chadwick2010,Nishimoto2011} for some time.
 Although the use of VR stimuli has waned recently compared to movies, VR stimuli have a number of inherent advantages: the stimulus designer has complete control over the stimuli and the subject can interact with the VR environment in real time.
@@ -66,7 +65,6 @@ These analysis methods can generally be split into stimulus-driven methods---suc
 Stimulus-driven analyses provide more easily interpretable results but become less and less tractable as the complexity of the stimulus increases.
 Data-driven analyses, on the other hand, can cope with more complex stimuli but are difficult to interpret in terms of understanding how the brain works.
 Ideally, data-driven analyses should be used to uncover hidden patterns in complex stimuli which in turn are used to help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses.
-\emph{we could move these last couple of sentences to discussion but I was hoping to assuage GLM and SPM diehards asap.}
 Although many dynamic stimuli experiments employ GLM based methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010}.
 
 MVPA is a data-driven analysis method that has been used in a wide variety of applications \citep{Haxby2001,Mitchell2003,Haynes2006}.
@@ -82,7 +80,6 @@ By considering multiple voxels simultaneously, MVPA has been used to identify ef
 The application of MVPA analysis to VR stimuli can create some very exciting experimental possibilities.
 However, the difficulty of designing and building VR environments along with complexities of applying and interpreting MVPA analysis have limited the utilization of this combination.
 We hope that by rigorously exploring the methodologies involved in applying MVPA to VR stimuli we can increase their utilization.
-\emph{we could potentially move the last few sentences to discussion but I want to get the reader into the mindset of methodology before introducing our experiment}
 We test the feasibility of extracting complex information from fMRI data while subjects view natural and dynamic stimuli.
 Our experiment was structured to identify those parts of the brain that are related to the perception and apparent number of human characters in a scene.
 Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{countingstuff}, we used a passive-viewing stimulus paradigm.
@@ -95,7 +92,6 @@ We examined the relationship between an optimistic bias in the performance estim
 We have found that this analysis is crucial for minimizing bias and variance in the performance estimate of MVPA techniques.
 Our classification accuracy was 3--4 times better than chance for all subjects and all machine-learning techniques tested.
 Although it is not possible to calculate explicit confidence values without a full permutation test, these results indicate a significant effect.
-\emph{Not sure how to word that last sentence. I want to say the results are significant without explicitly calculating a p value. I wouldn't be surprised if doing the permutation test is something the reviewers ask for.}
 In order to identify voxels that are important for classification and are thus likely involved in processing the information that the classifiers were trained to identify, we have developed a sensitivity mapping technique.
 This sensitivity analysis employs an iterative approach to identify a sparse and potentially distributed set of voxels that are highly discriminative.
 This analysis contrasts the popular ``searchlight'' technique which only evaluates small localized sets of voxels.
@@ -536,32 +532,81 @@ Interestingly, the performance of the classifier is not significantly affected u
 \end{figure}
 
 \section{Discussion}
+VR environments provide a framework for creating  compex and dynamic stimuli in a controlled fashion while MVPA allows for the interrogation of neural-processing pathways when the underlying processing model is unknown.
+When used together, VR stimuli and MVPA allow for the creation of very powerful experimental designs.
+We have explored the benefits and potential pitfalls of these techniques and applied them to analyze the perception of the number of human characters presented in a natural scene.
+The VR stimuli allowed us to generate natural stimuli while controlling the number of human characters presented and MVPA allowed us to interrogate the neural representation of this information without an a priori model.
+
+The discriminative models learned by both the SVM and NN had a prediction accuracy that was 3--4 times above chance for all subjects.
 Although both classifiers performed at well above chance levels for all subjects, the average performance on individual subjects varied significantly.
 These variations could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during the scan.
 The lack of a task during our stimulus makes these variations difficult to interpret since attention and cognitive state are not well controlled.
 In future experiments, we plan to introduce a difficult task for the subjects to perform and we expect to see the average performance increase and the variation between subjects decrease.
-However, the fact that the classifiers could still perform at well above chance levels without a focused task increases our confidence in the generalizability of the results of machine learning classifiers applied to fMRI data.
+However, the fact that the classifiers could still perform at well above chance levels without a focused task increases our confidence in the results.
+In general, the classification accuracy of a particular number of perceived human characters decreased as the number of characters presented increased.
+This effect is quite evident from the confusion matrix.
+This results seems to be in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between 1 and 2 characters than it is to tell the differnce between 5 and 6 characters.
+However, there is an interesting exception to this general trend.
+There is a significant increase in confusion between 2 and 6 characters.
+Again, this effect is quite evident from the confusion matrix.
+This could be a result of 6 characters being too much for the subject to consider individually and the subject perceives 2 groups of characters rather than 6 individual characters.
 
+This estimated prediction accuracy was calculated after correcting for the bias introduced by temporal correlations in the bold signal while minimizing variance.
+As we have shown, decreasing the average temporal distance between examples in the training and test sets results in a less optimistically biased estimate of the classifier's performance.
+However, the larger the average temporal distance enforced between the training and test sets the fewer possible folds exist for crossfold-validation which results in an estimate with a higher variance.
+By characterizing the relationship between the average minimum temporal distance between the training and test sets and estimated classifier performance, we have found that the estimated performance reaches an asymptote quite quickly around 20 seconds.
+These findings are consistent with our knowledge of the hemodynamic response.
+That is, so long as the frames are separated by approximately the full width of the HRF then they can reasonably be considered independent.
+Many experiments separate their folds for crossfold-validation along runs.
+While this ensures a sufficient temporal sepration between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
+Instead, we recommend splitting the data along whatever natural boundary of the experimental procedure is closest to, but not less than 20 seconds.
 
-This could be a result of 6 characters being too much for the subject to consider individually.
-Interestingly, the confusion is not often between 5 and 6 characters, but rather between 1 or 2 and 6 characters.
-This would seem to indicate that when the number of characters grows too large, they are interpreted as a single unit.
+Ideally we would like to train our classifiers using data from the whole brain.
+In this way, our analysis will not miss any interesting interactions which we did not suspect.
+Since MVPA is used in general when a good underlying model is not known, this is especially important.
+However, the massive number of voxels causes this problem to fall prey to the curse of dimensionality.
+That is, the number of training examples required to train a classifier generally increases exponentially with the number of dimensions.
+This is one reason that the SVM is so popular and so effective in this field is that its performance is partially robust against insufficient training examples.
+Unlike other maching learning algorithms, the SVM is less susceptible to overfitting.
+Other researchers have already found that decreasing the dimensionality of the problem with various univariate measures, from percent activation to a one-way ANOVA, can be quite effective.
+Statistical stimulus-driven measures such as the one-way ANOVA have so far proven to be the most effective but they tend to make many assumptions about the underlying distribution of the BOLD signal with respect to the stimulus.
+We have developed a technique, which we call harmonic analysis, that performs a similar role without making any assumptions about the signal.
+While less appropriate for statistical analysis, we have found that harmonic analysis is an excellent tool for dimensionality reduction as a preprocessing step before MVPA.
 
-The reported results are well above chance, indicating there is useful information about character number in the BOLD signal.
-The sensitivity analysis indicates that no single region of the brain is responsible for counting characters, and there is not a simple linear relationship between magnitude of activation and cardinality.
-Rather, it is a complex pattern of distributed activation requiring machine learning methods to capture the stimulus-response relationship.
-
+The performance of our classifiers indicates that their is sufficient information in the pattern of BOLD signals to consistently decode perceived character count.
+However, it is unlikely that a single localized circuit is responsible for calculating such an abstract concept.
+Instead, we expect that the neural circuits that encode such information will be distributed as well as redundant.
+In order to explore where in the brain this information is encoded, we have developed a sensitivity mapping technique.
+This technique allows us to identify a small distributed subset of voxels that are sufficient for decoding perceived character count.
+After dimensionality reduction via harmonic analysis we have 2000 voxels.
+We have found that using sensitivity analysis we can identify a subset of voxels an order of magnitude smaller that can be used for decoding with the same accuracy as the full set.
 Only a relatively small number of brain voxels were actually needed to perform the classifications with maximal performance. This could indicate that only a small number of voxels are relevant for classification, or that the information is highly redundant between voxels, or, most likely, some a combination of these two.
 Specifically, the harmonic analysis will select some voxels that covary with the stimulus, but their patterns of activation may not be highly discriminative with respect to character count.
 These voxels will also be assigned low sensitivity values by the trained classifiers.
 On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results. Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
 
+When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitiviy maps reveal insights as to how this information may be processed in the brain.
+We have integrated the percent sensitivity contained in broad cortical regions in order to get a better overall picture of the relavent processing taking place.
+By far, the most sensitivity and therefore the most relavent mutual information is contained in the lateral occipital region.
+This region is most commonly associated with high level object recognition \citep{lateraloccipital}.
+This makes sense given that we are interested in the perception of the perceived number of a particular class of object, i.e., human characters.
+There is sensitivity, albeit to a lesser degree, in the fusiform gyrus wihch is more commonly associated with object classification tasks and in particular the perception of human faces \citep{fusiform}.
+The reduced sensitivity in the fusiform gyrus as compared to the lateral occipital region could be due in part to the fact that the only type of objects shown other than human characters were buildings and therefore there was little need for object classification.
+Rather, the number and location of the objects were more relavant for the discrimination task.
+There is significant sensitivty in MT and long the dorsal stream which indicates that ``where'' information is also important for decoding.
+The sensitivity along the dorsal stream and in particular in MT indicates that without the context of a full 3D scene and the perception of motion, decoding this particular perception may have been difficult if not impossible.
+Additionally, there is significant sensitivity contained in low level vision areas such as the calcarine sulcus.
+This is somewhat surprising given that the relavent information in the scene is not necessarily retinotopically organized given the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
+However, despite the complex relationship between the BOLD response in early visual areas and the perception of human characters, these voxels are certainly involved in processing relevant information and as such may be useful for classification when considered in conjunction with higher level visual areas.
+As expected, something as abstract as the number of perceived human characters is not contained in a single voxel but rather is encoded in a distributed manner across many different visual processing areas working together.
+Encouragingly, the sensitivity maps were consistent across subjects despite the lack of a controlled task.
 
-Earlier, we presented this new trend in brain state classification as a departure from traditional fMRI experiments which seek to identify the purpose or function of particular brain regions. \emph{This was not clearly stated in the Intro!}
-However, it is important to note that through sensitivity analysis these machine learning classifiers can be re-purposed for just that goal.
-If a region of the brain is highly important for accurately predicting the presence of a particular stimulus then it logically follows that that region must somehow be involved in the processing of that stimulus.
-Furthermore, multi-voxel non-linear machine learning classifiers can potentially identify much more complex interactions between brain regions than the simple GLM.
+Complex and dynamic stimuli allow researchers to examine neural processing in a more natural state and VR environments make it easier to design and control such stimuli.
+MVPA allows researchers to explore the coding of information in the brain when an underlying model is not already known and to discover new and interesting interactions.
+When used in conjunction, VR stimuli and MVPA allow for ground break experimental designs.
+There are some potential pitfalls that must be avoided such as increased design complexity and difficulty of intepretation.
+However, if we want to begin solving real-world problems with neuroscience then we must begin exploring how the brain responds in the real world.
 
 \bibliography{bib}
 
