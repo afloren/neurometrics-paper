@@ -57,7 +57,7 @@ That is, many variables of interest, such as semantic labels for visible objects
 Furthermore, realtime interaction allows for stimuli that examine feedback and learning mechanisms.
 However, VR environments do carry some disadvantages: recording a movie is typically easier than programming a VR environment and movies can be more realistic looking than VR environments.
 Additionally, the results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
-However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergance in processing will decrease.
+However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergence in processing will decrease.
 
 More complex stimuli require more complex analysis methods.
 In \cite{Spiers2007}, the authors review a number of experiments that use either movies or VR and discussed the wide variety of methods used to interrogate these dynamic stimuli: general linear models (GLM) including statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multi-voxel pattern analysis (MVPA) being among the most popular.
@@ -70,7 +70,7 @@ Although many dynamic stimuli experiments employ GLM based methods \citep{Maguir
 MVPA is a data-driven analysis method that has been used in a wide variety of applications \citep{Haxby2001,Mitchell2003,Haynes2006}.
 The term MVPA has been used as a blanket term for the application of any classification algorithm to fMRI data, although the support vector machine (SVM) is by far the most popular choice.
 When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as the presentation of houses or faces.
-The classifier is then trained to classify the pattern of BOLD activation into these categories at a particular timepoint using labeled examples.
+The classifier is then trained to classify the pattern of BOLD activation into these categories at a particular time-point using labeled examples.
 The performance of the classifier is defined to be the probability that it will successfully classify a previously unseen example.
 In practice, this measure of performance can only be estimated using statistical methods.
 MVPA can be applied to the whole brain as well as to small localized regions such as in the ``searchlight'' technique \citep{searchlight} which can be used to localize functional processing.
@@ -101,21 +101,21 @@ This analysis contrasts the popular ``searchlight'' technique which only evaluat
 
 \subsection{Subjects}
 Five adult males, with normal or corrected-to-normal vision, participated in the experiments. 
-All subjects participated in two MRI sessions with 36 minutes of fMRI acquisiton. 
+All subjects participated in two MRI sessions with 36 minutes of fMRI acquisition. 
 An additional session was performed to acquire a high-resolution structural anatomy for each subject. 
 Informed consent was obtained from all subjects.
 
 \subsection{Stimulus}
 Given our long-term interest in PTSD, we created a virtual town intended to mirror the kinds of real-world settings encountered by our military forces (see Fig. 1).
 The graphics software we used was the Unreal Development Kit by Epic Games  \citep{UnrealEngine2}.
-Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations thoughout the virtual town.
+Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations throughout the virtual town.
 The stimulus was rendered in real-time from the point of view of a camera moving at eye level through the town. 
 At 12 predefined locations where a varying number of characters were situated, the camera stopped to watch the characters for 15 seconds while they animated.
 Both the camera and the characters were animated at all times (no static imagery), but we choose not to include subject interaction (passive viewing) for this first experiment using virtual worlds.
 
-Because evaluation of entire fMRI volume datasets is compuationally intensive, we used a block design to enable selection of all voxels responsive to the character presentation.
+Because evaluation of entire fMRI volume datasets is computationally intensive, we used a block design to enable selection of all voxels responsive to the character presentation.
 To provide a realistic scenario, blocks consisted of alternations of traveling through an unpopulated town for 15 seconds, followed by 15-second periods of character presentations.
-Thus, the camera moves for 15 seconds at a fairly rapid rate through the virtual environment with no characters present, then slows and hovers for 15 seconds around a group of animated characters while the camera contines to pan and rotate.
+Thus, the camera moves for 15 seconds at a fairly rapid rate through the virtual environment with no characters present, then slows and hovers for 15 seconds around a group of animated characters while the camera continues to pan and rotate.
 
 \begin{figure}
 \centering
@@ -138,7 +138,7 @@ Thus, the camera moves for 15 seconds at a fairly rapid rate through the virtual
 \label{fig:stimulus-three-insurgents}
 \end{subfigure}
 \caption{
-\subref{fig:stimulus-town} An example frame from the stimulus where the camera is travel through the virtual envronment with no charcters presented.
+\subref{fig:stimulus-town} An example frame from the stimulus where the camera is travel through the virtual environment with no characters presented.
 \subref{fig:stimulus-five-soldiers} An example frame from the stimulus while characters are being presented.
 \subref{fig:stimulus-three-insurgents} Another example frame from the stimulus while characters are being presented.
 Note how the locations of the characters varies considerably between these two frames.}
@@ -151,7 +151,7 @@ The number of characters presented in each block varied from 1 to 6.
 A presentation with a particular number of characters appears twice in each run; however, the order of these presentations was randomized.
 This random ordering was generated once and repeated for each subject.
 There were 4 locations in the town used for presenting characters, and a single run made 3 loops through the town.
-The order of presentation was chosed such that configurations with the same number of characters varied in location within the town; compare figures \ref{fig:stimulus-characters} and \ref{fig:stimulus-location}.
+The order of presentation was chosen such that configurations with the same number of characters varied in location within the town; compare figures \ref{fig:stimulus-characters} and \ref{fig:stimulus-location}.
 A single type of character (friends or foes) was presented in each run. Character type was randomly shuffled between runs.
 
 \subsection{MRI protocols}
@@ -232,7 +232,7 @@ The same time series after Wiener-filter deconvolution in blue.}
 The high-resolution reference anatomies were segmented using the FreeSurfer analysis package \citep{FreeSurfer} to create approximate masks of the gray matter in each subject, as well as a surface model useful for visualization of the results.
 
 \subsection{Dimensionality reduction}
-Each voxel can be thought of as corresponding to a separate dimension of a very high dimenional space.
+Each voxel can be thought of as corresponding to a separate dimension of a very high dimensional space.
 In our case, the number of voxels/dimensions was typically 80 x 80 x 40 = 256,000.
 An important first step performed for most all machine learning algorithms is to reduce the total amount of data fed into the algorithms.
 This not only speeds up the algorithm, but if done carefully, can improve the performance of the resulting classifiers.
@@ -280,7 +280,7 @@ In the first method, which we will refer to as  ``frame split", frames were inde
 Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.We expect this method to exhibit artificially high performance because of the aforementioned temporal correlation of the slow fMRI data.
 In the second method, which we will refer to as ``block split", sets of frames corresponding to the 15 sec. blocks were independently drawn into the training and test sets.
 In our third method, we exploit the fact that each 6 min run cycles through all combinations twice, but in a different order the second time.
-Accordingly, sets of frames were independently drawn from these half-runs, refered to as ``half-run split". 
+Accordingly, sets of frames were independently drawn from these half-runs, referred to as ``half-run split". 
 In our fourth method, termed ``run split", entire 6-min runs of frames were independently drawn. 
 And finally, for the fifth method, termed ``session split", we used one entire session for training and a second session for test.
 This method is similar to measures of between-session classifier accuracy used in \citep{BetweenSessionAccuracy}.
@@ -408,7 +408,7 @@ We then projected each subject's volume sensitivity map onto their cortical surf
 \caption{medial labels}
 \label{fig:medial-labels}
 \end{subfigure}
-\caption{Color coded region labels used for aggregating sensitivity results: light blue -- superior temporal, dark blue -- middle temporal, light green -- inferior temporal, dark green -- fusiform, dark red -- superior perietal, light red -- inferior parietal, light orange -- lateral occipital, dark orange -- cuneus, light purple -- pericalcarine, dark purple -- lingual}
+\caption{Color coded region labels used for aggregating sensitivity results: light blue -- superior temporal, dark blue -- middle temporal, light green -- inferior temporal, dark green -- fusiform, dark red -- superior parietal, light red -- inferior parietal, light orange -- lateral occipital, dark orange -- cuneus, light purple -- pericalcarine, dark purple -- lingual}
 \end{figure}
 
 \section{Results}
@@ -532,7 +532,7 @@ Interestingly, the performance of the classifier is not significantly affected u
 \end{figure}
 
 \section{Discussion}
-VR environments provide a framework for creating  compex and dynamic stimuli in a controlled fashion while MVPA allows for the interrogation of neural-processing pathways when the underlying processing model is unknown.
+VR environments provide a framework for creating  complex and dynamic stimuli in a controlled fashion while MVPA allows for the interrogation of neural-processing pathways when the underlying processing model is unknown.
 When used together, VR stimuli and MVPA allow for the creation of very powerful experimental designs.
 We have explored the benefits and potential pitfalls of these techniques and applied them to analyze the perception of the number of human characters presented in a natural scene.
 The VR stimuli allowed us to generate natural stimuli while controlling the number of human characters presented and MVPA allowed us to interrogate the neural representation of this information without an a priori model.
@@ -545,7 +545,7 @@ In future experiments, we plan to introduce a difficult task for the subjects to
 However, the fact that the classifiers could still perform at well above chance levels without a focused task increases our confidence in the results.
 In general, the classification accuracy of a particular number of perceived human characters decreased as the number of characters presented increased.
 This effect is quite evident from the confusion matrix.
-This results seems to be in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between 1 and 2 characters than it is to tell the differnce between 5 and 6 characters.
+This results seems to be in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between 1 and 2 characters than it is to tell the difference between 5 and 6 characters.
 However, there is an interesting exception to this general trend.
 There is a significant increase in confusion between 2 and 6 characters.
 Again, this effect is quite evident from the confusion matrix.
@@ -558,7 +558,7 @@ By characterizing the relationship between the average minimum temporal distance
 These findings are consistent with our knowledge of the hemodynamic response.
 That is, so long as the frames are separated by approximately the full width of the HRF then they can reasonably be considered independent.
 Many experiments separate their folds for crossfold-validation along runs.
-While this ensures a sufficient temporal sepration between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
+While this ensures a sufficient temporal separation between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
 Instead, we recommend splitting the data along whatever natural boundary of the experimental procedure is closest to, but not less than 20 seconds.
 
 Ideally we would like to train our classifiers using data from the whole brain.
@@ -567,7 +567,7 @@ Since MVPA is used in general when a good underlying model is not known, this is
 However, the massive number of voxels causes this problem to fall prey to the curse of dimensionality.
 That is, the number of training examples required to train a classifier generally increases exponentially with the number of dimensions.
 This is one reason that the SVM is so popular and so effective in this field is that its performance is partially robust against insufficient training examples.
-Unlike other maching learning algorithms, the SVM is less susceptible to overfitting.
+Unlike other machine learning algorithms, the SVM is less susceptible to overfitting.
 Other researchers have already found that decreasing the dimensionality of the problem with various univariate measures, from percent activation to a one-way ANOVA, can be quite effective.
 Statistical stimulus-driven measures such as the one-way ANOVA have so far proven to be the most effective but they tend to make many assumptions about the underlying distribution of the BOLD signal with respect to the stimulus.
 We have developed a technique, which we call harmonic analysis, that performs a similar role without making any assumptions about the signal.
@@ -586,15 +586,15 @@ These voxels will also be assigned low sensitivity values by the trained classif
 On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results. Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
 
-When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitiviy maps reveal insights as to how this information may be processed in the brain.
+When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps reveal insights as to how this information may be processed in the brain.
 We have integrated the percent sensitivity contained in broad cortical regions in order to get a better overall picture of the relavent processing taking place.
 By far, the most sensitivity and therefore the most relavent mutual information is contained in the lateral occipital region.
 This region is most commonly associated with high level object recognition \citep{lateraloccipital}.
 This makes sense given that we are interested in the perception of the perceived number of a particular class of object, i.e., human characters.
-There is sensitivity, albeit to a lesser degree, in the fusiform gyrus wihch is more commonly associated with object classification tasks and in particular the perception of human faces \citep{fusiform}.
+There is sensitivity, albeit to a lesser degree, in the fusiform gyrus which is more commonly associated with object classification tasks and in particular the perception of human faces \citep{fusiform}.
 The reduced sensitivity in the fusiform gyrus as compared to the lateral occipital region could be due in part to the fact that the only type of objects shown other than human characters were buildings and therefore there was little need for object classification.
 Rather, the number and location of the objects were more relavant for the discrimination task.
-There is significant sensitivty in MT and long the dorsal stream which indicates that ``where'' information is also important for decoding.
+There is significant sensitivity in MT and long the dorsal stream which indicates that ``where'' information is also important for decoding.
 The sensitivity along the dorsal stream and in particular in MT indicates that without the context of a full 3D scene and the perception of motion, decoding this particular perception may have been difficult if not impossible.
 Additionally, there is significant sensitivity contained in low level vision areas such as the calcarine sulcus.
 This is somewhat surprising given that the relavent information in the scene is not necessarily retinotopically organized given the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
@@ -605,7 +605,7 @@ Encouragingly, the sensitivity maps were consistent across subjects despite the 
 Complex and dynamic stimuli allow researchers to examine neural processing in a more natural state and VR environments make it easier to design and control such stimuli.
 MVPA allows researchers to explore the coding of information in the brain when an underlying model is not already known and to discover new and interesting interactions.
 When used in conjunction, VR stimuli and MVPA allow for ground break experimental designs.
-There are some potential pitfalls that must be avoided such as increased design complexity and difficulty of intepretation.
+There are some potential pitfalls that must be avoided such as increased design complexity and difficulty of interpretation.
 However, if we want to begin solving real-world problems with neuroscience then we must begin exploring how the brain responds in the real world.
 
 \bibliography{bib}
