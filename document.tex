@@ -106,16 +106,18 @@ An additional session was performed to acquire a high-resolution structural anat
 Informed consent was obtained from all subjects.
 
 \subsection{Stimulus}
-Given our long-term interest in PTSD, we created a virtual town intended to mirror the kinds of real-world settings encountered by our military forces (see Fig. 1).
-The graphics software we used was the Unreal Development Kit by Epic Games  \citep{UnrealEngine2}.
+To ficilitate designing our VR stimulus, we used the Unreal Developer's Kit developed by the company Epic Games (available at \url{http://www.unrealengine.com/udk}).
+This development kit is available free of charge for non-commercial applications and uses the same rendering and game engine found in many current and popular video games.
+
+Given our long-term interest in PTSD, we created a virtual town intended to mirror the kinds of real-world settings encountered by our military forces (see figure \ref{fig:stimulus}).
 Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations throughout the virtual town.
 The stimulus was rendered in real-time from the point of view of a camera moving at eye level through the town. 
-At 12 predefined locations where a varying number of characters were situated, the camera stopped to watch the characters for 15 seconds while they animated.
-Both the camera and the characters were animated at all times (no static imagery), but we choose not to include subject interaction (passive viewing) for this first experiment using virtual worlds.
 
-Because evaluation of entire fMRI volume datasets is computationally intensive, we used a block design to enable selection of all voxels responsive to the character presentation.
-To provide a realistic scenario, blocks consisted of alternations of traveling through an unpopulated town for 15 seconds, followed by 15-second periods of character presentations.
-Thus, the camera moves for 15 seconds at a fairly rapid rate through the virtual environment with no characters present, then slows and hovers for 15 seconds around a group of animated characters while the camera continues to pan and rotate.
+During the stimulus presentation, the camera followed a preset path through the town.
+The stimulus employed a blocked approach in that the camera would be predominately moving for 15 seconds followed by 15 seconds in which it stopped to view virtual characters at predefined locations.
+There were 4 different predefined locations where the camera stopped to view characters and the number of characters present at each of these location varied from 1 to 6 (see figures \ref{fig:stimulus-five-soldiers} and \ref{fig:stimulus-three-insurgents}).
+While the camera was stopped to view the characters, the view slowly panned and rotated and the characters animated so that the scene was never static.
+We employed a passive viewing paradigm for this stimulus: there was no fixation dot and no instructions were given as to what to pay attention to during the presentation.
 
 \begin{figure}
 \centering
@@ -145,23 +147,23 @@ Note how the locations of the characters varies considerably between these two f
 \label{fig:stimulus}
 \end{figure}
 
-Scanning sessions included 5--6 six-min-duration runs,
-each containing 12 alternations between moving through the virtual environment and character presentations. 
-The number of characters presented in each block varied from 1 to 6.
-A presentation with a particular number of characters appears twice in each run; however, the order of these presentations was randomized.
-This random ordering was generated once and repeated for each subject.
-There were 4 locations in the town used for presenting characters, and a single run made 3 loops through the town.
-The order of presentation was chosen such that configurations with the same number of characters varied in location within the town; compare figures \ref{fig:stimulus-characters} and \ref{fig:stimulus-location}.
-A single type of character (friends or foes) was presented in each run. Character type was randomly shuffled between runs.
+Scanning sessions included 5--6 runs that were 6 minute in duration.
+Each run contained 12 alternations between moving through the virtual environment and character presentations. 
+Since there were 4 predefined character viewling locations, the camera made 3 laps around the town during a single run.
+While the number of characters presented in each block varied from 1 to 6, the stimulus was controlled such that a presentation with a particular number of characters appears twice in each run.
+The ordering of the presentations was also controlled such that presentations with the same number of characters were located at different viewing points.
+The order of the presentations was generated randomly given the previous constraints, but the same ordering was used for each subject.
+A single type of character (friends or foes) was presented in each run. 
+The character type presented was alternated for each run.
 
 \subsection{MRI protocols}
-Imaging was performed an GE Signa Excite HD scanner using the product 8-channel head coil.
+Imaging was performed on a GE Signa Excite HD scanner using the product 8-channel head coil.
 We collected whole-brain image volumes using a custom GRAPPA-accelerated EPI sequence \citep{newbold}. 
 Sequence parameters were g-factor = 2,  TE = 25 ms, TR = 2.5 s, and  2.5-mm cubic voxels across a 200 mm field-of-view. 
 The slice prescription included 40 slices oriented along the AC-PC axis. 
 A high-order shim was  performed to improve field homogeneity.
 
-A set of T1-weighted structural images was obtained on the same prescription at the end of each machine-learning session using a three-dimensional (3D) fast RF-spoiled GRASS (fSPGR) sequence. 
+A set of T1-weighted structural images was obtained on the same prescription at the end of functional acquisition session using a three-dimensional (3D) fast RF-spoiled GRASS (fSPGR) sequence. 
 These anatomical images were then used to align the functional data to a structural 3D reference volume, which was acquired for each subject in a separate session. 
 The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D, inversion-prepared, fSPGR sequence (minimum TE and TR, TI = 450 ms, 15$^\circ$ flip angle, isometric voxel size of 0.7 mm, 2 excitations, $\sim$28-minute duration).
 
@@ -171,7 +173,8 @@ The first 15 seconds of data  were discarded to reduce transient effects.
 We then estimated in-scan motion using a robust scheme \citep{Nestares-and-Heeger-2000}. 
 Between-run motion was corrected using the same intensity-based scheme, this time applied to the temporal average intensity of the entire scan. 
 The first run of the session was used as the reference. 
-Additionally, we applied a Wiener filter deconvolution \citep{Wiener} using a generic difference-of-gamma HRF \citep{Glover} to shift the peak response in time so that it is aligned with its associated stimulus.
+Additionally, we applied a Wiener filter deconvolution \citep{Wiener} using a generic difference-of-gamma HRF \citep{Glover} as the kernel to shift the peak response in time so that it is aligned with its associated stimulus.
+We are interested in learning associations between patterns of activation in the brain and stimulus presentation so it is important that the activation is properly aligned temporally with the stimulus.
 
 Wiener filter deconvolution can be summarized as follows:
 Given a system
@@ -229,7 +232,8 @@ The same time series after Wiener-filter deconvolution in blue.}
 \label{fig:wiener-deconvolution}
 \end{figure}
 
-The high-resolution reference anatomies were segmented using the FreeSurfer analysis package \citep{FreeSurfer} to create approximate masks of the gray matter in each subject, as well as a surface model useful for visualization of the results.
+The high-resolution reference anatomies were segmented using the Freesurfer image analysis suite to create approximate parcellations of the gray matter in each subject, as well as a surface model useful for visualization of the results.
+Freesurfer is documented and freely available for download online (\url{http://surfer.nmr.mgh.harvard.edu/}).
 
 \subsection{Dimensionality reduction}
 Each voxel can be thought of as corresponding to a separate dimension of a very high dimensional space.
