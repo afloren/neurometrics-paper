@@ -267,19 +267,32 @@ Therefore, we will only be presenting classifier accuracy estimates for characte
 However, as a check we built classifiers to distinguish between time points with and without characters, and their performance was consistently above 95\%, confirming the proper operation of our machine-learning algorithms.
 
 \subsection{Classification}
-Using the time series from the voxels selected by the harmonic power analysis, we trained a linear SVM and a feed forward neural network.
-Generally, the performance of machine learning algorithms is estimated by splitting the available data into a training set and a test set and then evaluating the performance of the algorithm on the test set after ``training'' the model using only the training set \citep{needRef1}.
-The idea is that the algorithm's performance on the test set is an estimate of the classifier's performance on new data gathered at a different time.
-Neural network machine learning algorithms, further subdivide the data into training, validation, and test sets.
-The algorithm is trained on the training set and after each iteration is evaluated with the validation set.
-When the performance on validation set stops improving, the algorithm stops iterating; this procedure avoids so-called ``over fitting" of the data.
-Performance of the resulting classifier is then evaluated on the test set in order to estimate its future performance \citep{needRef2}.
+Using the time series from the voxels selected by the harmonic analysis, we trained a linear SVM \citep{Cortes1995} and a feedforward neural network \citep{Hornik1989,Hagan1994}.
+To maximize our temporal resolution, each 2.5-second frame (time point) was treated as a separate example, rather than agregating across the 15-second blocks.
 
-\emph{The above paragraph needs a couple of elementary references on machine-learning approaches.}
+To measure the significance of the results and to compare the SVM and NN we must have a measure of their performance.
+The performance of machine learning algorithms is generally defined to be the expected accuracy of the classifier on a previously unseen example \citep{MLBook}.
+In practice, this measure of performance can only be estimated.
+This is commonly achieved by first splitting the available examples into a training and test sets.
+Then, the performance is estimated as the average accuracy of the classifier on the test set after having been trained on the training set.
+In practice, the process of splitting all of the available examples into training and test sets is performed multiple times to reduce the variance of the performance estimate.
+This procedure is known as cross-fold validation \citep{Kohavi1995} where each split of the data into training and test sets is called a ``fold''.
 
-We estimated the performance of our algorithms using a cross-fold approach \citep{Kohavi1995} where the data is split into ``folds" that are used to form multiple training and test sets.
-To maximize our temporal resolution, each ``frame" (time point) was treated as a separate distinct data value, rather than performing averaging across the 15-sec block as has been done in previous work \citep{BlockAveraging}.
-Since each frame is 2.5 sec., averaging would have replaced 15sec/2.5sec. = 6 samples with a single averaged sample, unnecessarily reducing the temporal resolution by a factor of 6.
+The SVM finds the hyperplane in the high-dimensional input space that separates examples from different classes with the greatest margin \citep{Cortes1995}.
+A simple SVM can only discriminate between two classes.
+However, it is possible to combine multiple SVMs to discriminate between more than two classes.
+The two most common approaches to building a multiclass SVM are one-versus-all and one-versus-one.
+In one-versus-all, SVMs are trained to distinguish between a particular class and all examples not from that class.
+In one-versus-one, SVMs are trained to distinguish between every possible combination of classes.
+For $N$ classes, one-versus-all classifiers require training $(N-1)$ SVMs while one-versus-one classifiers require training $(N-1)(N-2)$ SVMs.
+In our implementation we used the one-versus-one approach because it generally has superior performance.
+
+Feedforward neural networks trained via back propagation learn to approximate functions using compressive non-linearities \citep{Hagan1994}.
+Any function (including non-linear and discontinuous functions) can be approximated to an arbitrary degree given a sufficient number of hidden units \citep{Hornik1989}.
+Precisely because of this flexibility, feedforward neural networks are prone to overfitting.
+That is, the network perfectly encodes the training examples at the expense of poor performance on the test examples.
+For this reason, the feedforward neural network further subdivides the training examples into training and validation sets.
+The validation set is used to determine when the network has begun overfitting the training examples and ceases iteration.
 
 Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}. The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales less than 15 seconds.
 For our data, artificial correlations occur when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec.) block.
@@ -347,10 +360,11 @@ Similarly, the value of $C_{jj}$ divided by the sum of all values along column $
 Finally, overall classifier performance can be estimated by dividing the sum along the diagonal, or the trace, by the sum of the entire matrix.
 
 \subsection{Sensitivity Analysis}
-Non-linear multi-variate machine-learning classifiers can tell us whether the time-series data from a subset of human brain voxels is discriminative with respect to the task being predicted. 
+MVPA can tell us whether the time-series data from a subset of human brain voxels is discriminative with respect to the stimulus being classified. 
 However, these results do not show which voxels in the large group were actually important for that discrimination.
 This information is important for localizing functions in the brain.
-One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area \citep{needRef3}.
+One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area.
+This is known as the ``searchlight'' technique \citep{Kriegeskorte2006}.
 While this technique is effective for simple highly localized functions, the results are less clear when the function is sparsely distributed over the brain.
 No one region may contain enough information for accurate predictions.
 
@@ -396,6 +410,17 @@ This sensitivity can now be projected back into the volume anatomy space to crea
 Further, we used this sensitivity analysis to further reduce the dimensionality of the neural network by retraining the algorithm using only the voxels that had a sensitivity over some threshold.
 This threshold was determined by iteratively retraining the neural network with successively higher thresholds until the performance of the classifier began to degrade.
 
+To better explore the relationship between sensitivity and classifier performance we plotted the performance of the classifier when trained on only a subset of the input voxels as determined by a minimum sensitivity cut off.
+Figure \ref{fig:sensitivity-cutoff} shows this plot on top of the histogram of sensitivity values.
+Interestingly, the performance of the classifier is not significantly affected until a majority of the voxels have been removed.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{figures/performance-verse-sensitivity-cutoff}
+\caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network $F_1$ score when the inputs are pruned at a particular sensitivity value. }
+\label{fig:sensitivity-cutoff}
+\end{figure}
+
 We employed FreeSurfer \citep{FreeSurfer} to construct cortical surfaces for each of our subjects using the previously collected high resolution anatomy volumes.
 Then, we constructed 10 anatomical labels on each surface based on FreeSurfer's automatically generated labels.
 These labels are presented in figure \ref{fig:labels}.
@@ -403,7 +428,7 @@ The labels we used largely overlap with FreeSurfer's labels.
 However, the label for the banks of the superior temporal sulcus was subdivided and incorporated back in to the superior and middle temporal labels.
 Additionally, the supramarginal label was merged with the inferior parietal label.
 For most subjects, several of the automatic labels were also edited by hand to better conform with the sulcal boundaries of the subject.
-We then projected each subject's volume sensitivity map onto their cortical surface and blurred along the surface using a five millimeter full-width half-maximum (FWHM) Gaussian kernel.
+We then projected each subject's volume sensitivity map onto their cortical surface and blurred along the surface using a 5 mm full-width half-maximum (FWHM) Gaussian kernel.
 
 \begin{figure}
 \centering
@@ -484,7 +509,10 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \label{fig:average-confusion}
 \end{figure}
 
-Sensitivity maps show a preponderance of brain activity in posterior parietal lobe, lateral occipital areas, and dorsal early extrastriate visual areas \ref{fig:ExampleSubjects}. Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal frontal cortex. After aligning all of the subjects to the MNI template \ref{MNI} and combining these sensitivity maps, we find that classifier decisions were heavily dependent on activity in occipital and parietal lobes \ref{fig:MNI-average-sensitivity}.  Classifier sensitivity was most affect by, in order of importance, dorsal parietal lobe, cuneus, and lateral occipital regions \ref{sensitivityTable}. 
+Sensitivity maps show a preponderance of brain activity in posterior parietal lobe, lateral occipital areas, and dorsal early extrastriate visual areas \ref{fig:ExampleSubjects}. 
+Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal frontal cortex. 
+After aligning all of the subjects to the MNI template \ref{MNI} and combining these sensitivity maps, we find that classifier decisions were heavily dependent on activity in occipital and parietal lobes \ref{fig:MNI-average-sensitivity}.  
+Classifier sensitivity was most affected by, in order of importance, dorsal parietal lobe, cuneus, and lateral occipital regions \ref{sensitivityTable}. 
 
 \begin{figure*}
 \centering
@@ -530,17 +558,7 @@ The left hemisphere is presented for the first and third subjects while the righ
 \label{fig:individual-sensitivity}
 \end{figure*}
 
-To better explore the relationship between sensitivity and classifier performance we plotted the performance of the classifier when trained on only a subset of the input voxels as determined by a minimum sensitivity cut off.
-Figure \ref{fig:sensitivity-cutoff} shows this plot on top of the histogram of sensitivity values.
-Interestingly, the performance of the classifier is not significantly affected until a majority of the voxels have been removed.
 
-
-\begin{figure}
-\centering
-\includegraphics[width=0.4\textwidth]{figures/performance-verse-sensitivity-cutoff}
-\caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network $F_1$ score when the inputs are pruned at a particular sensitivity value. }
-\label{fig:sensitivity-cutoff}
-\end{figure}
 
 \section{Discussion}
 VR environments provide a framework for creating  complex and dynamic stimuli in a controlled fashion while MVPA allows for the interrogation of neural-processing pathways when the underlying processing model is unknown.
