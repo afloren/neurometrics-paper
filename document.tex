@@ -236,13 +236,20 @@ The high-resolution reference anatomies were segmented using the Freesurfer imag
 Freesurfer is documented and freely available for download online (\url{http://surfer.nmr.mgh.harvard.edu/}).
 
 \subsection{Dimensionality reduction}
-Each voxel can be thought of as corresponding to a separate dimension of a very high dimensional space.
+When performing MVPA, each voxel can be thought of as corresponding to a separate dimension of a very high dimensional space.
 In our case, the number of voxels/dimensions was typically 80 x 80 x 40 = 256,000.
-An important first step performed for most all machine learning algorithms is to reduce the total amount of data fed into the algorithms.
-This not only speeds up the algorithm, but if done carefully, can improve the performance of the resulting classifiers.
+Unfortunately, the number of examples necessary to train a classifier tends to increase exponentially with the number of dimensions.
+This is sometimes referred to as the ``curse of dimensionality''.
+Therefore, as a preprocessing step before applying our machine learning algorithms we want to reduce this dimensionality.
+This not only speeds up both training and classification but can also improve the performance of the resulting classifiers.
 
-In our case, we select voxels that are driven most strongly by the 30-sec duty cycle of our block design
-using a harmonic power analysis technique. 
+In other applications, dimensionality reduction tools such as PCA are often used.
+However, PCA only selects the orthogonal dimensions with the highest variance which is very likely to be noise and is therefore not well suited for fMRI analysis.
+As other researchers have founds, nearly any univariate statistic used in convential fMRI analysis is also a good candidate for selecting voxels.
+While effective, these methods were not designed for feature selection and many of them make a number of assumptions about the data such as Gaussianity.
+We have developed a method of dimensionality reduction, which we call harmonic analysis, that selects voxels that are driven most strongly by the 30-second duty cycle of our block design.
+This method is similar to other univeriate statistics but the only assumption it makes is that the BOLD response is linear with respect to the stimulus.
+The primary advantage  of harmonic analysis over other univariate statistics is that it can detect voxels that covary with the stimulus regardless of phase.
 One can show that the response of any linear system to a blocked alternation at frequency $f$ will contain power only at $f$ and its harmonics. 
 Under a linear response assumption, we can therefore form an unbiased estimate of the response power by summing the power at these frequencies. 
 Let $y(t)$ be the recorded discrete time series at some voxel.
@@ -256,12 +263,12 @@ Because the BOLD response has a predominantly low-pass temporal frequency respon
 Using $P_h$, we then selected a particular number $N$ (typically 2000) voxels with the greatest power. 
 
 This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
-Therefore, we will only be presenting classifier accuracy estimates for character count, and not for the presence or absence of characters to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{CrossContamination}.
+Therefore, we will only be presenting classifier accuracy estimates for character count, and not for the presence or absence of characters to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{Pereira2009}.
 However, as a check we built classifiers to distinguish between time points with and without characters, and their performance was consistently above 95\%, confirming the proper operation of our machine-learning algorithms.
 
 \subsection{Classification}
 Using the time series from the voxels selected by the harmonic power analysis, we trained a linear SVM and a feed forward neural network.
-Generally, the performance of machine learning algorithms is estimated by splitting the available data into a training set and a test set and then evaluating the performance of the algorithm on the test set after ``training" the model using only the training set \citep{needRef1}.
+Generally, the performance of machine learning algorithms is estimated by splitting the available data into a training set and a test set and then evaluating the performance of the algorithm on the test set after ``training'' the model using only the training set \citep{needRef1}.
 The idea is that the algorithm's performance on the test set is an estimate of the classifier's performance on new data gathered at a different time.
 Neural network machine learning algorithms, further subdivide the data into training, validation, and test sets.
 The algorithm is trained on the training set and after each iteration is evaluated with the validation set.
