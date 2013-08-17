@@ -45,20 +45,17 @@ keyword1 \sep keyword2
 \end{frontmatter}
 
 \section{Introduction}
-When conducting research using functional magnetic resonance imaging (fMRI) and the blood oxygen level dependent (BOLD) signal to analyze how the brain responds to stimuli, static experimental paradigms have been the dominant choice.
+Most research using functional magnetic resonance imaging (fMRI) and the blood oxygen level dependent (BOLD) signal use static images to analyze how the brain responds to stimuli, e.g., [ref1, ref2, ref3; see ref4 for review].
 Such work has generally attempted to focus on a single variable of interest and create stimuli that isolate that aspect.
 While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
 More natural and dynamic stimuli will evoke a more complex network of brain responses.
-These complex responses can make interpretation difficult, but it is important to test whether currently accepted neural correlates remain valid in more natural settings because the context in which a stimuli is presented may affect how it is processed.
+These complex responses can make interpretation difficult, but it is important to test whether currently accepted neural correlates remain valid in more natural settings because the context in which a stimuli is presented will affect how it is processed.
 
 Researchers have been using dynamic stimuli in the form of virtual reality (VR) environments \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a,Hassabis2009} and prerecorded movies \citep{Hasson2004,Chadwick2010,Nishimoto2011} for some time.
-Although the use of VR stimuli has waned recently compared to movies, VR stimuli have a number of inherent advantages: the stimulus designer has complete control over the stimuli and the subject can interact with the VR environment in real time.
+VR stimuli have a two strong advantages over prerecorded movies: the stimulus designer has complete control over the stimuli and the subject can interact with the VR environment in real time.
 Precise control of the VR environment allows for the interrogation of very subtle parameters as well as automatic coding of the scene.
-That is, many variables of interest, such as semantic labels for visible objects, can be extracted automatically without having to manually label each frame as is usually done in experiments employing movies.
-Furthermore, realtime interaction allows for stimuli that examine feedback and learning mechanisms.
-However, VR environments do carry some disadvantages: recording a movie is typically easier than programming a VR environment and movies can be more realistic looking than VR environments.
-Additionally, the results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
-However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergence in processing will decrease.
+Many variables of interest, such as semantic labels for visible objects are explicitly specified by the VR design, avoiding the need to manually label each frame as is usually done in experiments employing movies.
+Furthermore, real-time interaction allows for stimuli that examine feedback and learning mechanisms in a realistic context.
 
 More complex stimuli require more complex analysis methods.
 In \cite{Spiers2007}, the authors review a number of experiments that use either movies or VR and discussed the wide variety of methods used to interrogate these dynamic stimuli: general linear models (GLM) including statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multi-voxel pattern analysis (MVPA) being among the most popular.
@@ -632,11 +629,13 @@ However, despite the complex relationship between the BOLD response in early vis
 As expected, something as abstract as the number of perceived human characters is not contained in a single voxel but rather is encoded in a distributed manner across many different visual processing areas working together.
 Encouragingly, the sensitivity maps were consistent across subjects despite the lack of a controlled task.
 
-Complex and dynamic stimuli allow researchers to examine neural processing in a more natural state and VR environments make it easier to design and control such stimuli.
+However, if we want to begin solving real-world problems with neuroscience then .Complex and dynamic stimuli allow researchers to examine neural processing in a more natural state and VR environments make it easier to design and control such stimuli.
 MVPA allows researchers to explore the coding of information in the brain when an underlying model is not already known and to discover new and interesting interactions.
 When used in conjunction, VR stimuli and MVPA allow for ground break experimental designs.
 There are some potential pitfalls that must be avoided such as increased design complexity and difficulty of interpretation.
-However, if we want to begin solving real-world problems with neuroscience then we must begin exploring how the brain responds in the real world.
+Moreover, VR environments do carry some disadvantages: recording a movie is typically easier than programming a VR environment and movies can be more realistic looking than VR environments.
+Additionally, the results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
+However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergence in processing will decrease.
 
 \bibliography{bib}
 
