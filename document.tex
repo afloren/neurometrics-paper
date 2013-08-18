@@ -455,7 +455,7 @@ There is some variation of classifier performance between subjects, but in all c
 \caption{The performance estimates of the \subref{fig:svm-performance-graph} linear SVM and the \subref{fig:nn-performance-graph} feedforward neural network after cross-validation for all five subjects and four of the training and test split methods. }
 \end{figure*}
 
-It is evident that, as the average temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
+It is evident that, as the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
 This relationship is plotted in figure \ref{fig:performance-verse-temporal-distance}.
 
 \begin{figure}
@@ -492,14 +492,14 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \caption{}
 \label{fig:average-confusion-nn}
 \end{subfigure}
-\caption{The average confusion matrices for the \subref{fig:average-confusion-svm} SVM and \subref{fig:average-confusion-nn} NN across all subjects using the block split.}
+\caption{The average confusion matrices for the \subref{fig:average-confusion-svm} SVM and \subref{fig:average-confusion-nn} neural network classifiers across all subjects using the block split.}
 \label{fig:average-confusion}
 \end{figure}
 
-Sensitivity maps show a preponderance of brain activity in posterior parietal lobe, lateral occipital areas, and dorsal early extrastriate visual areas \ref{fig:ExampleSubjects}. 
-Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal frontal cortex. 
+Sensitivity maps show a preponderance of classification sensitivity in lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe, \ref{fig:ExampleSubjects}. 
+Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal and frontal cortex. 
 After aligning all of the subjects to the MNI template \ref{MNI} and combining these sensitivity maps, we find that classifier decisions were heavily dependent on activity in occipital and parietal lobes \ref{fig:MNI-average-sensitivity}.  
-Classifier sensitivity was most affected by, in order of importance, dorsal parietal lobe, cuneus, and lateral occipital regions \ref{sensitivityTable}. 
+Specifically, classifier sensitivity was most affected by, in order of importance, lateral occipital regions, lingual areas, and dorsal parietal lobe  \ref{sensitivityTable}. 
 
 \begin{figure*}
 \centering
@@ -570,9 +570,10 @@ This could be a result of 6 characters being too much for the subject to conside
 This estimated prediction accuracy was calculated after correcting for the bias introduced by temporal correlations in the bold signal while minimizing variance.
 As we have shown, decreasing the average temporal distance between examples in the training and test sets results in a less optimistically biased estimate of the classifier's performance.
 However, the larger the average temporal distance enforced between the training and test sets the fewer possible folds exist for crossfold-validation which results in an estimate with a higher variance.
-By characterizing the relationship between the average minimum temporal distance between the training and test sets and estimated classifier performance, we have found that the estimated performance reaches an asymptote quite quickly around 20 seconds.
+By characterizing the relationship between the average minimum temporal distance between the training and test sets and estimated classifier performance, we have found that the estimated performance reaches a minimum around 20 seconds.
 These findings are consistent with our knowledge of the hemodynamic response.
-That is, so long as the frames are separated by approximately the full width of the HRF then they can reasonably be considered independent.
+That is, so long as the frames are separated by approximately the time-scale of the HRF then they can reasonably be considered independent, and this separation produces an appropriately conservative measure of classification performance. 
+However, it is interesting that slightly better performance may be obtained for somewhat longer delays.
 Many experiments separate their folds for crossfold-validation along runs.
 While this ensures a sufficient temporal separation between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
 Instead, we recommend splitting the data along whatever natural boundary of the experimental procedure is closest to, but not less than 20 seconds.
@@ -583,23 +584,22 @@ Since MVPA is used in general when a good underlying model is not known, this is
 However, the large number of voxels can then intractably confound the MVPA because
 the number of training examples required to train a classifier generally increases exponentially with the number of dimensions.
 One reason that the SVM is so popular and so effective in this field is that its performance is partially robust against insufficient training examples.
-Unlike other machine learning algorithms, the SVM is less susceptible to overfitting.
-Other researchers have already found that decreasing the dimensionality of the problem with various univariate measures, from percent activation to a one-way ANOVA, can be quite effective.
-Statistical stimulus-driven measures such as the one-way ANOVA have so far proven to be the most effective but they tend to make many assumptions about the underlying distribution of the BOLD signal with respect to the stimulus.
+Unlike other machine learning algorithms, the SVM is less susceptible to overfitting \emph{needs refs}.
+Other researchers have already found that decreasing the dimensionality of the problem with various univariate measures, from percent activation to a one-way ANOVA, can be quite effective \emph{need references again}.
+Statistical stimulus-driven measures such as the one-way ANOVA have so far proven to be the most effective \emph{need refs again} but they rely upon a normal distribution of the BOLD signal with respect to the stimulus.
 We have developed a technique, which we call harmonic analysis, that performs a similar role without making any assumptions about the signal.
 While less appropriate for statistical analysis, we have found that harmonic analysis is an excellent tool for dimensionality reduction as a preprocessing step before MVPA.
 
-The performance of our classifiers indicates that their is sufficient information in the pattern of BOLD signals to consistently decode perceived character count.
-However, it is unlikely that a single localized circuit is responsible for calculating such an abstract concept.
-Instead, we expect that the neural circuits that encode such information will be distributed as well as redundant.
-In order to explore where in the brain this information is encoded, we have developed a sensitivity mapping technique.
-This technique allows us to identify a small distributed subset of voxels that are sufficient for decoding perceived character count.
-After dimensionality reduction via harmonic analysis we have 2000 voxels.
-We have found that using sensitivity analysis we can identify a subset of voxels an order of magnitude smaller that can be used for decoding with the same accuracy as the full set.
-Only a relatively small number of brain voxels were actually needed to perform the classifications with maximal performance. This could indicate that only a small number of voxels are relevant for classification, or that the information is highly redundant between voxels, or, most likely, some a combination of these two.
+The performance of our classifiers indicates that their is sufficient information in the pattern of BOLD signals to decode character count in a freely viewed stimulus. 
+The results also suggest that the neural circuits that encode such information are both distributed and redundant.
+In order to explore where in the brain this information is encoded, we developed a sensitivity mapping technique.
+This technique allowed us to identify a small distributed subset of voxels that are sufficient for decoding perceived character count.
+Using dimensionality reduction via harmonic analysis, we initially begin classification with 2000 voxels.
+Using sensitivity analysis, we could then identify a subset of voxels an order of magnitude smaller that can be used for decoding with nearly the same accuracy as the full set.
+This could indicate that only a small number of voxels are relevant for classification, or that the information is highly redundant between voxels, or, most likely, some a combination of these two.
 Specifically, the harmonic analysis will select some voxels that covary with the stimulus, but their patterns of activation may not be highly discriminative with respect to character count.
 These voxels will also be assigned low sensitivity values by the trained classifiers.
-On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results. Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
+On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results \emph{needs refs}. Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
 
 \emph{The following two sentences were originally in the Introduction. I've moved it here to the Discussion, but it needs to be expanded. Write a few sentences that explain how our approach is different and better than the searchlight scheme. Are there any other competitors?} This sensitivity analysis employs an iterative approach to identify a sparse and potentially distributed set of voxels that are highly discriminative.
@@ -616,13 +616,16 @@ Substantial sensitivity (16.6%) is also present in dorsal parietal cortex. The s
 As expected, something as abstract as the number of perceived human characters is not contained in a single voxel but rather is encoded in a distributed manner across many different visual processing areas working together.
 Encouragingly, the sensitivity maps were consistent across subjects despite the lack of a controlled task.
 
+There are some potential pitfalls in our approach that must be avoided, such as increased design complexity and difficulty of interpretation. 
+Here, we have offered some initial tools and analyses to deal with these limitations, but further work is clearly needed.
+Moreover, VR environments do carry some disadvantages over simpler dynamic stimuli such as prerecorded movies. Recording a movie is typically easier than programming a VR environment and movies can have a more realistic appearance than VR environments.
+Additionally, the results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
+However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergence in processing will decrease
+
 Complex and dynamic stimuli allow researchers to examine neural processing in a more natural state and VR environments make it easier to design and control such stimuli.
 MVPA allows researchers to explore the coding of information in the brain when an underlying model is not already known and to discover new and interesting interactions.
 Used together, VR stimuli and MVPA allow for novel and valuable experimental designs.
-There are some potential pitfalls that must be avoided such as increased design complexity and difficulty of interpretation.
-Moreover, VR environments do carry some disadvantages over simpler dynamic stimuli such as prerecorded movies. Recording a movie is typically easier than programming a VR environment and movies can have a more realistic appearance than VR environments.
-Additionally, the results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
-However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergence in processing will decrease. Altogether, our results suggest that the combination of VR with machine-learning analysis schemes will offer a fruitful new tool for the analysis of brain responses in stimulus scenarios that more closely resemble natural human experience.
+Altogether, our results suggest that the combination of VR with machine-learning analysis schemes will offer a fruitful new tool for the analysis of brain responses in stimulus scenarios that more closely resemble natural human experience.
 
 \bibliography{bib}
 
