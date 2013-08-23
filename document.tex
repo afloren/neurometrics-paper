@@ -45,7 +45,7 @@ keyword1 \sep keyword2
 \end{frontmatter}
 
 \section{Introduction}
-Most research using functional magnetic resonance imaging (fMRI) and the blood oxygen level dependent (BOLD) signal utilize static images to analyze how the brain responds to stimuli \citep{traditionalfmri}.
+Much research using functional magnetic resonance imaging (fMRI) and the blood oxygen level dependent (BOLD) signal utilize static images to analyze how the brain responds to stimuli.
 Such work usually focuses on a single variable of interest, and creates stimuli that attempt to isolate that variable.
 While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
 More natural and dynamic stimuli will evoke a more complex network of brain responses.
@@ -601,7 +601,7 @@ Using sensitivity analysis, we could then identify a subset of voxels an order o
 This could indicate that only a small number of voxels are relevant for classification, or that the information is highly redundant between voxels, or, most likely, some a combination of these two.
 Specifically, the harmonic analysis will select some voxels that covary with the stimulus, but their patterns of activation may not be highly discriminative with respect to character count.
 These voxels will also be assigned low sensitivity values by the trained classifiers.
-On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results \citep{spatialcorrelations}. 
+On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results \citep{Engel1997}. 
 Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
 
@@ -610,11 +610,11 @@ Therefore, high sensitivity is sufficient but not necessary for the localization
 
 When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps reveal insights as to how this information may be processed in the brain (Table 1).
 By far, the most sensitivity (42\%) and therefore the most relevant mutual information is contained in the lateral occipital region (LO).
-This region is most commonly associated with high level object recognition \citep{lateraloccipital}.
-This is in contrast to the comparatively weak sensitivity (5.7\%) observed in upon the fusiform gyrus, which is also associated with object classification tasks and in particular the perception of human faces \citep{fusiform}.
+This region is most commonly associated with high level object recognition \citep{Grill-Spector2001}.
+This is in contrast to the comparatively weak sensitivity (5.7\%) observed in upon the fusiform gyrus, which is also associated with object classification tasks and in particular the perception of human faces \citep{Kanwisher1997}.
 Additionally, there is substantial sensitivity contained in low level retinotopic visual areas. The pericalcarine, lingual, and cuneus areas altogether account for 25\% of the observed sensitivity. The more ventral lingual areas contribute more strongly (13.9\%) then cuneus (3.7\%).
 This is somewhat surprising given that the relevant information in the scene is not necessarily retinotopically organized given the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
-The presence of sensitivity in early, retinotopic visual areas, together with the preponderance of sensitivity in lateral-occipital areas may reflect the importance of retinotopic organization in the decoding of group size. LO combines both object-selectivity with retinotopic specificity \citep{Sayres2008}. Different group sizes could evoke complex but stereotypical patterns of responses in LO and other retinotopically organized areas as subjects visually interrogate the stimuli. Ventral early visual areas apparently also contribute to this information. The less retinotopic fusiform regions \citep{Sayres2010} also appear to less useful for decoding character number.
+The presence of sensitivity in early, retinotopic visual areas, together with the preponderance of sensitivity in lateral-occipital areas may reflect the importance of retinotopic organization in the decoding of group size. LO combines both object-selectivity with retinotopic specificity \citep{Sayres2008}. Different group sizes could evoke complex but stereotypical patterns of responses in LO and other retinotopically organized areas as subjects visually interrogate the stimuli. Ventral early visual areas apparently also contribute to this information. The less retinotopic fusiform regions \citep{Schwarzlose2008,Sayres2010} also appear to less useful for decoding character number.
 Substantial sensitivity (16.6\%) is also present in dorsal parietal cortex. The sensitivity along the dorsal stream suggests that the perception of motion and position are also useful for decoding subject number from our complex and dynamic VR stimuli.
 As expected, something as abstract as the number of perceived human characters is not contained in a single voxel but rather is encoded in a distributed manner across many different visual processing areas working together.
 Encouragingly, the sensitivity maps were consistent across subjects despite the lack of a controlled task.
