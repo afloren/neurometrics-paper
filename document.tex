@@ -45,7 +45,7 @@ keyword1 \sep keyword2
 \end{frontmatter}
 
 \section{Introduction}
-Most research using functional magnetic resonance imaging (fMRI) and the blood oxygen level dependent (BOLD) signal utilize static images to analyze how the brain responds to stimuli, \emph{Needs references: e.g., ref1, ref2, ref3; see ref4 for review}.
+Most research using functional magnetic resonance imaging (fMRI) and the blood oxygen level dependent (BOLD) signal utilize static images to analyze how the brain responds to stimuli \citep{traditionalfmri}.
 Such work usually focuses on a single variable of interest, and creates stimuli that attempt to isolate that variable.
 While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
 More natural and dynamic stimuli will evoke a more complex network of brain responses.
@@ -225,14 +225,14 @@ Freesurfer is documented and freely available for download online (\url{http://s
 
 \subsection{Dimensionality reduction}
 When performing MVPA, each voxel can be thought of as corresponding to a separate dimension of a very high-dimensional space.
-In our case, the number of voxels/dimensions was typically 80 x 80 x 40 = 256,000.
+In our case, the number of voxels/dimensions was typically $80 \times 80 \times 40 = 256,000$.
 Unfortunately, the number of examples necessary to train a classifier increases exponentially with the number of dimensions.
 Therefore, as a preprocessing step before applying our machine learning algorithms we needed to reduce this dimensionality.
 This not only speeded up both training and classification but could also improve the performance of the resulting classifiers.
 
-In other applications, dimensionality reduction tools such as PCA were often used \emph{need references here}.
+Principal component analysis (PCA) is a very common tool for dimensionality reduction \citep{Hotelling1933}.
 However, PCA only selects the orthogonal dimensions with the highest variance which is very likely to be noise and is therefore not well suited for fMRI analysis.
-A univariate statistic, as typically used in  fMRI analysis,can also be a good candidate for selecting voxels \emph{need references here}.
+A univariate statistic, as typically used in  fMRI analysis,can also be a good candidate for selecting voxels \citep{Norman2006,Pereira2009}.
 While effective, these methods were not designed for feature selection and many of them make a number of assumptions about the data such as Gaussian statistical distribution.
 We have developed a method of dimensionality reduction, which we call harmonic analysis, that selects voxels that are driven most strongly by the 30-second duty cycle of our block design.
 This method is similar to other univeriate statistics but the only assumption it makes is that the BOLD response is linear with respect to thei stimulus.
@@ -268,11 +268,11 @@ This procedure is known as cross-fold validation \citep{Kohavi1995} where each s
 The SVM finds the hyperplane in the high-dimensional input space that separates examples from different classes with the greatest margin \citep{Cortes1995}.
 A simple SVM can only discriminate between two classes.
 However, it is possible to combine multiple SVMs to discriminate between more than two classes.
-The two most common approaches to building a multiclass SVM are one-versus-all and one-versus-one.
+The two most common approaches to building a multiclass SVM are one-versus-all and one-versus-one \citep{Weston1999}.
 In one-versus-all, SVMs are trained to distinguish between a particular class and all examples not from that class.
 In one-versus-one, SVMs are trained to distinguish between every possible combination of classes.
 For $N$ classes, one-versus-all classifiers require training $(N-1)$ SVMs while one-versus-one classifiers require training $(N-1)(N-2)$ SVMs.
-In our implementation we used the one-versus-one approach because it generally has superior performance \emph{needs reference}.
+Although the performance of these two approaches is generally similar, we have used the one-versus-one approach because we found its performance to be superior for our application.
 
 Feedforward neural networks trained via back propagation learn to approximate functions using compressive non-linearities \citep{Hagan1994}.
 Any function (including non-linear and discontinuous functions) can be approximated to an arbitrary degree given a sufficient number of hidden units \citep{Hornik1989}.
@@ -586,9 +586,9 @@ Since MVPA is used in general when a good underlying model is not known, this is
 However, the large number of voxels can then intractably confound the MVPA because
 the number of training examples required to train a classifier generally increases exponentially with the number of dimensions.
 One reason that the SVM is so popular and so effective in this field is that its performance is partially robust against insufficient training examples.
-Unlike other machine learning algorithms, the SVM is less susceptible to overfitting \emph{needs refs}.
-Other researchers have already found that decreasing the dimensionality of the problem with various univariate measures, from percent activation to a one-way ANOVA, can be quite effective \emph{need references again}.
-Statistical stimulus-driven measures such as the one-way ANOVA have so far proven to be the most effective \emph{need refs again} but they rely upon a normal distribution of the BOLD signal with respect to the stimulus.
+The simplicity of the SVM's discriminative model---a hyperplane---bounds the potential generalization error while the maximum-margin cost-function provides regularization.
+Other researchers have already found that decreasing the dimensionality of the problem with various univariate measures, from percent activation to a one-way ANOVA, can be quite effective \citep{Norman2006,Pereira2009}.
+However, most of these statistical stimulus-driven measures rely on a number of statistical assumptions about the underlying BOLD signal such as being normally distributed.
 We have developed a technique, which we call harmonic analysis, that performs a similar role without making any assumptions about the signal.
 While less appropriate for statistical analysis, we have found that harmonic analysis is an excellent tool for dimensionality reduction as a preprocessing step before MVPA.
 
@@ -601,12 +601,12 @@ Using sensitivity analysis, we could then identify a subset of voxels an order o
 This could indicate that only a small number of voxels are relevant for classification, or that the information is highly redundant between voxels, or, most likely, some a combination of these two.
 Specifically, the harmonic analysis will select some voxels that covary with the stimulus, but their patterns of activation may not be highly discriminative with respect to character count.
 These voxels will also be assigned low sensitivity values by the trained classifiers.
-On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results \emph{needs refs}. 
+On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results \citep{spatialcorrelations}. 
 Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
 
-\emph{The following two sentences were originally in the Introduction. I've moved it here to the Discussion, but it needs to be expanded. Write a few sentences that explain how our approach is different and better than the searchlight scheme. Are there any other competitors?} This sensitivity analysis employs an iterative approach to identify a sparse and potentially distributed set of voxels that are highly discriminative.
-This analysis can be contrasted to the popular ``searchlight'' technique which only evaluates small localized sets of voxels \citep{Kriegeskorte2006}.
+%\emph{The following two sentences were originally in the Introduction. I've moved it here to the Discussion, but it needs to be expanded. Write a few sentences that explain how our approach is different and better than the searchlight scheme. Are there any other competitors?} This sensitivity analysis employs an iterative approach to identify a sparse and potentially distributed set of voxels that are highly discriminative.
+%This analysis can be contrasted to the popular ``searchlight'' technique which only evaluates small localized sets of voxels \citep{Kriegeskorte2006}.
 
 When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps reveal insights as to how this information may be processed in the brain (Table 1).
 By far, the most sensitivity (42\%) and therefore the most relevant mutual information is contained in the lateral occipital region (LO).
@@ -614,7 +614,7 @@ This region is most commonly associated with high level object recognition \cite
 This is in contrast to the comparatively weak sensitivity (5.7\%) observed in upon the fusiform gyrus, which is also associated with object classification tasks and in particular the perception of human faces \citep{fusiform}.
 Additionally, there is substantial sensitivity contained in low level retinotopic visual areas. The pericalcarine, lingual, and cuneus areas altogether account for 25\% of the observed sensitivity. The more ventral lingual areas contribute more strongly (13.9\%) then cuneus (3.7\%).
 This is somewhat surprising given that the relevant information in the scene is not necessarily retinotopically organized given the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
-The presence of sensitivity in early, retinotopic visual areas, together with the preponderance of senstivity in lateral-occipital areas may reflect the importance of retinotopic organization in the decoding of group size. LO combines both object-selectivity with retinotopic specificity (Sayres et al., J Neurophys 2008). Different group sizes could evoke complex but stereotypical patterns of responses in LO and other retinotopically organized areas as subjects visually interrogate the stimuli. Ventral early visual areas apparently also contribute to this information. The less retinotopic fusiform regions \emph{Sayres et al., J Vision 2009} also appear to less useful for decoding character number.
+The presence of sensitivity in early, retinotopic visual areas, together with the preponderance of senstivity in lateral-occipital areas may reflect the importance of retinotopic organization in the decoding of group size. LO combines both object-selectivity with retinotopic specificity (Sayres et al., J Neurophys 2008). Different group sizes could evoke complex but stereotypical patterns of responses in LO and other retinotopically organized areas as subjects visually interrogate the stimuli. Ventral early visual areas apparently also contribute to this information. The less retinotopic fusiform regions \citep{Sayres2010} also appear to less useful for decoding character number.
 Substantial sensitivity (16.6\%) is also present in dorsal parietal cortex. The sensitivity along the dorsal stream suggests that the perception of motion and position are also useful for decoding subject number from our complex and dynamic VR stimuli.
 As expected, something as abstract as the number of perceived human characters is not contained in a single voxel but rather is encoded in a distributed manner across many different visual processing areas working together.
 Encouragingly, the sensitivity maps were consistent across subjects despite the lack of a controlled task.
