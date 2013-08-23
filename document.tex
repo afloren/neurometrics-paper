@@ -287,7 +287,10 @@ In the second method, which we will refer to as ``block split", sets of frames c
 In our third method, we exploit the fact that each 6 min run cycles through all combinations twice, but in a different order the second time.
 Accordingly, sets of frames were independently drawn from these half-runs, referred to as ``half-run split". 
 In our fourth method, termed ``run split", entire 6-min runs of frames were independently drawn. 
-Table \ref{tab:training-split} summarizes these training and test set split methods and the temporal separations between the training and test data for single runs. Because the randomization extends across the entire the entire run, the mean temporal separations do not vary much between the various splits. The differences in the temporal distributions are therefore characterized by the mean (across folds) of their median values, which vary from ?? s (frame split) to ??? s (run split)and the mean of their minimum delay, which varies from $\sim$3 s (frame split) to 130 s (run split).
+Table \ref{tab:training-split} summarizes these training and test set split methods and the temporal separations between the training and test data for single runs.
+The mean temporal separations do not vary much between the various splits because the randomization extends across the entire the entire run. 
+%The differences in the temporal distributions are therefore characterized by the mean (across folds) of their median values, which vary from ?? s (frame split) to ??? s (run split)and the mean of their minimum delay, which varies from $\sim$3 s (frame split) to 130 s (run split).
+The differences in the temporal distributes are therebfore best characterized by the mean of their minimum delay, which varies from $\sim$3 s (frame split) to 130 s (run split).
 And finally, we tested a fifth method, termed ``session split", where we used one entire session for training and a second session for test.
 This method is similar to measures of between-session classifier accuracy used in \citep{Haynes2005}.
 
