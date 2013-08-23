@@ -235,7 +235,7 @@ However, PCA only selects the orthogonal dimensions with the highest variance wh
 A univariate statistic, as typically used in  fMRI analysis,can also be a good candidate for selecting voxels \citep{Norman2006,Pereira2009}.
 While effective, these methods were not designed for feature selection and many of them make a number of assumptions about the data such as Gaussian statistical distribution.
 We have developed a method of dimensionality reduction, which we call harmonic analysis, that selects voxels that are driven most strongly by the 30-second duty cycle of our block design.
-This method is similar to other univeriate statistics but the only assumption it makes is that the BOLD response is linear with respect to thei stimulus.
+This method is similar to other univariate statistics but the only assumption it makes is that the BOLD response is linear with respect to the stimulus.
 The primary advantage  of harmonic analysis over other univariate statistics is that it can detect voxels that covary with the stimulus regardless of their detailed temporal relationship. Thus, it includes voxels that respond positively to either the character-presentation or motional phases of the stimulus alternation, or to more complex patterns such as a brief strong response to both phases. All repetitive responses that follow the period of the stimulus alternation are included by this method, minimizing any bias in the dimension reduction.
 Harmonic analysis take advantage of the fact that the response of any linear system to a blocked alternation at frequency $f$ will contain power only at $f$ and its harmonics. 
 Under a linear response assumption, we can therefore form an unbiased estimate of the response power by summing the power at these frequencies. 
@@ -255,7 +255,7 @@ However, as a check we built classifiers to distinguish between time points with
 
 \subsection{Classification}
 Using the time series from the voxels selected by the harmonic analysis, we trained a linear SVM \citep{Cortes1995} and a feedforward neural network \citep{Hornik1989,Hagan1994}.
-To maximize our temporal resolution, each 2.5-second frame (time point) was treated as a separate example, rather than agregating across the 15-second blocks.
+To maximize our temporal resolution, each 2.5-second frame (time point) was treated as a separate example, rather than aggregating across the 15-second blocks.
 
 To measure the significance of the results and to compare the SVM and NN we must have a measure of their performance.
 The performance of machine learning algorithms is generally defined to be the expected accuracy of the classifier on a previously unseen example \citep{Bishop2006}.
@@ -268,7 +268,7 @@ This procedure is known as cross-fold validation \citep{Kohavi1995} where each s
 The SVM finds the hyperplane in the high-dimensional input space that separates examples from different classes with the greatest margin \citep{Cortes1995}.
 A simple SVM can only discriminate between two classes.
 However, it is possible to combine multiple SVMs to discriminate between more than two classes.
-The two most common approaches to building a multiclass SVM are one-versus-all and one-versus-one \citep{Weston1999}.
+The two most common approaches to building a multi-class SVM are one-versus-all and one-versus-one \citep{Weston1999}.
 In one-versus-all, SVMs are trained to distinguish between a particular class and all examples not from that class.
 In one-versus-one, SVMs are trained to distinguish between every possible combination of classes.
 For $N$ classes, one-versus-all classifiers require training $(N-1)$ SVMs while one-versus-one classifiers require training $(N-1)(N-2)$ SVMs.
@@ -282,7 +282,7 @@ For this reason, the feedforward neural network further subdivides the training 
 The validation set is used to determine when the network has begun overfitting the training examples and ceases iteration.
 
 Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}. The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales less than 15 seconds.
-For our data, artificial correlations occured when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec) block.
+For our data, artificial correlations occurred when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec) block.
 
 This raises a more general question: what is the relationship between performance estimates and temporal correlation?
 To explore this, we estimated classifier performance using 5 different methods for splitting the training and test examples in order to vary the average temporal distance between frames in the two sets. 
@@ -614,7 +614,7 @@ This region is most commonly associated with high level object recognition \cite
 This is in contrast to the comparatively weak sensitivity (5.7\%) observed in upon the fusiform gyrus, which is also associated with object classification tasks and in particular the perception of human faces \citep{fusiform}.
 Additionally, there is substantial sensitivity contained in low level retinotopic visual areas. The pericalcarine, lingual, and cuneus areas altogether account for 25\% of the observed sensitivity. The more ventral lingual areas contribute more strongly (13.9\%) then cuneus (3.7\%).
 This is somewhat surprising given that the relevant information in the scene is not necessarily retinotopically organized given the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
-The presence of sensitivity in early, retinotopic visual areas, together with the preponderance of senstivity in lateral-occipital areas may reflect the importance of retinotopic organization in the decoding of group size. LO combines both object-selectivity with retinotopic specificity (Sayres et al., J Neurophys 2008). Different group sizes could evoke complex but stereotypical patterns of responses in LO and other retinotopically organized areas as subjects visually interrogate the stimuli. Ventral early visual areas apparently also contribute to this information. The less retinotopic fusiform regions \citep{Sayres2010} also appear to less useful for decoding character number.
+The presence of sensitivity in early, retinotopic visual areas, together with the preponderance of sensitivity in lateral-occipital areas may reflect the importance of retinotopic organization in the decoding of group size. LO combines both object-selectivity with retinotopic specificity \citep{Sayres2008}. Different group sizes could evoke complex but stereotypical patterns of responses in LO and other retinotopically organized areas as subjects visually interrogate the stimuli. Ventral early visual areas apparently also contribute to this information. The less retinotopic fusiform regions \citep{Sayres2010} also appear to less useful for decoding character number.
 Substantial sensitivity (16.6\%) is also present in dorsal parietal cortex. The sensitivity along the dorsal stream suggests that the perception of motion and position are also useful for decoding subject number from our complex and dynamic VR stimuli.
 As expected, something as abstract as the number of perceived human characters is not contained in a single voxel but rather is encoded in a distributed manner across many different visual processing areas working together.
 Encouragingly, the sensitivity maps were consistent across subjects despite the lack of a controlled task.
