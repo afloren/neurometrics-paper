@@ -1,4 +1,4 @@
-\documentclass[authoryear]{elsarticle}
+\documentclass{article}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -13,29 +13,18 @@
 %\usepackage{hyperref}
 \usepackage{dblfloatfix}
 \usepackage{adjustbox}
-
+\usepackage{natbib}
 \bibliographystyle{elsarticle-harv}
 
 \begin{document}
 
-\begin{frontmatter}
-
 \title{Identifying virtual-world stimulus information from fMRI data}
 
-\author[UT]{Andrew Floren\corref{cor}}
-\ead{afloren@utexas.edu}
+\author{Andrew Floren, Bruce Naylor, David Ress \\ The University of Texas at Austin, Austin, TX 78712 USA}
 
-\author[UT]{Bruce Naylor}
+\date{}
 
-\author[UT]{David Ress}
-
-\address[UT]{The University of Texas at Austin, Austin, TX 78712 USA}
-
-\cortext[cor]{Corresponding author.}
-
-\journal{NeuroImage}
-
-\end{frontmatter}
+\maketitle
 
 \section{Introduction}
 Much research using functional magnetic resonance imaging (fMRI) and the blood oxygen level dependent (BOLD) signal utilize static images to analyze how the brain responds to stimuli.
@@ -451,7 +440,7 @@ There is some variation of classifier performance between subjects, but in all c
 \caption{}
 \label{fig:nn-performance-graph}
 \end{subfigure}
-\caption{The performance estimates of the \subref{fig:svm-performance-graph} linear SVM and the \subref{fig:nn-performance-graph} feedforward neural network after cross-validation for all five subjects and four of the training and test split methods. }
+\caption{The performance estimates of the \subref{fig:svm-performance-graph} linear SVM and the \subref{fig:nn-performance-graph} feedforward neural network after cross-validation for all five subjects (denoted by letters \emph{a} through \emph{e}) and four of the training and test split methods. }
 \label{fig:performance-graph}
 \end{figure*}
 
