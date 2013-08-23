@@ -12,10 +12,9 @@
 \usepackage[table]{xcolor}
 %\usepackage{hyperref}
 \usepackage{dblfloatfix}
+\usepackage{adjustbox}
 
 \bibliographystyle{elsarticle-harv}
-
-\journal{NeuroImage}
 
 \begin{document}
 
@@ -33,6 +32,8 @@
 \address[UT]{The University of Texas at Austin, Austin, TX 78712 USA}
 
 \cortext[cor]{Corresponding author.}
+
+\journal{NeuroImage}
 
 \end{frontmatter}
 
@@ -210,7 +211,8 @@ In fMRI, $y(t)$ is the recorded BOLD signal, $h(t)$ is the hemodynamic response 
 Calculating $g(t)$ requires estimates of the power spectral density of the signal of interest as well as the noise.
 However, the noise $n(t)$ corresponds not only to scanner noise but other nuisance factors such as pulse and respiration.
 This makes modeling the noise, and its power spectral density, very difficult.
-Therefore, we set $\mbox{SNR}(f) = 1$% for all frequencies $f$. This has the effect of largely removing the hemodynamic delay without much noise increase (Fig. \ref{fig:wiener-deconvolution}.
+Therefore, we set $\mbox{SNR}(f) = 1$ for all frequencies $f$. 
+This has the effect of largely removing the hemodynamic delay without much noise increase (Fig. \ref{fig:wiener-deconvolution}.
 
 The high-resolution reference anatomies were segmented using the Freesurfer image analysis suite to create approximate parcellations of the gray matter in each subject, as well as a surface model useful for visualization of the results.
 Freesurfer is documented and freely available for download online (\url{http://surfer.nmr.mgh.harvard.edu/}).
@@ -395,7 +397,7 @@ Interestingly, the performance of the classifier was not significantly affected 
 
 \begin{figure}
 \centering
-\includegraphics[width=0.3\textwidth]{figures/performance-verse-sensitivity-cutoff}
+\includegraphics[width=0.6\textwidth]{figures/performance-verse-sensitivity-cutoff}
 \caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network $F_1$ score when the inputs are pruned at a particular sensitivity value. }
 \label{fig:sensitivity-cutoff}
 \end{figure}
@@ -411,13 +413,13 @@ We then projected each subject's volume sensitivity map onto their cortical surf
 
 \begin{figure*}
 \centering
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/lh-lateral-labels}
 \caption{lateral labels}
 \label{fig:leteral-labels}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/lh-medial-labels}
 \caption{medial labels}
@@ -455,7 +457,7 @@ This relationship is plotted in figure \ref{fig:performance-verse-temporal-dista
 
 \begin{figure}
 \centering
-\includegraphics[width=0.3\textwidth]{figures/performance-verse-temporal-distance}
+\includegraphics[width=0.6\textwidth]{figures/performance-verse-temporal-distance}
 \caption{The average performance of the SVM and neural network classifiers plotted against the average temporal delay between data in the training and test sets.}
 \label{fig:performance-verse-temporal-distance}
 \end{figure}
@@ -475,15 +477,20 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 
 \begin{figure}
 \centering
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
+\begin{adjustbox}{center}
 \input{tables/svm-confusion.tex}
+\end{adjustbox}
 \caption{}
 \label{fig:average-confusion-svm}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+
+\begin{subfigure}{0.4\textwidth}
 \centering
+\begin{adjustbox}{center}
 \input{tables/nn-confusion.tex}
+\end{adjustbox}
 \caption{}
 \label{fig:average-confusion-nn}
 \end{subfigure}
@@ -497,39 +504,41 @@ Specifically, classifier sensitivity was most affected by, in order of importanc
 
 \begin{figure*}
 \centering
+\begin{adjustbox}{center}
 \input{tables/full-sensitivity-table.tex}
+\end{adjustbox}
 \caption{Sensitivity values integrated across cortical surface labels.}
 \label{tab:full-sensitivity}
 \end{figure*}
 
 \begin{figure*}
 \centering
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/s1-lh-lateral-sensitivity}
 \caption{}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/s1-lh-medial-sensitivity}
 \caption{}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/s2-rh-lateral-sensitivity}
 \caption{}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/s2-rh-medial-sensitivity}
 \caption{}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/s3-lh-lateral-sensitivity}
 \caption{}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
+\begin{subfigure}{0.4\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/s3-lh-medial-sensitivity}
 \caption{}
