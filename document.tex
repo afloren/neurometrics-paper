@@ -13,6 +13,7 @@
 %\usepackage{hyperref}
 \usepackage{dblfloatfix}
 \usepackage{adjustbox}
+\usepackage{fullpage}
 \usepackage{natbib}
 \bibliographystyle{elsarticle-harv}
 
@@ -490,18 +491,10 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \label{fig:average-confusion}
 \end{figure}
 
-Sensitivity maps show a preponderance of classification sensitivity in lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe, \ref{fig:individual-sensitivity}. 
+Sensitivity maps show a preponderance of classification sensitivity in
+lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe (figure \ref{fig:individual-sensitivity}). 
 Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal and frontal cortex. 
-Specifically, classifier sensitivity was most affected by, in order of importance, lateral occipital regions, lingual areas, and dorsal parietal lobe  \ref{tab:full-sensitivity}. 
-
-\begin{figure*}
-\centering
-\begin{adjustbox}{center}
-\input{tables/full-sensitivity-table.tex}
-\end{adjustbox}
-\caption{Sensitivity values integrated across cortical surface labels.}
-\label{tab:full-sensitivity}
-\end{figure*}
+Specifically, classifier sensitivity was most affected by, in order of importance, lateral occipital regions, lingual areas, and dorsal parietal lobe (table \ref{tab:full-sensitivity}). 
 
 \begin{figure*}
 \centering
@@ -540,7 +533,14 @@ The left hemisphere is presented for the first and third subjects while the righ
 \label{fig:individual-sensitivity}
 \end{figure*}
 
-
+\begin{table*}
+\centering
+\begin{adjustbox}{center}
+\input{tables/full-sensitivity-table.tex}
+\end{adjustbox}
+\caption{Sensitivity values integrated across cortical surface labels.}
+\label{tab:full-sensitivity}
+\end{table*}
 
 \section{Discussion}
 VR environments provide a framework for creating  complex and dynamic stimuli in a controlled fashion while MVPA allows for the interrogation of neural-processing pathways when the underlying processing model is unknown.
