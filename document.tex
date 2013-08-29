@@ -500,9 +500,9 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \end{figure}
 
 Sensitivity maps show a preponderance of classification sensitivity in
-lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe (figure \ref{fig:individual-sensitivity}). 
+lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe (Figure \ref{fig:individual-sensitivity}). 
 Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal and frontal cortex. 
-Specifically, classifier sensitivity was most affected by, in order of importance, lateral occipital regions, lingual areas, and dorsal parietal lobe (table \ref{tab:full-sensitivity}). 
+Specifically, classifier sensitivity was most affected by, in order of importance, lateral occipital regions, lingual areas, and dorsal parietal lobe (Table \ref{tab:full-sensitivity}). 
 
 \begin{figure*}
 \centering
@@ -607,20 +607,27 @@ Therefore, high sensitivity is sufficient but not necessary for the localization
 %\emph{The following two sentences were originally in the Introduction. I've moved it here to the Discussion, but it needs to be expanded. Write a few sentences that explain how our approach is different and better than the searchlight scheme. Are there any other competitors?} This sensitivity analysis employs an iterative approach to identify a sparse and potentially distributed set of voxels that are highly discriminative.
 %This analysis can be contrasted to the popular ``searchlight'' technique which only evaluates small localized sets of voxels \citep{Kriegeskorte2006}.
 
-When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps reveal insights as to how this information may be processed in the brain (Table 1).
+When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps reveal insights as to how this information may be processed in the brain (Table \ref{tab:full-sensitivity}).
 By far, the most sensitivity (42\%) and therefore the most relevant mutual information is contained in the lateral occipital region (LO).
 This region is most commonly associated with high level object recognition \citep{Grill-Spector2001}.
-This is in contrast to the comparatively weak sensitivity (5.7\%) observed in upon the fusiform gyrus, which is also associated with object classification tasks and in particular the perception of human faces \citep{Kanwisher1997}.
-Additionally, there is substantial sensitivity contained in low level retinotopic visual areas. The pericalcarine, lingual, and cuneus areas altogether account for 25\% of the observed sensitivity. The more ventral lingual areas contribute more strongly (13.9\%) then cuneus (3.7\%).
+This is in contrast to the comparatively weak sensitivity (5.7\%) observed from the fusiform gyrus, which is also associated with object classification tasks and in particular the perception of human faces \citep{Kanwisher1997}.
+Additionally, there is substantial sensitivity contained in low level retinotopic visual areas. 
+The pericalcarine, lingual, and cuneus areas altogether account for 25\% of the observed sensitivity; the more ventral lingual areas contribute more strongly (13.9\%) then cuneus (3.7\%).
 This is somewhat surprising given that the relevant information in the scene is not necessarily retinotopically organized given the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
-The presence of sensitivity in early, retinotopic visual areas, together with the preponderance of sensitivity in lateral-occipital areas may reflect the importance of retinotopic organization in the decoding of group size. LO combines both object-selectivity with retinotopic specificity \citep{Sayres2008}. Different group sizes could evoke complex but stereotypical patterns of responses in LO and other retinotopically organized areas as subjects visually interrogate the stimuli. Ventral early visual areas apparently also contribute to this information. The less retinotopic fusiform regions \citep{Schwarzlose2008,Sayres2010} also appear to less useful for decoding character number.
-Substantial sensitivity (16.6\%) is also present in dorsal parietal cortex. The sensitivity along the dorsal stream suggests that the perception of motion and position are also useful for decoding subject number from our complex and dynamic VR stimuli.
-As expected, something as abstract as the number of perceived human characters is not contained in a single voxel but rather is encoded in a distributed manner across many different visual processing areas working together.
+The presence of sensitivity in early, retinotopic visual areas, together with the preponderance of sensitivity in lateral-occipital areas may reflect the importance of retinotopic organization in the decoding of group size. 
+LO combines both object-selectivity with retinotopic specificity \citep{Sayres2008}. 
+Different group sizes could evoke complex but stereotypical patterns of responses in LO and other retinotopically organized areas as subjects visually interrogate the stimuli. 
+Ventral early visual areas apparently also contribute to this information. 
+The less retinotopic fusiform regions \citep{Schwarzlose2008,Sayres2010} appear to less useful for decoding character number.
+Despite the preponderance of retinotopic visual-area sensitivity, substantial sensitivity (16.6\%) is also present in dorsal parietal cortex. 
+The sensitivity along the dorsal stream suggests that the perception of motion and position are also useful for decoding subject number from our complex and dynamic VR stimuli.
+Our results indicate that something as abstract as the number of perceived human characters is not contained in a single voxel, but rather is encoded in a distributed manner across many different visual processing areas working together.
 Encouragingly, the sensitivity maps were consistent across subjects despite the lack of a controlled task.
 
 There are some potential pitfalls in our approach that must be avoided, such as increased design complexity and difficulty of interpretation. 
 Here, we have offered some initial tools and analyses to deal with these limitations, but further work is clearly needed.
-Moreover, VR environments do carry some disadvantages over simpler dynamic stimuli such as prerecorded movies. Recording a movie is typically easier than programming a VR environment and movies can have a more realistic appearance than VR environments.
+Moreover, VR environments do carry some disadvantages over simpler dynamic stimuli such as prerecorded movies. 
+Recording a movie is typically easier than programming a VR environment and movies can have a more realistic appearance than VR environments.
 Additionally, the results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
 However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergence in processing will decrease
 
