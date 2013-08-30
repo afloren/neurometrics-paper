@@ -12,6 +12,7 @@
 \usepackage[table]{xcolor}
 \usepackage{hyperref}
 \usepackage{dblfloatfix}
+\usepackage{adjustbox}
 
 \journal{NeuroImage}
 
@@ -185,14 +186,14 @@ g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \mbox{SNR
 \end{equation}
 Where $\mbox{SNR}(f)$ is the signal to noise ratio $\frac{\left| X(f) \right|}{\left| N(f) \right|}$.
 
-\begin{figure*}
+\begin{figure}
 \centering
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/hrf}
-\caption{}
-\label{fig:wiener-hrf}
-\end{subfigure}
+% \begin{subfigure}{0.3\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/hrf}
+% \caption{}
+% \label{fig:wiener-hrf}
+% \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figures/square-wiener-deconvolution}
@@ -206,13 +207,13 @@ Where $\mbox{SNR}(f)$ is the signal to noise ratio $\frac{\left| X(f) \right|}{\
 \label{fig:wiener-voxel}
 \end{subfigure}
 \caption{
-\subref{fig:wiener-hrf} The difference-of-gamma HRF employed as $h(t)$. 
+%\subref{fig:wiener-hrf} The difference-of-gamma HRF employed as $h(t)$. 
 \subref{fig:wiener-square} A simple square wave in red. 
 The same square wave after convolution with $h(t)$ in green, then after Wiener-filter deconvolution in blue. 
 \subref{fig:wiener-voxel} An example voxel time series in red. 
 The same time series after Wiener-filter deconvolution in blue.}
 \label{fig:wiener-deconvolution}
-\end{figure*}
+\end{figure}
 
 In fMRI, $y(t)$ is the recorded BOLD signal, $h(t)$ is the hemodynamic response function, and $x(t)$ is the neural response.
 Calculating $g(t)$ requires estimates of the power spectral density of the signal of interest as well as the noise.
@@ -440,33 +441,33 @@ Figure \ref{fig:performance-graph} contains the cross-validated
 performance estimates of the linear SVM and feed forward neural networks for all five subjects and four training and test split methods (the session split has been excluded).
 There is some variation of classifier performance between subjects, but in all cases the performance is significantly ($p < 0.001$) above chance. 
 
-\begin{figure*}
-\centering
-\begin{subfigure}{0.8\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/svm-performance-graph}
-\caption{}
-\label{fig:svm-performance-graph}
-\end{subfigure}
-\begin{subfigure}{0.8\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/nn-performance-graph}
-\caption{}
-\label{fig:nn-performance-graph}
-\end{subfigure}
-\caption{The performance estimates of the \subref{fig:svm-performance-graph} linear SVM and the \subref{fig:nn-performance-graph} feedforward neural network after cross-validation for all five subjects and four of the training and test split methods. }
-\label{fig:performance-graph}
-\end{figure*}
+% \begin{figure*}
+% \centering
+% \begin{subfigure}{0.8\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/svm-performance-graph}
+% \caption{}
+% \label{fig:svm-performance-graph}
+% \end{subfigure}
+% \begin{subfigure}{0.8\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/nn-performance-graph}
+% \caption{}
+% \label{fig:nn-performance-graph}
+% \end{subfigure}
+% \caption{The performance estimates of the \subref{fig:svm-performance-graph} linear SVM and the \subref{fig:nn-performance-graph} feedforward neural network after cross-validation for all five subjects and four of the training and test split methods. }
+% \label{fig:performance-graph}
+% \end{figure*}
 
 It is evident that, as the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
 This relationship is plotted in figure \ref{fig:performance-verse-temporal-distance}.
 
-\begin{figure}
+\begin{figure*}
 \centering
-\includegraphics[width=0.3\textwidth]{figures/performance-verse-temporal-distance}
+\includegraphics[width=0.5\textwidth]{figures/performance-verse-temporal-distance}
 \caption{The average performance of the SVM and neural network classifiers plotted against the average temporal delay between data in the training and test sets.}
 \label{fig:performance-verse-temporal-distance}
-\end{figure}
+\end{figure*}
 
 The average confusion matrix presented in figure \ref{fig:average-confusion} gives a more intuitive look at the performance of the classifier.
 From this matrix we can see that the classifiers are much better at detecting the presence of a single character than any other count.
@@ -485,13 +486,17 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \centering
 \begin{subfigure}{0.3\textwidth}
 \centering
+\begin{adjustbox}{center}
 \input{tables/svm-confusion.tex}
+\end{adjustbox}
 \caption{}
 \label{fig:average-confusion-svm}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
 \centering
+\begin{adjustbox}{center}
 \input{tables/nn-confusion.tex}
+\end{adjustbox}
 \caption{}
 \label{fig:average-confusion-nn}
 \end{subfigure}
