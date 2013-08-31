@@ -427,8 +427,6 @@ This sensitivity can now be projected back into the volume anatomy space to crea
 
 To  explore the relationship between sensitivity and classifier performance we plotted the performance of the classifier when trained on only a subset of the input voxels as determined by a minimum sensitivity cut off.
 This threshold was determined by iteratively retraining the neural network with successively higher thresholds.
-Figure \ref{fig:sensitivity-cutoff} shows this plot together with histogram of sensitivity values for subject d.
-Interestingly, the performance of the classifier was not significantly affected until a majority of the voxels have been removed.
 
 We employed Freesurfer image analysis suite to construct cortical surfaces for each of our subjects using high-resolution anatomy volumes.
 Then, we constructed 10 anatomical labels on each surface based on FreeSurfer's automatically generated labels.
@@ -455,15 +453,8 @@ There is a significant difference in the estimated performance when the average 
 \label{fig:performance-verse-temporal-distance}
 \end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[width=0.4\textwidth]{figures/performance-verse-sensitivity-cutoff}
-\caption{A plot of the feedforward neural network estimated performance and the percent of voxels used for training when the inputs are pruned at a particular sensitivity value.
-The percent of voxels is calculated with respect to the 2000 voxels selected after harmonic analysis.
-The performance estimates and voxel counts were bootstrapped across sessions in order to obtain 68\% confidence intervals.
-The estimated performance is not significantly reduced until over 90\% of the voxels have been pruned.}
-\label{fig:sensitivity-cutoff}
-\end{figure}
+
+
 
 The average confusion matrix presented in figure \ref{fig:average-confusion} gives a more intuitive look at the performance of the classifier.
 From this matrix we can see that the classifiers are much better at detecting the presence of a single character than any other count.
@@ -501,6 +492,20 @@ The value in cell $(i,j)$ of the matrix is the percent of examples from class $i
 The color of the cell indicates deviation from chance probability.
 The more green a cell is the further above chance that percent is, while the more red a cell is the further below chance that percent is.}
 \label{fig:average-confusion}
+\end{figure}
+
+Thresholds for the sensitivity maps were determined using the iterative retraining approach outlined in the methods section.
+Figure \ref{fig:sensitivity-cutoff} shows the performance estimate of the feedforward neural network averaged across subjects and the percent of input voxels used for training plotted against the sensitivity threshold value.
+The estimated performance of the classifier was not significantly affected until over 90\% of the voxels were removed.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{figures/performance-verse-sensitivity-cutoff}
+\caption{A plot of the feedforward neural network estimated performance and the percent of voxels used for training when the inputs are pruned at a particular sensitivity value.
+The percent of voxels is calculated with respect to the 2000 voxels selected after harmonic analysis.
+The performance estimates and voxel counts were bootstrapped across sessions in order to obtain 68\% confidence intervals.
+The estimated performance is not significantly reduced until over 90\% of the voxels have been pruned.}
+\label{fig:sensitivity-cutoff}
 \end{figure}
 
 Sensitivity maps show a preponderance of classification sensitivity in
