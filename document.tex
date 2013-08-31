@@ -356,8 +356,8 @@ However, these results do not show which voxels in the large group were actually
 This information is important for localizing functions in the brain.
 One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area.
 This is known as the ``searchlight'' technique \citep{Kriegeskorte2006}.
-While this technique is effective for simple highly localized functions, the results are less clear when the function is sparsely distributed over the brain.
-No one region may contain enough information for accurate predictions.
+While this technique is effective for simple highly-localized functions, the results are less clear when the function is sparsely distributed over the brain.
+A single region may not contain enough information for accurate classification or a region may only contain relavent information when considered in conjunction with a spatially disparate region.
 
 To overcome this limitation, we have trained our classifiers on all stimulus-responsive regions of the brain and used a neural-network sensitivity analysis to display the spatially distributed set of voxels that are the most important for identifying the classes.
 Specifically, we calculate the sensitivity, or magnitude of change, of the output of the classifier with respect to a change in each voxel
@@ -607,9 +607,10 @@ These voxels will also be assigned low sensitivity values by the trained classif
 On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results \citep{Engel1997}. 
 Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
-
-%\emph{The following two sentences were originally in the Introduction. I've moved it here to the Discussion, but it needs to be expanded. Write a few sentences that explain how our approach is different and better than the searchlight scheme. Are there any other competitors?} This sensitivity analysis employs an iterative approach to identify a sparse and potentially distributed set of voxels that are highly discriminative.
-%This analysis can be contrasted to the popular ``searchlight'' technique which only evaluates small localized sets of voxels \citep{Kriegeskorte2006}.
+This analysis can be contrasted to the popular ``searchlight'' technique which only evaluates small localized sets of voxels \citep{Kriegeskorte2006}.
+The ``seachlight'' technique is effective for simple highly-localized functions, but it is unable to detect regions that are relevant for classification only in conjunction with other spatially disparate regions.
+It doesn't take full advantage of the multivariate nature of MVPA.
+On the other hand, our sensitivity mapping technique considers the whole brain simultaneously and can identify spatially distributed regions that are relavant for classification.
 
 When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps reveal insights as to how this information may be processed in the brain (Table \ref{tab:full-sensitivity}).
 By far, the most sensitivity (42\%) and therefore the most relevant mutual information is contained in the lateral occipital region (LO).
