@@ -95,9 +95,9 @@ Stimulus-driven analyses provide more easily interpretable results but become le
 Data-driven analyses, on the other hand, can cope with more complex stimuli but are more difficult to relate to brain physiology.
 Data-driven analyses can be used to uncover complex patterns evoked by realistic stimuli. The observed relationships can then be used to help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses. However, it may also be possible to utilize the use these realistic stimulus-response relationships to better understand subject training and pathophysiology.
 
-Although many dynamic stimuli experiments employ GLM methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010,Haxby2001,Mitchell2003,Haynes2006}. The application of MVPA analysis to VR stimuli can open up an exciting range of experiments to examine complex brain responses in more realistic stimulus scenarios.
+Although many dynamic stimuli experiments employ GLM methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010}. The application of MVPA analysis to VR stimuli can open up an exciting range of experiments to examine complex brain responses in more realistic stimulus scenarios.
 MVPA has been used as a blanket term for the application of any classification algorithm to fMRI data, although the support vector machine (SVM) is by far the most popular choice.
-When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as the presentation of houses or faces.
+When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as the presentation of houses or faces \citep{Haxby2001,Mitchell2003,Haynes2006}.
 The algorithm is then trained to classify the pattern of BOLD activation into these categories at a particular time-point using labeled examples.
 The performance of the classifier is defined to be the probability that it will successfully classify a previously unseen example;
 this measure of performance must be estimated using statistical methods.
@@ -110,7 +110,8 @@ Our experiment was structured to identify those parts of the brain that are rela
 Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{Dehaene1999,Rickard2000,Barth2006}, we used a passive-viewing VR stimulus paradigm.
 To analyze the fMRI data from our more complex stimuli, we employed MVPA.
 More specifically, we tested two different machine learning algorithms: the support vector machine (SVM) and feedforward neural network (NN).
-These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using cross-fold validation. We carefully examined a variety of temporal splitting schemes to assess their effect on classifier performance.
+These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using cross-fold validation. 
+We carefully examined a variety of temporal splitting schemes to assess their effect on classifier performance.
 Our classification accuracy was 3--4 times better than chance for all subjects and both machine-learning techniques tested.
 We then utilized a novel sensitivity mapping technique to identify voxels that are important for classification and are thus likely involved in processing the information that the classifiers were trained to identify.
 Results indicate that information regarding  the number of visible characters in a complex stimulus is largely encoded fairly early in visual processing, utilizing both ventral and dorsal visual streams.
@@ -193,7 +194,7 @@ The first 15 seconds of data  were discarded to reduce transient effects.
 We then estimated in-scan motion using a robust intensity-based scheme \citep{Nestares2000}. 
 Between-run motion was corrected using the same scheme, this time applied to the temporal average intensity of the entire scan. 
 The first run of the session was used as the reference. 
-Additionally, we applied a Wiener filter deconvolution \citep{Poor1980} using a generic difference-of-gamma HRF \citep{Glover1999} as the kernel to shift the peak response in time so that it is aligned with its associated stimulus.
+Additionally, we applied a Wiener filter deconvolution \citep{Poor1980} using a generic difference-of-gamma haemodynamic response function (HRF) \citep{Glover1999} as the kernel to shift the peak response in time so that it is aligned with its associated stimulus.
 We are interested in learning associations between patterns of activation in the brain and stimulus presentation so it is important that the activation is properly aligned temporally with the stimulus.
 
 Wiener filter deconvolution can be summarized as follows:
@@ -267,6 +268,9 @@ This is commonly achieved by first splitting the available examples into a train
 Then, the performance is estimated as the average accuracy of the classifier on the test set after having been trained on the training set.
 In practice, the process of splitting all of the available examples into training and test sets is performed multiple times to reduce the variance of the performance estimate.
 This procedure is known as cross-fold validation \citep{Kohavi1995} where each split of the data into training and test sets is called a ``fold''.
+Furthermore, the null distribution for the cross-validated performance estimates was generated by randomly permuting the labels on the examples 2000 times and repeating the training and cross-fold validation procedure.
+That is, the distribution of performance estimates was generated under the assumption that the labels and data were independent.
+Using this distribution, we calculated p values for our performance estimates.
 
 The SVM finds the hyperplane in the high-dimensional input space that separates examples from different classes with the greatest margin \citep{Cortes1995}.
 A simple SVM can only discriminate between two classes.
@@ -288,15 +292,18 @@ Previous studies have discussed issues with optimistically biased performance es
 For our data, artificial correlations occurred when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec) block.
 
 This raises a more general question: what is the relationship between performance estimates and temporal correlation?
-To explore this, we estimated classifier performance using 5 different methods for splitting the training and test examples in order to vary the average temporal distance between frames in the two sets. 
+To explore this, we estimated classifier performance using 5 different methods for splitting the training and test examples in order to vary the temporal distance between frames in the two sets. 
 The first four methods deal only with frames from a particular session.
 In the first method, which we will refer to as  ``frame split", frames were independently drawn into the training and test sets. 
 Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.We expect this method to exhibit artificially high performance because of the aforementioned temporal correlation of the slow fMRI data.
-In the second method, which we will refer to as ``block split", sets of frames corresponding to the 15 sec. blocks were independently drawn into the training and test sets.
+In the second method, which we will refer to as ``block split", sets of frames corresponding to the 15 second blocks were independently drawn into the training and test sets.
 In our third method, we exploit the fact that each 6 min run cycles through all combinations twice, but in a different order the second time.
 Accordingly, sets of frames were independently drawn from these half-runs, referred to as ``half-run split". 
 In our fourth method, termed ``run split", entire 6-min runs of frames were independently drawn. 
-Table \ref{tab:training-split} summarizes these training and test set split methods and the temporal separations between the training and test data for single runs. Because the randomization extends across the entire the entire run, the mean temporal separations do not vary much between the various splits. The differences in the temporal distributions are therefore characterized by the mean (across folds) of their median values, which vary from ?? s (frame split) to ??? s (run split)and the mean of their minimum delay, which varies from $\sim$3 s (frame split) to 130 s (run split).
+Table \ref{tab:training-split} summarizes these training and test set split methods and the temporal separations between the training and test data for single runs. 
+Because the randomization extends across the entire the entire run, the mean temporal separations do not vary much between the various splits. 
+However, the minimum temporal distance between a frame in the test set and any frame in the training set is a more relevant measure for comparison when trying to minimize optimistic performance bias.
+That is, it doesn't matter that on average the examples are highly separated temporally if on average there is at least one example in the training set which was temporally close to each example in the test set.
 And finally, we tested a fifth method, termed ``session split", where we used one entire session for training and a second session for test.
 This method is similar to measures of between-session classifier accuracy used in \citep{Haynes2005}.
 
@@ -436,6 +443,8 @@ We then projected each subject's volume sensitivity map onto their cortical surf
 The cross-validated performance estimates of the linear SVM and feed forward neural networks averaged across subjects is plotted against the average minimum temporal delay from four training and test split methods (the session split has been excluded) is presented in figure \ref{fig:performance-verse-temporal-distance}.
 There is some variation of classifier performance between subjects, but in all cases the performance is significantly ($p < 0.001$) above chance. 
 It is evident that, as the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
+However, the greatest shift occurs between the frame split and block split which correspond to 2.5 second and 20 second average minimum temporal distance bewteen examples in the training and test sets respectively after which the performance appears to approach and asymptote.
+We suspect that the critical point in this relationship is around 15 to 20 seconds or the average duartion of the HRF.
 
 \begin{figure}
 \centering
