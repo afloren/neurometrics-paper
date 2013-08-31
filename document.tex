@@ -3,8 +3,8 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{graphicx}
-\usepackage[small]{caption}
-\usepackage[subrefformat=parens]{subcaption}
+%\usepackage[small]{caption}
+\usepackage[font=small,subrefformat=parens]{subcaption}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{rotating}
@@ -400,11 +400,6 @@ We define this metric by taking the maximum sensitivity of each voxel across all
 \end{equation}
 This sensitivity can now be projected back into the volume anatomy space to create a  map that reflects the relative incremental importance of each voxel's response to the classification decision.
 
-To  explore the relationship between sensitivity and classifier performance we plotted the performance of the classifier when trained on only a subset of the input voxels as determined by a minimum sensitivity cut off.
-This threshold was determined by iteratively retraining the neural network with successively higher thresholds.
-Figure \ref{fig:sensitivity-cutoff} shows this plot together with histogram of sensitivity values for subject d.
-Interestingly, the performance of the classifier was not significantly affected until a majority of the voxels have been removed.
-
 \begin{figure*}
 \centering
 \begin{subfigure}{0.3\textwidth}
@@ -422,6 +417,11 @@ Interestingly, the performance of the classifier was not significantly affected 
 \caption{After generating sensitivity maps, the following color coded region labels were used for aggregating the results to obtain a clearer representation of the pattern of sensitivity: light blue -- superior temporal, dark blue -- middle temporal, light green -- inferior temporal, dark green -- fusiform, dark red -- superior parietal, light red -- inferior parietal, light orange -- lateral occipital, dark orange -- cuneus, light purple -- pericalcarine, and dark purple -- lingual}
 \label{fig:labels}
 \end{figure*}
+
+To  explore the relationship between sensitivity and classifier performance we plotted the performance of the classifier when trained on only a subset of the input voxels as determined by a minimum sensitivity cut off.
+This threshold was determined by iteratively retraining the neural network with successively higher thresholds.
+Figure \ref{fig:sensitivity-cutoff} shows this plot together with histogram of sensitivity values for subject d.
+Interestingly, the performance of the classifier was not significantly affected until a majority of the voxels have been removed.
 
 We employed Freesurfer image analysis suite to construct cortical surfaces for each of our subjects using high-resolution anatomy volumes.
 Then, we constructed 10 anatomical labels on each surface based on FreeSurfer's automatically generated labels.
@@ -499,7 +499,7 @@ lateral occipital areas, ventral retinotopic early visual areas, and dorsal pari
 Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal and frontal cortex. 
 Specifically, classifier sensitivity was most affected by, in order of importance, lateral occipital regions, lingual areas, and dorsal parietal lobe (Table \ref{tab:full-sensitivity}). 
 
-\begin{figure*}
+\begin{figure*}[p]
 \centering
 \begin{subfigure}{0.3\textwidth}
 \centering
@@ -545,7 +545,7 @@ The sensitivity maps are relatively homogeneous across subjects and hemispheres.
 \label{fig:individual-sensitivity}
 \end{figure*}
 
-\begin{table*}
+\begin{table*}[p]
 \centering
 \input{tables/full-sensitivity-table.tex}
 \caption{Sensitivity map values integrated across the cortical surface labels from figure \ref{fig:labels}.}
