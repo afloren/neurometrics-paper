@@ -58,6 +58,34 @@ Precise control of the VR environment allows for the interrogation of very subtl
 Many variables of interest, such as semantic labels for visible objects are explicitly specified by the VR design, avoiding the need to manually label each frame as is usually done to analyze experiments employing movies.
 Furthermore, VR permits real-time interaction that enable the examination of feedback and learning mechanisms in a realistic context.
 
+\begin{figure*}
+\centering
+\begin{subfigure}{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/stimulus-town}
+\caption{}
+\label{fig:stimulus-town}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/stimulus-five-soldiers}
+\caption{}
+\label{fig:stimulus-five-soldiers}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/stimulus-three-insurgents}
+\caption{}
+\label{fig:stimulus-three-insurgents}
+\end{subfigure}
+\caption{
+\subref{fig:stimulus-town} An example frame from the stimulus where the camera is travel through the virtual environment with no characters presented.
+\subref{fig:stimulus-five-soldiers} An example frame from the stimulus while characters are being presented.
+\subref{fig:stimulus-three-insurgents} Another example frame from the stimulus while characters are being presented.
+Note how the locations of the characters varies considerably between these two frames.}
+\label{fig:stimulus}
+\end{figure*}
+
 More complex stimuli require more complex analysis methods.
 In \cite{Spiers2007}, the authors review a number of experiments that use either movies or VR and discussed the wide variety of methods used to interrogate these dynamic stimuli: general linear models (GLM) including statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multi-voxel pattern analysis (MVPA) being among the most popular.
 These analysis methods can generally be split into stimulus-driven methods---such as SPM---which measure the statistical significance of a hypothesis, and data-driven methods---such as MVPA---which look for patterns in the fMRI signal.
@@ -86,7 +114,6 @@ We then utilized a novel sensitivity mapping technique to identify voxels that a
 Results indicate that information regarding  the number of visible characters in a complex stimulus is largely encoded fairly early in visual processing, utilizing both ventral and dorsal visual streams.
 The results demonstrate that complex information can effectively be extracted from a realistic VR stimulus paradigm, opening up new prospects for the use of VR with MVPA in neuroscience.
 
-
 \section{Methods}
 
 \subsection{Subjects}
@@ -98,34 +125,6 @@ Informed consent was obtained from all subjects.
 \subsection{Stimulus}
 To facilitate designing our VR stimulus, we used the Unreal Developer's Kit developed by the company Epic Games (available at \url{http://www.unrealengine.com/udk}).
 This development kit is available free of charge for non-commercial applications and uses the same rendering and game engine found in many current and popular video games.
-
-\begin{figure*}
-\centering
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/stimulus-town}
-\caption{}
-\label{fig:stimulus-town}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/stimulus-five-soldiers}
-\caption{}
-\label{fig:stimulus-five-soldiers}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/stimulus-three-insurgents}
-\caption{}
-\label{fig:stimulus-three-insurgents}
-\end{subfigure}
-\caption{
-\subref{fig:stimulus-town} An example frame from the stimulus where the camera is travel through the virtual environment with no characters presented.
-\subref{fig:stimulus-five-soldiers} An example frame from the stimulus while characters are being presented.
-\subref{fig:stimulus-three-insurgents} Another example frame from the stimulus while characters are being presented.
-Note how the locations of the characters varies considerably between these two frames.}
-\label{fig:stimulus}
-\end{figure*}
 
 Given our long-term interest in PTSD, we created a virtual town intended to mirror the kinds of real-world settings encountered by our military forces (see figure \ref{fig:stimulus}).
 Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations throughout the virtual town.
@@ -157,6 +156,35 @@ A set of T1-weighted structural images was obtained on the same prescription at 
 These anatomical images were then used to align the functional data to a structural 3D reference volume, which was acquired for each subject in a separate session. 
 The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D, inversion-prepared, fSPGR sequence (minimum TE and TR, TI = 450 ms, 15$^\circ$ flip angle, isometric voxel size of 0.7 mm, 2 excitations, $\sim$28-minute duration).
 
+\begin{figure}
+\centering
+% \begin{subfigure}{0.3\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/hrf}
+% \caption{}
+% \label{fig:wiener-hrf}
+% \end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/square-wiener-deconvolution}
+\caption{}
+\label{fig:wiener-square}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/voxel-wiener-deconvolution}
+\caption{}
+\label{fig:wiener-voxel}
+\end{subfigure}
+\caption{
+%\subref{fig:wiener-hrf} The difference-of-gamma HRF employed as $h(t)$. 
+\subref{fig:wiener-square} A simple square wave in red. 
+The same square wave after convolution with $h(t)$ in green, then after Wiener-filter deconvolution in blue. 
+\subref{fig:wiener-voxel} An example voxel time series in red. 
+The same time series after Wiener-filter deconvolution in blue.}
+\label{fig:wiener-deconvolution}
+\end{figure}
+
 \subsection{Preprocessing}
 Preprocessing of the fMRI data was performed using the mrVista software package (available for download at \url{http://vistalab.stanford.edu/}) as well as additional tools developed on the mrVista framework in our lab. 
 The first 15 seconds of data  were discarded to reduce transient effects.
@@ -186,34 +214,6 @@ g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \mbox{SNR
 \end{equation}
 Where $\mbox{SNR}(f)$ is the signal to noise ratio $\frac{\left| X(f) \right|}{\left| N(f) \right|}$.
 
-\begin{figure}
-\centering
-% \begin{subfigure}{0.3\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/hrf}
-% \caption{}
-% \label{fig:wiener-hrf}
-% \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/square-wiener-deconvolution}
-\caption{}
-\label{fig:wiener-square}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/voxel-wiener-deconvolution}
-\caption{}
-\label{fig:wiener-voxel}
-\end{subfigure}
-\caption{
-%\subref{fig:wiener-hrf} The difference-of-gamma HRF employed as $h(t)$. 
-\subref{fig:wiener-square} A simple square wave in red. 
-The same square wave after convolution with $h(t)$ in green, then after Wiener-filter deconvolution in blue. 
-\subref{fig:wiener-voxel} An example voxel time series in red. 
-The same time series after Wiener-filter deconvolution in blue.}
-\label{fig:wiener-deconvolution}
-\end{figure}
 
 In fMRI, $y(t)$ is the recorded BOLD signal, $h(t)$ is the hemodynamic response function, and $x(t)$ is the neural response.
 Calculating $g(t)$ requires estimates of the power spectral density of the signal of interest as well as the noise.
@@ -402,22 +402,6 @@ This threshold was determined by iteratively retraining the neural network with 
 Figure \ref{fig:sensitivity-cutoff} shows this plot together with histogram of sensitivity values for subject d.
 Interestingly, the performance of the classifier was not significantly affected until a majority of the voxels have been removed.
 
-\begin{figure}
-\centering
-\includegraphics[width=0.3\textwidth]{figures/performance-verse-sensitivity-cutoff}
-\caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network $F_1$ score when the inputs are pruned at a particular sensitivity value. }
-\label{fig:sensitivity-cutoff}
-\end{figure}
-
-We employed Freesurfer image analysis suite to construct cortical surfaces for each of our subjects using high-resolution anatomy volumes.
-Then, we constructed 10 anatomical labels on each surface based on FreeSurfer's automatically generated labels.
-These labels are presented in figure \ref{fig:labels}.
-The labels we used largely overlap with FreeSurfer's labels.
-However, the label for the banks of the superior temporal sulcus was subdivided and incorporated back in to the superior and middle temporal labels.
-Additionally, the supramarginal label was merged with the inferior parietal label.
-For most subjects, several of the automatic labels were also edited by hand to better conform with the sulcal boundaries of the subject.
-We then projected each subject's volume sensitivity map onto their cortical surface and blurred along the surface using a 5 mm full-width half-maximum (FWHM) Gaussian kernel.
-
 \begin{figure*}
 \centering
 \begin{subfigure}{0.3\textwidth}
@@ -435,6 +419,15 @@ We then projected each subject's volume sensitivity map onto their cortical surf
 \caption{Color coded region labels used for aggregating sensitivity results: light blue -- superior temporal, dark blue -- middle temporal, light green -- inferior temporal, dark green -- fusiform, dark red -- superior parietal, light red -- inferior parietal, light orange -- lateral occipital, dark orange -- cuneus, light purple -- pericalcarine, dark purple -- lingual}
 \label{fig:labels}
 \end{figure*}
+
+We employed Freesurfer image analysis suite to construct cortical surfaces for each of our subjects using high-resolution anatomy volumes.
+Then, we constructed 10 anatomical labels on each surface based on FreeSurfer's automatically generated labels.
+These labels are presented in figure \ref{fig:labels}.
+The labels we used largely overlap with FreeSurfer's labels.
+However, the label for the banks of the superior temporal sulcus was subdivided and incorporated back in to the superior and middle temporal labels.
+Additionally, the supramarginal label was merged with the inferior parietal label.
+For most subjects, several of the automatic labels were also edited by hand to better conform with the sulcal boundaries of the subject.
+We then projected each subject's volume sensitivity map onto their cortical surface and blurred along the surface using a 5 mm full-width half-maximum (FWHM) Gaussian kernel.
 
 \section{Results}
 Figure \ref{fig:performance-graph} contains the cross-validated
@@ -462,12 +455,19 @@ There is some variation of classifier performance between subjects, but in all c
 It is evident that, as the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
 This relationship is plotted in figure \ref{fig:performance-verse-temporal-distance}.
 
-\begin{figure*}
+\begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{figures/performance-verse-temporal-distance}
+\includegraphics[width=0.4\textwidth]{figures/performance-verse-temporal-distance}
 \caption{The average performance of the SVM and neural network classifiers plotted against the average temporal delay between data in the training and test sets.}
 \label{fig:performance-verse-temporal-distance}
-\end{figure*}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{figures/performance-verse-sensitivity-cutoff}
+\caption{A histogram of the sensitivity analysis values and a plot of the feed forward neural network $F_1$ score when the inputs are pruned at a particular sensitivity value. }
+\label{fig:sensitivity-cutoff}
+\end{figure}
 
 The average confusion matrix presented in figure \ref{fig:average-confusion} gives a more intuitive look at the performance of the classifier.
 From this matrix we can see that the classifiers are much better at detecting the presence of a single character than any other count.
