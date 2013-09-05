@@ -97,7 +97,7 @@ Data-driven analyses can be used to uncover complex patterns evoked by realistic
 
 Although many dynamic stimuli experiments employ GLM methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010}. The application of MVPA analysis to VR stimuli can open up an exciting range of experiments to examine complex brain responses in more realistic stimulus scenarios.
 MVPA has been used as a blanket term for the application of any classification algorithm to fMRI data, although the support vector machine (SVM) is by far the most popular choice.
-When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as the presentation of houses or faces \citep{Haxby2001,Mitchell2003,Haynes2006}.
+When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as the presentation of houses or faces, the subject is reading ambiguous or unambigous sentences, or even the presentation of images containing bars of specific orientations \citep{Haxby2001,Mitchell2003,Haynes2006}.
 The algorithm is then trained to classify the pattern of BOLD activation into these categories at a particular time-point using labeled examples.
 The performance of the classifier is defined to be the probability that it will successfully classify a previously unseen example;
 this measure of performance must be estimated using statistical methods.
@@ -295,7 +295,7 @@ In our third method, we exploit the fact that each 6 min run cycles through all 
 Accordingly, sets of frames were independently drawn from these half-runs, referred to as ``half-run split". 
 In our fourth method, termed ``run split", entire 6-min runs of frames were independently drawn. 
 Table \ref{tab:training-split} summarizes these training and test set split methods and the temporal separations between the training and test data for single runs. 
-Because the randomization extends across the entire the entire run, the mean temporal separations do not vary much between the various splits. 
+The mean temporal separations do not vary much between the various splits because the randomization extends across the entire the entire run. 
 However, the minimum temporal distance between a frame in the test set and any frame in the training set is a more relevant measure for comparison when trying to minimize optimistic performance bias.
 That is, it doesn't matter that on average the examples are highly separated temporally if on average there is at least one example in the training set which was temporally close to each example in the test set.
 
@@ -570,8 +570,9 @@ However, the fact that the classifiers could still perform at well above chance 
 In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-sensitivity}).
 This effect is quite evident from the confusion matrix.
 This seems to be in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between 1 and 2 characters than it is to tell the difference between 5 and 6 characters \citep{Shepard1975,Dehaene2003}.
-However, there is an interesting exception to this general trend.
-There is a significant increase in confusion between 2 and 6 characters.
+This phenomenon could be related purely to retinotopic information rather than perception of number.
+Different sizes and configurations of character groups may induce 
+There is an interesting exception to this trend that is difficult to account for with a retinotopic explanation ; there is a significant increase in confusion between 2 and 6 characters.
 This could be a result of 6 characters being too much for the subject to consider individually and the subject perceives 2 groups of characters rather than 6 individual characters.
 
 This estimated prediction accuracy was calculated after correcting for the bias introduced by temporal correlations in the bold signal while minimizing variance.
