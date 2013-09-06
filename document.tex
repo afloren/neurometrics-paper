@@ -442,9 +442,6 @@ There is a significant difference in the estimated performance when the average 
 \label{fig:performance-verse-temporal-distance}
 \end{figure}
 
-
-
-
 The average confusion matrix gives an intuitive look at the performance of the classifier (Figure \ref{fig:average-confusion}).
 From this matrix we can see that the classifiers are much better at detecting the presence of a single character than any other count.
 In fact, there are almost no cases of confusion between 1 and 2 characters.
@@ -567,12 +564,13 @@ These variations could be the result of differences in age, general cognitive st
 The lack of a task during our stimulus makes these variations difficult to interpret since attention and cognitive state are not well controlled.
 In future experiments, we plan to introduce a difficult task for the subjects to perform and we expect to see the average performance increase and the variation between subjects decrease.
 However, the fact that the classifiers could still perform at well above chance levels without a focused task increases our confidence in the results.
-In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-sensitivity}).
-This effect is quite evident from the confusion matrix.
+In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).
 This seems to be in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between 1 and 2 characters than it is to tell the difference between 5 and 6 characters \citep{Shepard1975,Dehaene2003}.
-This phenomenon could be related purely to retinotopic information rather than perception of number.
-Different sizes and configurations of character groups may induce 
-There is an interesting exception to this trend that is difficult to account for with a retinotopic explanation ; there is a significant increase in confusion between 2 and 6 characters.
+This phenomenon could also be related purely to retinotopic information, as indicated by the sensitivity analysis, rather than perception of numbers.
+Without a fixation point and with varying character group configurations, the retinotopic pattern of activation will vary from presentation to presentation even for the same character count.
+However, the average activation in a retinotopically organized and object selective region will increase for larger group sizes regardless of the group's configuration and the subject's fixation point.
+The relative difference in average activity is smaller between larger presentation sizes and thus more difficult to differentiate.
+However, There is an interesting exception to this trend that is difficult to account for with a retinotopic explanation; there is a significant increase in confusion between 2 and 6 characters.
 This could be a result of 6 characters being too much for the subject to consider individually and the subject perceives 2 groups of characters rather than 6 individual characters.
 
 This estimated prediction accuracy was calculated after correcting for the bias introduced by temporal correlations in the bold signal while minimizing variance.
