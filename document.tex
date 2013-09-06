@@ -42,7 +42,7 @@ abstract
 \end{abstract}
 
 \begin{keyword}
-keyword1 \sep keyword2
+fMRI \sep MVPA \sep machine learning \sep virtual reality \sep vision
 \end{keyword}
 
 \end{frontmatter}
@@ -56,7 +56,7 @@ These complex responses can make interpretation difficult, yet it is important t
 
 Researchers have been using dynamic stimuli in the form of virtual reality (VR) environments \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a,Hassabis2009} and prerecorded movies \citep{Hasson2004,Chadwick2010,Nishimoto2011} for some time.
 VR stimuli have a two strong advantages over prerecorded movies: the stimulus designer has complete control over the stimuli and the subject can interact with the VR environment in real time.
-Precise control of the VR environment allows for the interrogation of very subtle parameters as well as automatic coding of the scene.
+Precise control of the VR environment allows for the interrogation of very subtle parameters as well as automatic coding of relevant scene parameters.
 Many variables of interest, such as semantic labels for visible objects are explicitly specified by the VR design, avoiding the need to manually label each frame as is usually done to analyze experiments employing movies.
 Furthermore, VR permits real-time interaction that enable the examination of feedback and learning mechanisms in a realistic context.
 
@@ -93,11 +93,12 @@ In \cite{Spiers2007}, the authors review a number of experiments that use either
 These analysis methods can generally be split into stimulus-driven methods---such as SPM---which measure the statistical significance of a hypothesis, and data-driven methods---such as MVPA---which look for patterns in the fMRI signal.
 Stimulus-driven analyses provide more easily interpretable results but become less and less tractable as the complexity of the stimulus increases.
 Data-driven analyses, on the other hand, can cope with more complex stimuli but are more difficult to relate to brain physiology.
-Data-driven analyses can be used to uncover complex patterns evoked by realistic stimuli. The observed relationships can then be used to help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses. However, it may also be possible to utilize the use these realistic stimulus-response relationships to better understand subject training and pathophysiology.
+Data-driven analyses can be used to uncover complex patterns evoked by realistic stimuli. The observed relationships can then be used to help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses. 
+However, it may also be possible to use these realistic stimulus-response relationships to better understand subject training and pathophysiology.
 
 Although many dynamic stimuli experiments employ GLM methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010}. The application of MVPA analysis to VR stimuli can open up an exciting range of experiments to examine complex brain responses in more realistic stimulus scenarios.
 MVPA has been used as a blanket term for the application of any classification algorithm to fMRI data, although the support vector machine (SVM) is by far the most popular choice.
-When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as the presentation of houses or faces, the subject is reading ambiguous or unambigous sentences, or even the presentation of images containing bars of specific orientations \citep{Haxby2001,Mitchell2003,Haynes2006}.
+When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as the presentation of houses or faces, the subject is reading ambiguous or unambiguous sentences, or even the presentation of images containing bars of specific orientations \citep{Haxby2001,Mitchell2003,Haynes2006}.
 The algorithm is then trained to classify the pattern of BOLD activation into these categories at a particular time-point using labeled examples.
 The performance of the classifier is defined to be the probability that it will successfully classify a previously unseen example;
 this measure of performance must be estimated using statistical methods.
@@ -106,12 +107,12 @@ MVPA methods consider the pattern of activation of many voxels at a particular i
 By considering multiple voxels simultaneously, MVPA has been used to identify effects that had previously seemed too fine scale to resolve with fMRI \citep{Kamitani2005,Hassabis2009}.
 
 Here, we test the feasibility of extracting complex information from fMRI data while subjects view natural and dynamic stimuli.
-Our experiment was structured to identify those parts of the brain that are related to the number of human characters in a scene.
+Our experiment was structured to identify those parts of the brain that contain information about the number of human characters in a scene.
 Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{Dehaene1999,Rickard2000,Barth2006}, we used a passive-viewing VR stimulus paradigm, and analyzed the fMRI data using MVPA.
 More specifically, we tested two different machine learning algorithms: the support vector machine (SVM) and feedforward neural network (NN).
 These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using cross-fold validation. 
 We carefully examined a variety of temporal splitting schemes to assess their effect on classifier performance.
-Our classification accuracy was 3--4 times better than chance for all subjects and both machine-learning techniques tested.
+Even for the most conservative splitting scheme, classification accuracy was 3--4 times better than chance for all subjects and both machine-learning techniques tested.
 We then utilized a novel sensitivity mapping technique to identify voxels that are important for classification and are thus likely involved in processing the information that the classifiers were trained to identify.
 Results indicate that information regarding  the number of visible characters in a complex stimulus is largely encoded fairly early in visual processing, utilizing both ventral and dorsal visual streams.
 The results demonstrate that complex information can effectively be extracted from a realistic VR stimulus paradigm, opening up new prospects for the use of VR with MVPA in neuroscience.
@@ -144,7 +145,7 @@ While the number of characters presented in each block varied from 1 to 6, the s
 The ordering of the presentations was also controlled such that presentations with the same number of characters were located at different viewing points.
 The order of the presentations was generated randomly given the previous constraints, but the same ordering was used for each subject.
 A single type of character (friends or foes) was presented in each run. 
-The character type presented was alternated for each run.
+The character type presented was alternated from run to run.
 
 \subsection{MRI protocols}
 Imaging was performed on a GE Signa Excite HD scanner using the product 8-channel head coil.
@@ -548,7 +549,7 @@ The sensitivity maps are relatively homogeneous across subjects and hemispheres.
 \begin{table*}[p]
 \centering
 \input{tables/full-sensitivity-table.tex}
-\caption{Sensitivity map values integrated across the cortical surface labels from figure \ref{fig:labels}.}
+\caption{Sensitivity map values integrated across the cortical surface labels from figure \ref{fig:labels}. Sensitivities are shown for all subjects (\emph{a}--\emph{e}), and their mean values, ordered from greatest to least sensitive brain region.}
 \label{tab:full-sensitivity}
 \end{table*}
 
@@ -573,13 +574,13 @@ The relative difference in average activity is smaller between larger presentati
 However, There is an interesting exception to this trend that is difficult to account for with a retinotopic explanation; there is a significant increase in confusion between 2 and 6 characters.
 This could be a result of 6 characters being too much for the subject to consider individually and the subject perceives 2 groups of characters rather than 6 individual characters.
 
-This estimated prediction accuracy was calculated after correcting for the bias introduced by temporal correlations in the bold signal while minimizing variance.
+This estimated prediction accuracy was calculated after correcting for the bias introduced by temporal correlations in the BOLD signal while minimizing variance.
 As we have shown, decreasing the average temporal distance between examples in the training and test sets results in a less optimistically biased estimate of the classifier's performance.
 However, the larger the average temporal distance enforced between the training and test sets the fewer possible folds exist for crossfold-validation which results in an estimate with a higher variance.
 By characterizing the relationship between the average minimum temporal distance between the training and test sets and estimated classifier performance, we have found that the estimated performance reaches a minimum around 20 seconds.
 These findings are consistent with our knowledge of the hemodynamic response.
 That is, so long as the frames are separated by approximately the time-scale of the HRF then they can reasonably be considered independent, and this separation produces an appropriately conservative measure of classification performance. 
-However, it is interesting that slightly better performance may be obtained for somewhat longer delays.
+However, it is interesting that slightly better performance may be obtained for somewhat longer delays, although this trend was not statistically significant.
 Many experiments separate their folds for crossfold-validation along runs.
 While this ensures a sufficient temporal separation between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
 Instead, we recommend splitting the data along whatever natural boundary of the experimental procedure is closest to, but not less than 20 seconds.
@@ -592,7 +593,7 @@ the number of training examples required to train a classifier generally increas
 One reason that the SVM is so popular and so effective in this field is that its performance is partially robust against insufficient training examples.
 The simplicity of the SVM's discriminative model---a hyperplane---bounds the potential generalization error while the maximum-margin cost-function provides regularization.
 Nevertheless, other researchers have already found that decreasing the dimensionality of the problem with various univariate measures, from percent activation to a one-way ANOVA, can be quite effective \citep{Norman2006,Pereira2009}.
-However, most of these statistical stimulus-driven measures rely on a number of statistical assumptions about the underlying BOLD signal such as being normally distributed.
+However, most of these statistical stimulus-driven measures rely on a number of statistical assumptions about the underlying BOLD signal such as a normal distribution.
 We developed the harmonic analysis technique that performs a similar role without making any assumptions about the signal other than linearity.
 While less appropriate for statistical analysis, we have found that harmonic analysis is an excellent tool for dimensionality reduction as a preprocessing step before MVPA.
 
