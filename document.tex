@@ -193,36 +193,21 @@ The first 15 seconds of data  were discarded to reduce transient effects.
 We then estimated in-scan motion using a robust intensity-based scheme \citep{Nestares2000}. 
 Between-run motion was corrected using the same scheme, this time applied to the temporal average intensity of the entire scan. 
 The first run of the session was used as the reference. 
-Additionally, we applied a Wiener filter deconvolution \citep{Poor1980} using a generic difference-of-gamma hemodynamic response function (HRF) \citep{Glover1999} as the kernel.
+Additionally, we applied a Wiener filter deconvolution \citep{Poor1980} using a generic difference-of-gamma hemodynamic response function (HRF) \citep{Glover1999} as the kernel to the recorded BOLD signal.
 Mostly, the deconvolution served to shift the peak response in time so that it was aligned with its associated stimulus, but it also provided some amount of noise reduction (Figure \ref{fig:wiener-voxel}).
 We are interested in learning associations between patterns of activation in the brain and stimulus presentation so it is important that the activation is properly aligned temporally with the stimulus.
 
-Wiener filter deconvolution can be summarized as follows:
-Given a system
+In Wiener filter deconvolution, the deconvolution kernel $g(t)$ is most easily expressed in the Fourier domain.
 \begin{equation}
-y(t) = h(t) \ast x(t) + n(t)
+g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \frac{\left| N(f) \right|}{\left| X(f) \right|}}
 \end{equation}
-where $x(t)$ is the signal of interest, $h(t)$ is some blurring kernel, $n(t)$ is independent additive noise, and $y(t)$ is the recorded signal.
-We want to find the deconvolution kernel $g(t)$ such that 
-\begin{equation}
-\hat{x}(t) = g(t) \ast y(t)
-\end{equation}
-minimizes the mean squared error between $x(t)$ and $\hat{x}(t)$, or
-\begin{equation}
-\sum_{t}{\left( \hat{x}(t) - x(t) \right)^{2}}
-\end{equation}
-The solution for the optimal $g(t)$ is most easily expressed in the Fourier domain.
-\begin{equation}
-g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \mbox{SNR}^{-1}(f)}
-\end{equation}
-Where $\mbox{SNR}(f)$ is the signal to noise ratio $\frac{\left| X(f) \right|}{\left| N(f) \right|}$.
+Where $h(t)$ is the blurring kernel, $x(t)$ is the signal of interest, and $n(t)$ is additive noise.
 
-
-In fMRI, $y(t)$ is the recorded BOLD signal, $h(t)$ is the hemodynamic response function, and $x(t)$ is the neural response.
+In fMRI, $h(t)$ is the hemodynamic response function and $x(t)$ is the neural response.
 Calculating $g(t)$ requires estimates of the power spectral density of the signal of interest as well as the noise.
 However, the noise $n(t)$ corresponds not only to scanner noise but other nuisance factors such as pulse and respiration.
 This makes modeling the noise, and its power spectral density, very difficult.
-Therefore, we set $\mbox{SNR}(f) = 1$, a compromise value that provided a satisfactory combination of temporal alignment and noise reduction for all subjects.
+Therefore, we set $\frac{\left| N(f) \right|}{\left| X(f) \right|} = 1$, a compromise value that provided a satisfactory combination of temporal alignment and noise reduction for all subjects.
 
 The high-resolution reference anatomies were segmented using the Freesurfer image analysis suite to create approximate parcellations of the gray matter in each subject, as well as a surface model useful for visualization of the results.
 Freesurfer is documented and freely available for download online (\url{http://surfer.nmr.mgh.harvard.edu/}).
