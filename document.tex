@@ -22,7 +22,7 @@
 
 \begin{frontmatter}
 
-\title{Identifying virtual-world stimulus information from fMRI data}
+\title{Identifying subsets of voxels sufficient for decoding complex visual information from a virtual reality stimulus}
 
 \author[UT]{Andrew Floren\corref{cor}}
 \ead{afloren@utexas.edu}
@@ -38,7 +38,14 @@
 \cortext[cor]{Corresponding author.}
 
 \begin{abstract}
-abstract
+Virtual reality (VR) environments provide a framework for creating complex and dynamic stimuli in a controlled fashion while multivariate pattern analysis (MVPA) allows for the interrogation of neural-processing pathways when the underlying processing model is unknown. 
+When used together, VR stimuli and MVPA allow for the creation of very powerful experimental designs. 
+We have explored the benefits and potential pitfalls of these techniques and applied them to analyze the passive encoding of the number of human characters presented in a realistic and dynamic stimulus. 
+The VR stimuli allowed us to generate these stimuli while controlling the number of human characters presented and MVPA allowed us to interrogate the neural representation of this information without an a priori model.
+we tested two different machine learning algorithms: the support vector machine (SVM) and feedforward neural network (NN). 
+These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using cross-fold validation.
+We identified small and spatially distributed subsets of voxels that were sufficient for decoding the number of human characters presented in the VR stimulus from the blood-oxygen-level dependent (BOLD) signal using an iterative approach based on sensitivity analysis.
+The discriminative models learned by both the SVM and NN had a prediction accuracy that was 3--4 times above chance for all subjects.
 \end{abstract}
 
 \begin{keyword}
@@ -48,7 +55,7 @@ fMRI \sep MVPA \sep machine learning \sep virtual reality \sep vision
 \end{frontmatter}
 
 \section{Introduction}
-Much research using functional magnetic resonance imaging (fMRI) and the blood oxygen level dependent (BOLD) signal utilize static images to analyze how the brain responds to stimuli.
+Much research using functional magnetic resonance imaging (fMRI) and the blood-oxygen-level dependent (BOLD) signal utilize static images to analyze how the brain responds to stimuli.
 Such work usually focuses on a single variable of interest, and creates stimuli that attempt to isolate that variable.
 While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
 More natural and dynamic stimuli will evoke a more complex network of brain responses.
@@ -539,25 +546,11 @@ The sensitivity maps are relatively homogeneous across subjects and hemispheres.
 \end{table*}
 
 \section{Discussion}
-VR environments provide a framework for creating  complex and dynamic stimuli in a controlled fashion while MVPA allows for the interrogation of neural-processing pathways when the underlying processing model is unknown.
-When used together, VR stimuli and MVPA allow for the creation of very powerful experimental designs.
-We have explored the benefits and potential pitfalls of these techniques and applied them to analyze the passive encoding of the number of human characters presented in a realistic and dynamic stimulus.
-The VR stimuli allowed us to generate these stimuli while controlling the number of human characters presented and MVPA allowed us to interrogate the neural representation of this information without an a priori model.
-
-The discriminative models learned by both the SVM and NN had a prediction accuracy that was 3--4 times above chance for all subjects.
 Although both classifiers performed at well above chance levels for all subjects, the average performance on individual subjects varied significantly.
 These variations could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during a session.
 The lack of a task during our stimulus makes these variations difficult to interpret since attention and cognitive state are not well controlled.
 In future experiments, we plan to introduce a difficult task for the subjects to perform and we expect to see the average performance increase and the variation between subjects decrease.
 However, the fact that the classifiers could still perform at well above chance levels without a focused task increases our confidence in the results.
-In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).
-This seems to be in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between 1 and 2 characters than it is to tell the difference between 5 and 6 characters \citep{Shepard1975,Dehaene2003}.
-This phenomenon could also be related purely to retinotopic information, as indicated by the sensitivity analysis, rather than perception of numbers.
-Without a fixation point and with varying character group configurations, the retinotopic pattern of activation will vary from presentation to presentation even for the same character count.
-However, the average activation in a retinotopically organized and object selective region will increase for larger group sizes regardless of the group's configuration and the subject's fixation point.
-The relative difference in average activity is smaller between larger presentation sizes and thus more difficult to differentiate.
-However, There is an interesting exception to this trend that is difficult to account for with a retinotopic explanation; there is a significant increase in confusion between 2 and 6 characters.
-This could be a result of 6 characters being too much for the subject to consider individually and the subject perceives 2 groups of characters rather than 6 individual characters.
 
 This estimated prediction accuracy was calculated after correcting for the bias introduced by temporal correlations in the BOLD signal while minimizing variance.
 As we have shown, decreasing the average temporal distance between examples in the training and test sets results in a less optimistically biased estimate of the classifier's performance.
@@ -570,14 +563,9 @@ Many experiments separate their folds for crossfold-validation along runs.
 While this ensures a sufficient temporal separation between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
 Instead, we recommend splitting the data along whatever natural boundary of the experimental procedure is closest to, but not less than 20 seconds.
 
-Ideally we would like to train our classifiers using data from the whole brain.
-In this way, our analysis will not miss any relevant interactions that are not localized by the harmonic analysis.
-This is particularly important when MVPA is used without a good underlying model for the neural response.
-However, the large number of voxels can then intractably confound the MVPA because
-the number of training examples required to train a classifier generally increases rapidly with the number of dimensions.
-One reason that the SVM is so popular and so effective in this field is that its performance is partially robust against insufficient training examples.
-The simplicity of the SVM's discriminative model---a hyperplane---bounds the potential generalization error while the maximum-margin cost-function provides regularization.
-Nevertheless, other researchers have already found that decreasing the dimensionality of the problem with various univariate measures, from percent activation to a one-way ANOVA, can be quite effective \citep{Norman2006,Pereira2009}.
+Ideally, we would like to train our classifiers using data from the whole brain so as not to miss any relevant interactions.
+However, the number of training examples required to train a classifier generally increases rapidly with the number of dimensions.
+Other researchers have already found that decreasing the dimensionality of the problem with various univariate measures, from percent activation to a one-way ANOVA, can be quite effective \citep{Norman2006,Pereira2009}.
 However, most of these statistical stimulus-driven measures rely on a number of statistical assumptions about the underlying BOLD signal such as a normal distribution.
 We developed the harmonic analysis technique that performs a similar role without making any assumptions about the signal other than linearity.
 While less appropriate for statistical analysis, we have found that harmonic analysis is an excellent tool for dimensionality reduction as a preprocessing step before MVPA.
@@ -594,10 +582,6 @@ These voxels will also be assigned low sensitivity values by the trained classif
 On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results \citep{Engel1997}. 
 Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
-
-Our sensitivity analysis can be contrasted to the popular ``searchlight'' technique \citep{Kriegeskorte2006}, which is effective for simple highly-localized functions, but it is unable to detect regions that are relevant for classification only in conjunction with other spatially disparate regions.
-Such localized schemes do not take full advantage of the multivariate nature of MVPA.
-On the other hand, our sensitivity mapping technique considers the whole brain simultaneously and can identify spatially distributed regions that are relavant for classification.
 
 When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps reveal insights as to how this information may be processed in the brain (Table \ref{tab:full-sensitivity}).
 By far, the most sensitivity (42\%) and, therefore the most relevant mutual information, is contained in the lateral occipital region (LO).
@@ -616,6 +600,15 @@ Despite the preponderance of retinotopic visual-area sensitivity, substantial se
 The sensitivity along the dorsal stream suggests that the perception of motion and position are also useful for decoding subject number from our complex and dynamic VR stimuli.
 Our results indicate that something as abstract as the number of perceived human characters is not contained in a single voxel, but rather is encoded in a distributed manner across many different visual processing areas working together.
 Encouragingly, the sensitivity maps were consistent across subjects despite the lack of a controlled task.
+
+In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).
+This seems to be in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between 1 and 2 characters than it is to tell the difference between 5 and 6 characters \citep{Shepard1975,Dehaene2003}.
+This phenomenon could also be related purely to retinotopic information, as indicated by the sensitivity analysis, rather than perception of numbers.
+Without a fixation point and with varying character group configurations, the retinotopic pattern of activation will vary from presentation to presentation even for the same character count.
+However, the average activation in a retinotopically organized and object selective region will increase for larger group sizes regardless of the group's configuration and the subject's fixation point.
+The relative difference in average activity is smaller between larger presentation sizes and thus more difficult to differentiate.
+However, There is an interesting exception to this trend that is difficult to account for with a retinotopic explanation; there is a significant increase in confusion between 2 and 6 characters.
+This could be a result of 6 characters being too much for the subject to consider individually and the subject perceives 2 groups of characters rather than 6 individual characters.
 
 There are some potential pitfalls in the use of dynamic and VR stimuli, such as increased design complexity and difficulty of interpretation. 
 Here, we have offered some initial tools and analyses to deal with these limitations, but further work is clearly needed.
