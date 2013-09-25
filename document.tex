@@ -41,12 +41,12 @@
 \cortext[cor]{Corresponding author.}
 
 \begin{abstract}
-Virtual reality (VR) environments provide a framework for creating complex and dynamic stimuli in a controlled fashion while multivariate pattern analysis (MVPA) allows for the interrogation of neural-processing substrate when the underlying processing model is unknown. 
+Virtual reality (VR) environments provide a framework for creating complex and dynamic stimuli in a controlled fashion while multivariate pattern analysis (MVPA) makes it possible to characterize the neural-processing substrate when the underlying processing model is unknown. 
 Used together, VR stimuli and MVPA allow for the creation of very powerful experimental designs. 
-The benefits and potential pitfalls of these techniques were explored and applied to analyze the passive encoding of the number of human characters presented in a realistic and dynamic stimulus while functional magnetic resonance imaging (fMRI) data were obtained using two different machine learning algorithms: the support vector machine (SVM) and feedforward neural network (NN). 
-These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using cross-fold validation.
+The benefits and potential pitfalls of these techniques are evaluated on the passive encoding of the number of human characters presented in a realistic and dynamic stimulus while functional magnetic resonance imaging (fMRI) data were analyzed using two different machine learning algorithms: the support vector machine (SVM) and feedforward neural network (NN). 
+These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation.
 A sensitivity analysis was used to identify small and spatially distributed subsets of voxels that were sufficient for decoding the number of human characters from the fMRI signal.
-The discriminative models learned by both the SVM and NN had a prediction accuracy that was 3--4 times above chance for all subjects.
+The discriminative models learned by both the SVM and NN had a prediction accuracy that was three to four times above chance for all subjects, demonstrating that VR + MVPA is a powerful approach for uncovering the neural circuitry in complex visual tasks.
 \end{abstract}
 
 \begin{keyword}
@@ -58,15 +58,16 @@ fMRI \sep MVPA \sep machine learning \sep virtual reality \sep vision
 \section{Introduction}
 Much research using functional magnetic resonance imaging (fMRI) and the blood-oxygen-level dependent (BOLD) signal utilize static images to analyze how the brain responds to stimuli.
 Such work usually focuses on a single variable of interest, and creates stimuli that attempt to isolate that variable.
-While this has proven to be a successful approach, it does not mimic the dynamically changing environment in which the primate brain has evolved.
+While this approach has proven to be successful, it does not mimic the dynamically changing environment in which the primate brain has evolved.
 More natural and dynamic stimuli will evoke a more complex network of brain responses.
-These complex responses can make interpretation difficult, yet it is important to test whether currently accepted neural correlates of experience remain valid in more natural settings because the context in which a stimuli is presented will affect how it is processed.
+The context in which a stimuli is presented will affect how it is processed, and such complex responses can make interpretation difficult.
+Therefore, it is important to test whether currently accepted neural correlates of experience remain valid in more natural settings.
 
 Researchers have been using dynamic stimuli in the form of virtual reality (VR) environments \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a,Hassabis2009} and prerecorded movies \citep{Hasson2004,Chadwick2010,Nishimoto2011} for some time.
-VR stimuli have a two strong advantages over prerecorded movies: the stimulus designer has complete control over the stimuli and the subject can interact with the VR environment in real time.
+VR stimuli have two strong advantages over prerecorded movies: the stimulus designer has complete control over the stimuli and the subject can interact with the VR environment in real time.
 Precise control of the VR environment allows for the interrogation of very subtle parameters as well as automatic coding of relevant scene parameters.
-Many variables of interest, such as semantic labels for visible objects are explicitly specified by the VR design, avoiding the need to manually label each frame as is usually done to analyze experiments employing movies.
-Furthermore, VR permits real-time interaction that enable the examination of feedback and learning mechanisms in a realistic context.
+Many variables of interest, such as semantic labels for visible objects are explicitly specified by the VR design, avoiding the need to manually label each frame (as is usually done with movies).
+Furthermore, subjects interact with VR in real time, which makes it possible to examine feedback and learning mechanisms in a realistic context.
 
 \begin{figure*}
 \centering
@@ -89,7 +90,7 @@ Furthermore, VR permits real-time interaction that enable the examination of fee
 \label{fig:stimulus-three-insurgents}
 \end{subfigure}
 \caption{
-Our stimulus employs a VR environment and a blocked design where the view alternates between moving through the environment and viewing groups of animated characters.
+The stimulus in the experiment described in this paper employs a VR environment and a blocked design where the view alternates between moving through the environment and viewing groups of animated characters.
 \subref{fig:stimulus-town} An example frame from the stimulus where the camera is traveling through the virtual environment with no characters presented.
 \subref{fig:stimulus-five-soldiers} An example frame from the stimulus where five friendly characters are being presented.
 \subref{fig:stimulus-three-insurgents} An example frame from the stimulus where three hostile characters are being presented.}
@@ -97,74 +98,75 @@ Our stimulus employs a VR environment and a blocked design where the view altern
 \end{figure*}
 
 More complex stimuli require more complex analysis methods.
-A wide variety of methods have been used to interrogate dynamic stimuli: general linear models (GLM) including statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multi-voxel pattern analysis (MVPA) being among the most popular \citep{Spiers2007}.
-These analysis methods can generally be split into stimulus-driven methods---such as SPM---which measure the statistical significance of a hypothesis, and data-driven methods---such as MVPA---which look for patterns in the fMRI signal.
-Stimulus-driven analyses provide more easily interpretable results but become less and less tractable as the complexity of the stimulus increases.
+A wide variety of methods have been used to analyze dynamic stimuli; general linear models (GLM) including statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multi-voxel pattern analysis (MVPA) are the most popular \citep{Spiers2007}.
+These analysis methods can generally be split into stimulus-driven methods---such as SPM---that measure the statistical significance of a hypothesis, and data-driven methods---such as MVPA---that look for patterns in the fMRI signal.
+Stimulus-driven analyses provide more easily interpretable results but become less tractable as the complexity of the stimulus increases.
 Data-driven analyses, on the other hand, can cope with more complex stimuli but are more difficult to relate to brain physiology.
-Data-driven analyses can be used to uncover complex patterns evoked by realistic stimuli. The observed relationships can then be used to help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses. 
-However, it may also be possible to use these realistic stimulus-response relationships to better understand subject training and pathophysiology.
+A hybrid approach is also possible: data-driven analyses can first uncover complex patterns evoked by realistic stimuli; the observed relationships can then help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses. 
+However, it may also be possible to use these realistic stimulus-response relationships to understand subject training and pathophysiology better.
 
-Although many dynamic stimuli experiments employ GLM methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010}. The application of MVPA analysis to VR stimuli can open up an exciting range of experiments to examine complex brain responses in more realistic stimulus scenarios.
+Although many dynamic stimuli experiments employ GLM methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010}. 
+The application of MVPA analysis to VR stimuli opens up an exciting range of experiments to examine complex brain responses in more realistic stimulus scenarios.
 MVPA has been used as a blanket term for the application of any classification algorithm to fMRI data, although the support vector machine (SVM) is by far the most popular choice.
-When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as the presentation of houses or faces, the subject is reading ambiguous or unambiguous sentences, or even the presentation of images containing gratings of specific orientations \citep{Haxby2001,Mitchell2003,Haynes2006}.
-The algorithm is then trained to classify the pattern of BOLD activation into these categories at a particular time-point using labeled examples.
-The performance of the classifier is defined to be the probability that it will successfully classify a previously unseen example;
+When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as houses or faces, ambiguous or unambiguous sentences, or gratings of specific orientations \citep{Haxby2001,Mitchell2003,Haynes2006}.
+The algorithm is then trained to classify the patterns of BOLD activations into these categories at a particular time-point using labeled examples.
+The performance of the classifier is defined to be the probability that it will classify a previously unseen example successfully;
 this measure of performance must be estimated using statistical methods.
-MVPA can be applied to the whole brain as well as to small localized regions such as in the ``searchlight'' technique \citep{Kriegeskorte2006} which can be used to localize functional processing.
+MVPA can be applied to the whole brain as well as to small localized regions (e.g., using the ``searchlight'' technique; \cite{Kriegeskorte2006}), which can then be used to localize functional processing.
 MVPA methods consider the pattern of activation of many voxels at a particular interval in time, in contrast to GLM, which treats each voxel independently as a time-series of responses over an extended period of time.
-By considering multiple voxels simultaneously, MVPA has been used to identify effects that had previously seemed too fine scale to resolve with fMRI \citep{Kamitani2005,Hassabis2009}.
+By considering multiple voxels simultaneously, MVPA has been used to identify effects that were previously thought to be too fine scale to resolve with fMRI \citep{Kamitani2005,Hassabis2009}.
 
-Here, we test the feasibility of extracting complex information from fMRI data while subjects view natural and dynamic stimuli.
-Our experiment was structured to identify those parts of the brain that contain information about the number of human characters in a scene.
-Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{Dehaene1999,Rickard2000,Barth2006}, we used a passive-viewing VR stimulus paradigm, and analyzed the fMRI data using MVPA.
-More specifically, we tested two different machine learning algorithms: the support vector machine (SVM) and feedforward neural network (NN).
-These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using cross-fold validation. 
-We carefully examined a variety of temporal splitting schemes to assess their effect on classifier performance.
-Even for the most conservative splitting scheme, classification accuracy was 3--4 times better than chance for all subjects and both machine-learning techniques tested.
-We then utilized a novel sensitivity mapping technique to identify voxels that are important for classification and are thus likely involved in processing the information that the classifiers were trained to identify.
-Results indicate that information regarding  the number of visible characters in a complex stimulus is largely encoded fairly early in visual processing, utilizing both ventral and dorsal visual streams.
+In this paper, the feasibility of extracting complex information from fMRI data while subjects view natural and dynamic stimuli is tested.
+The experiment were structured to identify those parts of the brain that contain information about the number of human characters in a scene.
+Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{Dehaene1999,Rickard2000,Barth2006}, a passive-viewing VR stimulus paradigm was used, and the fMRI data was analyzed using MVPA.
+More specifically, two different machine learning algorithms were tested: the support vector machine (SVM) and feedforward neural network (NN).
+These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation. 
+A variety of temporal splitting schemes were carefully examined to assess their effect on classifier performance.
+Even for the most conservative splitting scheme, classification accuracy was three to four times better than chance for all subjects and both machine-learning techniques tested.
+A novel sensitivity mapping technique was then used to identify voxels that are important for classification and thus likely to be involved in processing the information that the classifiers were trained to identify.
+Results indicate that information regarding  the number of visible characters in a complex stimulus is largely encoded early in visual processing, utilizing both ventral and dorsal visual streams.
 The results demonstrate that complex information can effectively be extracted from a realistic VR stimulus paradigm, opening up new prospects for the use of VR with MVPA in neuroscience.
 
 \section{Methods}
 
 \subsection{Subjects}
 Five adult males, with normal or corrected-to-normal vision, participated in the experiments. 
-All subjects participated in two fMRI sessions, and a separate session to acquire a high-resolution structural anatomy. 
+All subjects participated in two fMRI sessions and a third session to acquire a high-resolution structural anatomy. 
 Informed consent was obtained from all subjects.
 
 \subsection{Stimulus}
-To facilitate designing our VR stimulus, we used the Unreal Developer's Kit developed by the company Epic Games (available at \url{http://www.unrealengine.com/udk}).
+To facilitate designing our VR stimulus, the Unreal Developer's Kit developed by Epic Games, Inc. was used (available at \url{http://www.unrealengine.com/udk}).
 This development kit is available free of charge for non-commercial applications and uses the same rendering and game engine found in many current and popular video games.
 
-Given our long-term interest in PTSD, we created a virtual town intended to mirror the kinds of real-world settings encountered by our military forces (Fig. \ref{fig:stimulus}).
+One of the long-term goals of this research is to understand post-traumatic stress disorder (PTSD).
+Therefore, we created a virtual town intended to mirror the kinds of real-world settings encountered by many currently deployed peace-keeping forces (Fig. \ref{fig:stimulus}).
 Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations throughout the virtual town.
 The stimulus was rendered in real-time from the point of view of a camera moving at eye level through the town. 
 
 During the stimulus presentation, the camera followed a preset path through the town.
 The stimulus employed a blocked approach. The camera would be steadily moving for 15 seconds, followed by 15 seconds in which it stopped to view virtual characters at predefined locations.
-There were 4 different predefined character-viewing locations, and the number of characters present at each of these locations varied from 1 to 6 (Figs. \ref{fig:stimulus-five-soldiers} and \ref{fig:stimulus-three-insurgents}).
+There were four different predefined character-viewing locations, and the number of characters present at each of these locations varied from one to six (Figs. \ref{fig:stimulus-five-soldiers} and \ref{fig:stimulus-three-insurgents}).
 While the camera was stopped to view the characters, the view slowly panned and rotated and the characters engaged in animated movement sequences, so that the scene was never static.
-We employed a passive viewing paradigm for this stimulus: there was no fixation dot and no task during the presentation.
+A passive viewing paradigm was employed for this stimulus: there was no fixation dot and no task during the presentation.
 
-Scanning sessions included 5--6 runs that were 6 minutes in duration.
+Scanning sessions included five to six runs that were six minutes in duration.
 Each run contained 12 alternations between moving through the virtual environment and character presentations. 
-Since there were 4 predefined character viewing locations, the camera made 3 laps around the town during a single run.
-While the number of characters presented in each block varied from 1 to 6, the stimulus was controlled such that a presentation with a particular number of characters appeared twice in each run.
+Since there were four predefined character viewing locations, the camera made three laps around the town during a single run.
+While the number of characters presented in each block varied from one to six, the stimulus was controlled such that a presentation with a particular number of characters appeared twice in each run.
 The ordering of the presentations was also controlled such that presentations with the same number of characters were located at different viewing points.
 The order of the presentations was generated randomly given the previous constraints, but the same ordering was used for each subject.
-A single type of character (friends or foes) was presented in each run. 
-The character type presented was alternated from run to run.
+A single type of character (friend or foe) was presented in each run, but the type alternated from run to run.
 
 \subsection{MRI protocols}
-Imaging was performed on a GE Signa Excite HD scanner using the product 8-channel head coil.
-We collected whole-brain image volumes using a custom GRAPPA EPI sequence \citep{Griswold2002}. 
+Imaging was performed on a GE Signa Excite HD scanner using the product eight-channel head coil.
+Whole-brain image volumes were collected using a custom GRAPPA EPI sequence \citep{Griswold2002}. 
 Sequence parameters were g-factor = 2,  TE = 25 ms, TR = 2.5 s, and  2.5-mm cubic voxels across a 200 mm field-of-view. 
 The slice prescription included 40 slices oriented along the AC-PC axis. 
 A high-order shim was  performed to improve field homogeneity.
 
 A set of T1-weighted structural images was obtained on the same prescription at the end of functional acquisition session using a three-dimensional (3D) fast RF-spoiled GRASS (fSPGR) sequence. 
 These anatomical images were then used to align the functional data to a structural 3D reference volume, which was acquired for each subject in a separate session. 
-The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D, inversion-prepared, fSPGR sequence (minimum TE and TR, TI = 450 ms, 15$^\circ$ flip angle, isometric voxel size of 0.7 mm, 2 excitations, $\sim$28-minute duration).
+The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D inversion-prepared fSPGR sequence (minimum TE and TR, TI = 450 ms, 15$^\circ$ flip angle, isometric voxel size of 0.7 mm, 2 excitations, $\sim$28-minute duration).
 
 \begin{figure}
 \centering
@@ -188,90 +190,94 @@ The structural reference volume was T1-weighted with good gray-white contrast an
 \end{subfigure}
 \caption{
 %\subref{fig:wiener-hrf} The difference-of-gamma HRF employed as $h(t)$. 
-Wiener-filter deconvolution is an optimal method for deconvolving neural activity from the BOLD response.
-Most importantly, wiener-filter deconvolution properly aligns neural activity with the stimulus presentation in time.
-\subref{fig:wiener-square} A simple square wave in red, the same square wave after convolution with a canonical HRF in green, and then after Wiener-filter deconvolution in blue. 
+Wiener-filter deconvolution is an optimal method for obtaining neural activity from the BOLD response.
+Most importantly, such deconvolution aligns neural activity properly with the stimulus presentation in time.
+\subref{fig:wiener-square} A simple square wave in red, the same square wave after convolution with a canonical HRF in green, and after Wiener-filter deconvolution in blue. 
 \subref{fig:wiener-voxel} An example voxel time series in red and the same time series after Wiener-filter deconvolution in blue.}
 \label{fig:wiener-deconvolution}
 \end{figure}
 
 \subsection{Preprocessing}
-Preprocessing of the fMRI data was performed using the mrVista software package (available for download at \url{http://vistalab.stanford.edu/}) as well as additional tools developed on the mrVista framework in our lab. 
+Preprocessing of the fMRI data was performed using the mrVista software package (available at \url{http://vistalab.stanford.edu/}). 
 The first 15 seconds of data  were discarded to reduce transient effects.
-We then estimated in-scan motion using a robust intensity-based scheme \citep{Nestares2000}. 
+Within-scan motion was then estimated using a robust intensity-based scheme \citep{Nestares2000}. 
 Between-run motion was corrected using the same scheme, this time applied to the temporal average intensity of the entire scan. 
 The first run of the session was used as the reference. 
-Additionally, we applied a Wiener filter deconvolution \citep{Poor1980} using a generic difference-of-gamma hemodynamic response function (HRF) \citep{Glover1999} as the kernel to the recorded BOLD signal.
+Additionally, a Wiener filter deconvolution \citep{Poor1980} was applied using a generic difference-of-gamma hemodynamic response function (HRF; \cite{Glover1999}) as the kernel to the recorded BOLD signal.
 Mostly, the deconvolution served to shift the peak response in time so that it was aligned with its associated stimulus, but it also provided some amount of noise reduction (Figure \ref{fig:wiener-voxel}).
-We are interested in learning associations between patterns of activation in the brain and stimulus presentation so it is important that the activation is temporally aligned with the stimulus.
+Because the goal is to learn associations between patterns of activation in the brain and stimulus presentation, it is important that the activation is temporally aligned with the stimulus.
 
-In Wiener filter deconvolution, the deconvolution kernel $g(t)$ is most easily expressed in the Fourier domain.
+In Wiener filter deconvolution, the deconvolution kernel $g(t)$ is most easily expressed in the Fourier domain as
 \begin{equation}
-g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \frac{\left| N(f) \right|}{\left| X(f) \right|}}
+g(t) \xrightarrow{\mathcal{F}} \frac{H^{*}(f)}{\left|H(f)^{2}\right| + \frac{\left| N(f) \right|}{\left| X(f) \right|}},
 \end{equation}
-Where $h(t)$ is the blurring kernel, $x(t)$ is the signal of interest, and $n(t)$ is additive noise; capital letters denote the Fourier transform of each quantity, e.g., $h(t) \xrightarrow{\mathcal{F}} H(f)$.
+where $h(t)$ is the blurring kernel, $x(t)$ is the signal of interest, and $n(t)$ is additive noise; capital letters denote the Fourier transform of each quantity, e.g., $h(t) \xrightarrow{\mathcal{F}} H(f)$.
 
 In fMRI, $h(t)$ is the hemodynamic response function and $x(t)$ is the neural response.
 Calculating $g(t)$ requires estimates of the power spectral density of the signal of interest as well as the noise.
 However, the noise $n(t)$ corresponds not only to scanner noise but other nuisance factors such as pulse and respiration.
-This makes modeling the noise, and its power spectral density, very difficult.
-Therefore, we set $\frac{\left| N(f) \right|}{\left| X(f) \right|} = 1$, a compromise value that provided a satisfactory combination of temporal alignment and noise reduction for all subjects.
+These factors make modeling the noise, and its power spectral density, very difficult.
+Therefore, $\frac{\left| N(f) \right|}{\left| X(f) \right|}$ was set to $1.0$, a compromise value that provided a satisfactory combination of temporal alignment and noise reduction for all subjects.
 
-The high-resolution reference anatomies were segmented using the Freesurfer image analysis suite to create approximate parcellations of the gray matter in each subject, as well as a surface model useful for visualization of the results.
-Freesurfer is documented and freely available for download online (\url{http://surfer.nmr.mgh.harvard.edu/}).
+The high-resolution reference anatomies were segmented using the Freesurfer image analysis suite (\url{http://surfer.nmr.mgh.harvard.edu/}) to create approximate parcellations of the gray matter in each subject, as well as a surface model useful for visualization of the results.
 
 \subsection{Dimensionality reduction}
 When performing MVPA, each voxel can be thought of as corresponding to a separate dimension of a very high-dimensional space.
-In our case, the number of voxels/dimensions was $80 \times 80 \times 40 = 256,000$.
-Unfortunately, the number of examples necessary to train a classifier increases rapidly with the number of dimensions, so we needed to reduce this dimensionality.
-This not only speeded up both training and classification but also improved the performance of the resulting classifiers.
+For this experiment's acquisition parameters, the number of voxels/dimensions was $80 \times 80 \times 40 = 256,000$.
+Unfortunately, the number of examples necessary to train a classifier increases rapidly with the number of dimensions, so it was necessary to reduce this dimensionality.
+Such reduction not only speeded up both training and classification but also improved the performance of the resulting classifiers.
 
-Principal component analysis (PCA) is a very common tool for dimensionality reduction \citep{Hotelling1933}.
-However, PCA only selects the orthogonal dimensions with the highest variance which is very likely to be physiological nuisance and is therefore not well suited for fMRI analysis.
-A univariate statistic, as typically used in  fMRI analysis,can also be a good candidate for selecting voxels \citep{Norman2006,Pereira2009}.
+Principal component analysis (PCA; \cite{Hotelling1933}) is a common tool for dimensionality reduction.
+However, PCA only selects the orthogonal dimensions with the highest variance, which is likely to be physiological nuisance and is therefore not well suited for fMRI analysis.
+Univariate statistical methods, as typically used in  fMRI analysis, can also be good candidates for selecting voxels \citep{Norman2006,Pereira2009}.
 While effective, these methods were not designed for feature selection and many of them make a number of assumptions about the data such as Gaussian statistical distribution.
-We developed a novel method of dimensionality reduction, which we call harmonic analysis, that selects voxels that are driven most strongly by the 30-second duty cycle of our block design.
+
+A novel method of dimensionality reduction was developed in this research.
+This method, called harmonic analysis, selects voxels that are driven most strongly by the 30-second duty cycle of the block design.
 This method is similar to other univariate statistics, but the only assumption is that the BOLD response is linear with respect to the stimulus.
-The primary advantage  of harmonic analysis over other univariate statistics is that it can detect voxels that covary with the stimulus regardless of their detailed temporal relationship. Thus, it includes voxels that respond positively to either the character-presentation or motional phases of the stimulus alternation, or to more complex patterns such as a brief strong response to both phases. All repetitive responses that follow the period of the stimulus alternation are included by this method, minimizing any bias in the dimension reduction.
+The primary advantage is that it can detect voxels that covary with the stimulus regardless of their detailed temporal relationship. 
+Thus, it includes voxels that respond positively to either the character presentation or motional phases of the stimulus alternation, or to more complex patterns such as a brief strong response to both phases. 
+All repetitive responses that follow the period of the stimulus alternation are included by this method, minimizing any bias in the dimension reduction.
+
 Harmonic analysis takes advantage of the fact that the response of any linear system to a blocked alternation at frequency $f$ will contain power only at $f$ and its harmonics. 
 Under a linear response assumption, we can therefore form an unbiased estimate of the response power by summing the power at these frequencies. 
 Let $y(t)$ be the recorded discrete time series at some voxel.
 Then let $Y(f)$ be the discrete Fourier transform of $y(t)$.
-The fractional harmonic power of that time series is defined as:
+The fractional harmonic power of that time series is defined as
 \begin{equation}
-P_h = \frac{\sum_{i = 1}^{M}{\left|Y(i \cdot N)\right|^{2}}}{\sum_{f}{\left|Y(f)\right|^{2}}}
+P_h = \frac{\sum_{i = 1}^{M}{\left|Y(i \cdot N)\right|^{2}}}{\sum_{f}{\left|Y(f)\right|^{2}}},
 \end{equation}
-Where $P_h$ is the fractional harmonic power, $M$ is the number of harmonics, and $N$ is the frequency of interest, in our case the period of the block alternations. 
-Because the BOLD response has a predominantly low-pass temporal frequency response, we can accept $M = 4$. 
-Using $P_h$, we then selected a particular number $N$ (typically 2000) voxels with the greatest power. 
+where $P_h$ is the fractional harmonic power, $M$ is the number of harmonics, and $N$ is the frequency of interest, in our case the period of the block alternations. 
+Because the BOLD response has a predominantly low-pass temporal frequency response, $M = 4$ is sufficient. 
+Using $P_h$, a particular number $N$ (typically 2000) voxels with the greatest power are then selected. 
 
 This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
-Therefore, we will only be presenting classifier accuracy estimates for character count, and not for the presence or absence of characters to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{Pereira2009}.
-However, as a check we built classifiers to distinguish between time points with and without characters, and their performance was consistently above 95\%, confirming the proper operation of our machine-learning algorithms.
+Therefore, classifier accuracy estimates will only be presented for character count, and not for the presence or absence of characters, in order to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{Pereira2009}.
+However, as a check the classifiers were also trained to distinguish between time points with and without characters, and their performance was consistently above 95\%, confirming that the machine-learning algorithms were working correctly.
 
 \subsection{Classification}
-Using the time series from the voxels selected by the harmonic analysis, we trained a linear SVM \citep{Cortes1995} and a feedforward neural network \citep{Hornik1989,Hagan1994} to identify the number of characters presented in each scene, regardless of character type (friend or foe).
-To maximize our temporal resolution, each 2.5-second frame (time point) was treated as a separate example, rather than aggregating across the 15-second blocks.
-We also attempted to use similar methods to classify scenes as friends or foes, but these classifiers did not perform significantly above chance and will not be mentioned further.
+Using the time series from the voxels selected by the harmonic analysis, a linear SVM \citep{Cortes1995} and a feedforward neural network \citep{Hornik1989,Hagan1994} were trained to identify the number of characters presented in each scene, regardless of character type (friend or foe).
+To maximize temporal resolution, each 2.5-second frame (time point) was treated as a separate example, rather than aggregating across the 15-second blocks.
+Similar methods were also used to classify scenes as friends or foes, but these classifiers did not perform significantly above chance and will not be mentioned further.
 
-To measure the significance of the results and to compare the SVM and NN we must have a measure of their performance.
-The performance of machine learning algorithms is generally defined to be the expected accuracy of the classifier on a previously unseen example \citep{Bishop2006}.
-In practice, this measure of performance can only be estimated.
-This is commonly achieved by first splitting the available examples into a training and test sets.
-Then, the performance is estimated as the average accuracy of the classifier on the test set after having been trained on the training set.
-In practice, the process of splitting all of the available examples into training and test sets is performed multiple times to reduce the variance of the performance estimate.
-This procedure is known as cross-fold validation \citep{Kohavi1995} where each split of the data into training and test sets is called a ``fold''.
+To measure the significance of the results and to compare the SVM and NN a performance measure is needed.
+The performance of machine learning algorithms is generally defined to be the expected accuracy of the classifier on previously unseen examples \citep{Bishop2006}.
+In practice, this measure can only be estimated.
+A typical approach is to split the available examples into training and test sets.
+The classifier is first trained on the training set, and its performance on the test set is then taken as the estimate.
+In practice, the process of splitting all of the available examples into training and test sets is performed multiple ($n$; typically 10) times to reduce the variance of the performance estimate.
+This procedure is known as $n$-fold cross-validation \citep{Kohavi1995} where each split of the data into training and test sets is called a ``fold''.
 
-Furthermore, the null distribution for the cross-validated performance estimates was generated by randomly permuting the labels on the examples 2000 times and repeating the training and cross-fold validation procedure.
+Furthermore, the null distribution for the cross-validated performance estimates was generated by randomly permuting the labels on the examples 2000 times and repeating the training and cross-validation procedure.
 That is, the distribution of performance estimates was generated under the assumption that the labels and data were independent.
-Using this distribution, we calculated $p$ values for our performance estimates.
-We leveraged the resources of the Texas Advanced Computing Center (TACC) at The University of Texas at Austin to perform this computation.
+Using this distribution, $p$ values were calculated for the performance estimates.
+The resources of the Texas Advanced Computing Center (TACC) at The University of Texas at Austin were leveraged to perform this computation.
 
 The SVM finds the hyperplane in the high-dimensional input space that separates examples from different classes with the greatest margin \citep{Cortes1995}.
 A simple SVM can only discriminate between two classes.
 However, it is possible to combine multiple SVMs to discriminate between more than two classes.
 The two most common approaches to building a multi-class SVM are one-versus-all and one-versus-one \citep{Weston1999}.
-We used the one-versus-one approach because we found its performance to be superior for our application.
+In a preliminary evaluation, the one-versus-one approach performed better and was therefore used in this experiment.
 
 Feedforward neural networks trained via back propagation learn to approximate functions using compressive non-linearities \citep{Hagan1994}.
 Any function (including non-linear and discontinuous functions) can be approximated to an arbitrary degree given a sufficient number of hidden units \citep{Hornik1989}.
@@ -279,22 +285,22 @@ Precisely because of this flexibility, feedforward neural networks are prone to 
 For this reason, the feedforward neural network further subdivides the training examples into training and validation sets.
 The validation set is used to determine when the network has begun overfitting the training examples and ceases iteration.
 
-Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations violating independence assumptions between training and test set samples \citep{Pereira2009}. The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales less than 15 seconds.
-For our data, artificial correlations occurred when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec) block.
+Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations that violate independence assumptions between training and test set samples \citep{Pereira2009}. 
+The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales less than 15 seconds.
+Artificial correlations therefore occur in the data when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec) block.
 
-This raises a more general question: what is the relationship between performance estimates and temporal correlation?
-To explore this, we estimated classifier performance using four different methods for splitting the training and test examples in order to vary the temporal distance between frames in the two sets. 
-The first four methods deal only with frames from a particular session.
-In the first method, which we will refer to as  ``frame split", frames were independently drawn into the training and test sets. 
-Although the draws were independent, there is no restriction to prevent adjacent frames being split between the training and test sets.We expect this method to exhibit artificially high performance because of the aforementioned temporal correlation of the slow fMRI data.
-In the second method, which we will refer to as ``block split", sets of frames corresponding to the 15 second blocks were independently drawn into the training and test sets.
-In our third method, we exploit the fact that each 6 min run cycles through all combinations twice, but in a different order the second time.
+This issue raises a more general question: What is the relationship between performance estimates and temporal correlation?
+To answer this question, classifier performance was estimated using four different methods for splitting the training and test examples, in order to vary the temporal distance between frames in the two sets. 
+In the first method, referred to as  ``frame split", frames were independently drawn into the training and test sets. 
+Although the draws were independent, there is no restriction to prevent adjacent frames from being split between the training and test sets.
+This method should exhibit artificially high performance because of the temporal correlation.
+In the second method, referred to as ``block split", sets of frames corresponding to the 15 second blocks were independently drawn into the training and test sets.
+The third method exploits the fact that each six minute run cycles through all combinations twice, but in a different order the second time.
 Accordingly, sets of frames were independently drawn from these half-runs, referred to as ``half-run split". 
-In our fourth method, termed ``run split", entire 6-min runs of frames were independently drawn. 
+In the fourth method, termed ``run split", entire six-minute runs of frames were independently drawn. 
 Table \ref{tab:training-split} summarizes these training and test set split methods and the temporal separations between the training and test data for single runs. 
-The mean temporal separations do not vary much between the various splits because the randomization extends across the entire the entire run. 
-However, the minimum temporal distance between a frame in the test set and any frame in the training set is a more relevant measure for comparison when trying to minimize optimistic performance bias.
-That is, it doesn't matter that on average the examples are highly separated temporally if on average there is at least one example in the training set which was temporally close to each example in the test set.
+The mean temporal separations do not vary much between the various splits because the randomization extends across the entire run. 
+However, the minimum temporal distance between a frame in the test set and any frame in the training set is a more relevant measure for comparison: It doesn't matter that on average the examples are highly separated temporally if on average there is at least one example in the training set which was temporally close to each example in the test set.
 
 %\begin{figure*}
 %\centering
@@ -317,18 +323,16 @@ That is, it doesn't matter that on average the examples are highly separated tem
 \begin{table}
 \centering
 \input{tables/temporal-delay.tex}
-\caption{Summary of the temporal delay between the different training and test split methods.
+\caption{A summary of the temporal delay between the different training and test split methods.
 There is very little difference in the average temporal delay between examples.
 However, the average minimum delay between any example in the training set and an example in the test set varies considerably.
 This average minimum delay is the important quantity to consider when trying to avoid optimistic performance estimates.}
 \label{tab:training-split}
 \end{table}
 
-For the frame and block splits, the classifier performances were estimated using 10-fold cross-validation.
-That is, the dataset was randomly split into the training and test sets 10 times and a classifier is trained on each split.
-The classifier's performance is then estimated as the average of its performance across all 10 splits.
-For the half-run and run splits, only 8 and 4 unique splits are possible, respectively, due to the much smaller number of runs per subject. 
-Therefore, only 8-fold and 4-fold cross-validation were employed for estimating classifier performance on these splits.
+For the frame and block splits, classifier performance was estimated using ten-fold cross-validation.
+For the half-run and run splits, only eight and four unique splits are possible, respectively, due to the much smaller number of runs per subject. 
+Therefore, only eight-fold and four-fold cross-validation were employed for estimating classifier performance on these splits.
 
 % We can also discuss classifier performance with respect to a single class.
 % Single class performance is traditionally measured along two axes: \emph{precision} and \emph{recall}.
@@ -347,50 +351,51 @@ Therefore, only 8-fold and 4-fold cross-validation were employed for estimating 
 % Finally, overall classifier performance can be estimated by dividing the sum along the diagonal, or the trace, by the sum of the entire matrix.
 
 \subsection{Sensitivity Analysis}
-MVPA can tell us whether the time-series data from a subset of human brain voxels is discriminative with respect to the stimulus being classified. 
+MVPA can tell us whether the time-series data from a subset of human brain voxels can be used to discriminate from the stimuli. 
 However, these results do not show which voxels in the large group were actually important for that discrimination.
 This information is important for localizing functions in the brain.
 One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area; this is known as the ``searchlight'' technique \citep{Kriegeskorte2006}.
 While this technique is effective for simple highly-localized functions, the results are less clear when the function is sparsely distributed over the brain.
-A single region may not contain enough information for accurate classification or a region may only contain relavent information when considered in conjunction with a spatially disparate region.
+A single region may not contain enough information for accurate classification or a region may only contain relavant information when considered in conjunction with a spatially disparate region.
 
-To overcome this limitation, we have trained our classifiers on all stimulus-responsive regions of the brain and used a neural-network sensitivity analysis to display the spatially distributed set of voxels that are the most important for identifying the classes.
-Specifically, we calculate the sensitivity, or magnitude of change, of the output of the classifier with respect to a change in each voxel
+To overcome this limitation, the classifiers were trained on all stimulus-responsive regions of the brain and a neural-network sensitivity analysis was used to display the spatially distributed set of voxels that are the most important for identifying the classes.
+Specifically, the sensitivity, or magnitude of change, of the classifier output was calculated with respect to a change in each voxel
  \citep{Zurada1994}.
 Let $\mathbf{o}$ be the vector of outputs and $\mathbf{x}$ be the vector of inputs.
-Then the sensitivity of output $k$ to input $i$ is defined by:
+Then the sensitivity of output $k$ to input $i$ is defined by
 \begin{equation}
-S_{ki} = \frac{\delta o_{k}}{\delta x_{i}}
+S_{ki} = \frac{\delta o_{k}}{\delta x_{i}},
 \end{equation}
 which is the partial derivative of the output with respect to the input.
-If we let $\mathbf{w}$ be the weight matrix from the hidden layer to the output layer and $\mathbf{v}$ be the weight matrix from the input layer to the hidden layer then the partial derivative can be expressed as follows:
+Let $\mathbf{w}$ be the weight matrix from the hidden layer to the output layer and $\mathbf{v}$ be the weight matrix from the input layer to the hidden layer.
+Then the partial derivative can be expressed as
 \begin{equation}
-\frac{\delta o_{k}}{\delta x_{i}} = o'_{k} \sum^{J}_{j=1}{w_{kj}y'_{j}v_{ji}}
+\frac{\delta o_{k}}{\delta x_{i}} = o'_{k} \sum^{J}_{j=1}{w_{kj}y'_{j}v_{ji}},
 \end{equation}
-Where $J$ is the total number of hidden units in that layer of the neural network,  $o'_{k}$ is the value of the derivative of the activation function at output $k$, and $y'_{j}$ is the value of the derivative of the activation function at hidden neuron $j$.
-Finally, the entire sensitivity matrix can be expressed in matrix notation as:
+where $J$ is the total number of hidden units in that layer of the neural network,  $o'_{k}$ is the value of the derivative of the activation function at output $k$, and $y'_{j}$ is the value of the derivative of the activation function at hidden neuron $j$.
+Finally, the entire sensitivity matrix can be expressed in matrix notation as,
 \begin{equation}
 \mathbf{S} = \mathbf{O}' \times \mathbf{W} \times \mathbf{Y}' \times \mathbf{V}
 \end{equation}
-Where
+where
 \begin{equation}
 \mathbf{O}' = diag(o'_{1},~o'_{2},~\cdots,~o'_{K})
 \end{equation}
 \begin{equation}
-\mathbf{Y}' = diag(y'_{1},~y'_{2},~\cdots,~y'_{K})
+\mathbf{Y}' = diag(y'_{1},~y'_{2},~\cdots,~y'_{K}).
 \end{equation}
-However, because the transfer functions are non-linear they can only be evaluated for specific input values.
-Therefore, we calculate the average sensitivity matrix across all input vectors.
+However, because the transfer functions are nonlinear they can only be evaluated for specific input values.
+Therefore, the average sensitivity matrix across all input vectors,
 \begin{equation}
-\mathbf{S}_{avg} = \sqrt{ \frac{ \sum_{n = 1}^{N}{ \left( \mathbf{S}_{n}\right)^{2} } }{N} }
+\mathbf{S}_{avg} = \sqrt{ \frac{ \sum_{n = 1}^{N}{ \left( \mathbf{S}_{n}\right)^{2} } }{N} },
 \label{eqn:sensitivity}
 \end{equation}
-Where $N$ is the number of input vectors.
+where $N$ is the number of input vectors, is calculated.
 The magnitude is squared so that the effects of both positive and negative sensitivities are included in the average.
 Eq. \ref{eqn:sensitivity} gives a sensitivity value for each voxel with respect to every output, whereas it is useful to have a measure of the sensitivity of a voxel with respect to any output.
-We define this metric by taking the maximum sensitivity of each voxel across all outputs.
+Such a metric can be defined by taking the maximum sensitivity of each voxel across all outputs, i.e.
 \begin{equation}
-\Phi_{i} = \max_{k=1 \dots K}{S_{ki,~avg}}
+\Phi_{i} = \max_{k=1 \dots K}{S_{ki,~avg}}.
 \end{equation}
 This sensitivity can now be projected back into the volume anatomy space to create a  map that reflects the relative incremental importance of each voxel's response to the classification decision.
 
@@ -408,48 +413,49 @@ This sensitivity can now be projected back into the volume anatomy space to crea
 \caption{medial labels}
 \label{fig:medial-labels}
 \end{subfigure}
-\caption{After generating sensitivity maps, the following color coded region labels were used for aggregating the results to obtain a clearer representation of the pattern of sensitivity: light blue -- superior temporal, dark blue -- middle temporal, light green -- inferior temporal, dark green -- fusiform, dark red -- superior parietal, light red -- inferior parietal, light orange -- lateral occipital, dark orange -- cuneus, light purple -- pericalcarine, and dark purple -- lingual}
+\caption{After generating sensitivity maps, region labels were used for aggregating the results, as shown in table \ref{tab:full-sensitivity}. In this manner, it was possible to obtain a clearer representation of the pattern of sensitivity. <make the following into a color-coded legend> light blue -- superior temporal, dark blue -- middle temporal, light green -- inferior temporal, dark green -- fusiform, dark red -- superior parietal, light red -- inferior parietal, light orange -- lateral occipital, dark orange -- cuneus, light purple -- pericalcarine, and dark purple -- lingual}
 \label{fig:labels}
 \end{figure*}
 
-To  explore the relationship between sensitivity and classifier performance we plotted the performance of the classifier when trained on only a subset of the input voxels as determined by a minimum sensitivity cut off.
+To  explore the relationship between sensitivity and classifier performance, the performance of the classifier was plotted when trained on only a subset of the input voxels as determined by a minimum-sensitivity cut off.
 This threshold was determined by iteratively retraining the neural network with successively higher thresholds.
 
-We employed Freesurfer image analysis suite to construct cortical surfaces for each of our subjects using high-resolution anatomy volumes.
-Then, we constructed 10 anatomical labels on each surface based on FreeSurfer's automatically generated labels (Figure \ref{fig:labels}).
-The labels we used largely overlap with FreeSurfer's labels.
+The Freesurfer image analysis suite was employed to construct cortical surfaces for each of the subjects using high-resolution anatomy volumes.
+Then, 10 anatomical labels were constructed on each surface based on FreeSurfer's automatically generated labels (Figure \ref{fig:labels}).
+The labels largely overlap with FreeSurfer's labels.
 However, the banks of the superior temporal were incorporated into the superior and middle temporal labels.
 Additionally, the supramarginal label was merged with the inferior parietal label.
-For most subjects, several of the automatic labels were also edited by hand to better conform to the actual sulcal boundaries.
-We then projected each subject's volume sensitivity map onto their cortical surface and blurred along the surface using a 5 mm full-width half-maximum (FWHM) Gaussian kernel.
+For most subjects, several of the automatic labels were also edited by hand to conform better to the actual sulcal boundaries.
+Each subject's volume sensitivity map was then projected onto their cortical surface and blurred along the surface using a 5 mm full-width half-maximum (FWHM) Gaussian kernel.
+The results of the visualization procedure will be discussed in the next section.
 
 \section{Results}
-The cross-validated performance estimates of the linear SVM and feed forward neural networks averaged across subjects is plotted against the average minimum temporal delay from four training and test split methods (Figure \ref{fig:performance-verse-temporal-distance}).
-There is some variation of classifier performance between subjects, but in all cases the performance is significantly ($p < 0.001$) above chance. 
-It is evident that, as the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases.
-The only significant shift occurs between the frame split and block split, which correspond to 2.5 second and 20 second average minimum temporal distance between examples in the training and test sets respectively.
-Thus, we confirm that optimistic performance estimates are driven by temporal correlations on the 15--20-s time-scale of the HRF.
+Cross-validated performance estimates of the linear SVM and feedforward neural networks averaged across subjects is plotted against the four training-and-test-split methods corresponding to four different average minimum temporal delays (Figure \ref{fig:performance-verse-temporal-distance}).
+There is some variation of classifier performance between subjects, but in all cases the performance is significantly ($p < 0.001$) above chance ($16.\overline{6}$\%). 
+As the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases somewhat.
+However, the only statistically significant shift occurs between the frame split and block split, corresponding to 2.6 second and 21 second average minimum temporal distance between examples in the training and test sets, respectively.
+Thus, as expected, optimistic performance estimates are driven by temporal correlations on the 15--20-s time-scale of the HRF.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{figures/performance-verse-temporal-distance}
-\caption{The estimated performance of the SVM (purple) and neural network (green) classifiers averaged across all sessions and plotted against the average minimum temporal delay between examples in the training and test sets. 
+\caption{The estimated performance of the SVM (purple) and neural network (green) classifiers averaged across all sessions and plotted across the four training-and-test-split methods, corresponding to the four different average minimum temporal delays between examples in the training and test sets. 
 The performance estimates were bootstrapped across sessions in order to obtain 68\% confidence intervals.
-There is a significant difference in the estimated performance when the average minimum temporal delay is below 20 seconds.}
+There is a statistically significant drop in the estimated performance when the average minimum temporal delay increases from 2.6 to 21 seconds, confirming that temporal correlations result in optimistic performance estimates with short delays.}
 \label{fig:performance-verse-temporal-distance}
 \end{figure}
 
-The average confusion matrix gives an intuitive look at the performance of the classifier (Figure \ref{fig:average-confusion}).
-From this matrix we can see that the classifiers are much better at detecting the presence of a single character than any other count.
-In fact, there are almost no cases of confusion between 1 and 2 characters.
+The average confusion matrix gives an intuitive look at the performance of the classifiers (Figure \ref{fig:average-confusion}).
+The classifiers are much better at detecting the presence of a single character than any other count.
+In fact, there are almost no cases of confusion between one and two characters.
 Apparently, these two situations evoke very different responses in the brain.
 The rest of the character counts are distinguished with relatively equal accuracy,
-except for a slightly larger tendency to mis-classify the 6 character presentation.
+except for a slightly larger tendency to mis-classify the six character presentation.
 Note that the majority of the incorrect responses lay just off the main diagonal.
 These responses correspond to the classifier being wrong by a single character in its classification.
-For example, in 21\% of the test examples, the machine learning algorithm classified a frame as containing 4 characters when it only contained 3 characters.
-The estimated performance does not take the cardinality of the classes into account and considers mislabeling 1 character as 2 equivalent to mislabeling 1 character as 6 characters.
-A soft measure of accuracy that takes the cardinality of the classes into consideration may be useful but the results are harder to interpret.
+For example, in 21\% of the test examples, the machine learning algorithm classified a frame as containing four characters when it only contained three characters.
+The estimated performance does not take the cardinality of the classes into account and considers mislabeling one character as two equivalent to mislabeling one character as six characters.
+A soft measure that would do that might be useful but the results are harder to interpret.
 A confusion matrix gives us the advantages of the soft measure while providing an easily interpretable look into the performance of the classifiers.
 
 \begin{figure}
@@ -481,6 +487,7 @@ Thresholds for the sensitivity maps were determined using the iterative retraini
 Figure \ref{fig:sensitivity-cutoff} shows the performance estimate of the feedforward neural network averaged across subjects and the percent of input voxels used for training plotted against the sensitivity threshold value.
 The estimated performance of the classifier was not significantly affected until over 90\% of the voxels were removed.
 However, there is a downward trend in the performance after a peak when $\sim$35\% of the voxels are removed.
+Interestingly, there is also an upward trend up to 35\%, presumably because noise can be effectively eliminated in this way.
 
 \begin{figure}
 \centering
@@ -495,7 +502,7 @@ The estimated performance is not significantly reduced until over 90\% of the vo
 Sensitivity maps show a preponderance of classification sensitivity in
 lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe (Figure \ref{fig:individual-sensitivity}). 
 Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal and frontal cortex. 
-Averaged across subjects, classifier sensitivity was most affected by, in order of importance, lateral occipital regions, lingual areas, and dorsal parietal lobe (Table \ref{tab:full-sensitivity}). 
+Averaged across subjects, classifier sensitivity was most affected (in order of importance) by lateral occipital regions, lingual areas, and dorsal parietal lobe (Table \ref{tab:full-sensitivity}). 
 
 \begin{figure*}[p]
 \centering
