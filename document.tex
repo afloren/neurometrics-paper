@@ -478,7 +478,7 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \end{subfigure}
 \caption{The average confusion matrices for the \subref{fig:average-confusion-svm} SVM and \subref{fig:average-confusion-nn} neural network classifiers across all subjects using the block split.
 The value in cell $(i,j)$ of the matrix is the percent of examples from class $i$ that were labeled as class $j$; percents along the diagonal indicate correctly classified examples while the rest indicate incorrectly classified examples.
-The color of the cell indicates deviation from chance probability.
+The color of the cell indicates deviation from chance probability ($16.\overline{6}$\%).
 The more green a cell is the further above chance that percent is, while the more red a cell is the further below chance that percent is.}
 \label{fig:average-confusion}
 \end{figure}
@@ -553,84 +553,82 @@ The sensitivity maps are relatively homogeneous across subjects and hemispheres.
 \begin{table*}[p]
 \centering
 \input{tables/full-sensitivity-table.tex}
-\caption{Sensitivity map values integrated across the cortical surface labels from figure \ref{fig:labels}. Sensitivities are shown for all subjects (\emph{a}--\emph{e}), and their mean values, ordered from greatest to least sensitive brain region.}
+\caption{Sensitivity map values integrated across the cortical surface labels from figure \ref{fig:labels}. Sensitivities are shown for each subject (\emph{A}--\emph{E}), and their mean values, as shown ordered from greatest to least sensitive brain region.}
 \label{tab:full-sensitivity}
 \end{table*}
 
 \section{Discussion}
 Although both classifiers performed at well above chance levels for all subjects, the average performance on individual subjects varied significantly.
 These variations could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during a session.
-The lack of a task during our stimulus makes these variations difficult to interpret since attention and cognitive state are not well controlled.
-In future experiments, we plan to introduce a challenging task for the subjects to perform and we expect to see the average performance increase and the variation between subjects decrease.
-However, the fact that the classifiers could still perform at well above chance levels without a focused task increases our confidence in the results.
+The lack of a task during the stimulus presentation makes these variations difficult to interpret since attention and cognitive state were not well controlled.
+In future experiments, the subjects will be asked to perform a challenging task, and the average performance is expected to increase and the variation between subjects to decrease.
+However, the fact that the classifiers performed at well above chance levels increases confidence in the results.
 
 This estimated prediction accuracy was calculated after correcting for the bias introduced by temporal correlations in the BOLD signal while minimizing variance.
-By characterizing the relationship between the average minimum temporal distance between the training and test sets and estimated classifier performance, we have found that the estimated performance reaches a minimum around 20 seconds.
-These findings are consistent with our knowledge of the hemodynamic response.
+By characterizing the relationship between the average minimum temporal distance between the training and test sets and estimated classifier performance, the estimated performance was found to reach a minimum around 20 seconds.
+These findings are consistent with knowledge of the hemodynamic response.
 That is, so long as the frames are separated by approximately the time-scale of the HRF then they can reasonably be considered independent, and this separation produces an appropriately conservative measure of classification performance. 
 However, it is interesting that slightly better performance may be obtained for somewhat longer delays, although this trend was not statistically significant.
 Many experiments separate their folds for crossfold-validation along runs.
-While this ensures a sufficient temporal separation between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
-Instead, we recommend splitting the data along whatever natural boundary of the experimental procedure is closest to, but not less than 20 seconds.
+While this procedure ensures a sufficient temporal separation between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
+Instead, we recommend splitting the data along the shortest natural boundary of the experimental procedure that is not less than 20 seconds.
 
-Ideally, we would like to train our classifiers using data from the whole brain so as not to miss any relevant interactions.
-However, the number of training examples required to train a classifier generally increases rapidly with the number of dimensions.
-Decreasing the dimensionality of the problem with various univariate measures can be quite effective \citep{Norman2006,Pereira2009}, but most of these statistical stimulus-driven measures rely on a number of statistical assumptions about the underlying BOLD signal such as a normal distribution.
-We developed the harmonic analysis technique that performs a similar role without making any assumptions about the signal other than linearity.
-While less appropriate for statistical analysis, we have found that harmonic analysis is an excellent tool for dimensionality reduction as a preprocessing step before MVPA.
+Ideally, the classifiers should be trained using data from the whole brain so as not to miss any relevant interactions.
+Since such training is prohibitively expensive, the harmonic analysis technique was developed in this work to perform dimensionality reduction without making any assumptions about the signal other than linearity.
+While less appropriate for statistical analysis, this technique works well as a preprocessing step before MVPA.
 
-The performance of our classifiers indicates that their is sufficient information in the pattern of BOLD signals to decode character count in a freely viewed stimulus. 
+The classifiers' performance indicates that there is sufficient information in the pattern of BOLD signals to decode character count in a freely viewed stimulus. 
 The results also suggest that the neural substrates that encode such information are both distributed and redundant.
-In order to explore where in the brain this information is encoded, we developed a sensitivity mapping technique.
-This technique allowed us to identify a small distributed subset of voxels that are sufficient for decoding presented character count.
-Using dimensionality reduction via harmonic analysis, we began classification with 2000 voxels.
-Using sensitivity analysis, we identified a much smaller subset of voxels that could be used for decoding with nearly the same accuracy as the full set.
-This could indicate that only a small number of voxels are relevant for classification, or that the information is highly redundant between voxels, or, most likely, some a combination of these two.
+In order to explore where in the brain this information is encoded, a sensitivity mapping technique was developed.
+This technique made it possible to identify a small distributed subset of voxels that are sufficient for decoding the character count.
+Using dimensionality reduction via harmonic analysis, the classification began with 2000 voxels.
+Sensitivity analysis then identified a much smaller subset of voxels that could be used for decoding with nearly the same accuracy as the full set.
+This result could indicate that only a small number of voxels are relevant for classification, or that the information is highly redundant between voxels, or, most likely, a combination of the two.
 Specifically, the harmonic analysis will select voxels that covary with the stimulus, but their patterns of activation may not be highly discriminative with respect to character count.
 These voxels will also be assigned low sensitivity values by the trained classifiers.
-On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher-order visual areas that dominate our sensitivity results \citep{Engel1997}. 
+On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher order visual areas that dominate the sensitivity results \citep{Engel1997}. 
 Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
+In any case, it is encouraging that the sensitivity maps were consistent across subjects.
 
 When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps suggest how this information may be processed in the brain (Table \ref{tab:full-sensitivity}).
-By far, the most sensitivity (42\%) and, therefore the most relevant mutual information, is contained in the lateral occipital region (LO).
-This region is most commonly associated with high level object recognition \citep{Grill-Spector2001}.
-This is in contrast to the comparatively weak sensitivity (5.7\%) observed from the fusiform gyrus, which is also associated with object classification tasks and in particular the perception of human faces \citep{Kanwisher1997}.
-Additionally, there is substantial sensitivity contained in low level retinotopic visual areas. 
+By far, the most sensitivity (42\%), and therefore the most relevant mutual information, is contained in the lateral occipital region (LO).
+This region is most commonly associated with high-level object recognition \citep{Grill-Spector2001}.
+This observation is in contrast to the comparatively weak sensitivity (5.7\%) observed in the fusiform gyrus, which is also associated with object classification tasks and in particular the perception of human faces \citep{Kanwisher1997}.
+Additionally, there is substantial sensitivity contained in low-level retinotopic visual areas. 
 The pericalcarine, lingual, and cuneus areas altogether account for 25\% of the observed sensitivity; the more ventral lingual areas contribute more strongly (13.9\%) then cuneus (3.7\%).
-This is somewhat surprising given that the relevant information in the scene is not necessarily retinotopically organized because of the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
-The presence of sensitivity in early, retinotopic visual areas, together with the preponderance of sensitivity in lateral-occipital areas may reflect the importance of retinotopic organization in the decoding of group size. 
-LO combines both object-selectivity with retinotopic specificity \citep{Sayres2008}. 
-Different group sizes could evoke complex but stereotypical patterns of responses in LO and other retinotopically organized areas as subjects visually interrogate the stimuli. 
+This result is somewhat surprising given that the relevant information in the scene is not necessarily retinotopically organized because of the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
+The sensitivity in early, retinotopic visual areas, together with the sensitivity in lateral-occipital areas suggests that retinotopic organization is important in decoding of group size. 
+Because LO combines object-selectivity with retinotopic specificity \citep{Sayres2008}, different group sizes could evoke complex but stereotypical patterns of responses in LO (and other retinotopically organized areas) as subjects visually interrogate the stimuli. 
 Ventral early visual areas apparently also contribute to this information. 
-The less retinotopic fusiform regions \citep{Schwarzlose2008,Sayres2010} appear to less useful for decoding character number.
+In contrast, the less retinotopic fusiform regions \citep{Schwarzlose2008,Sayres2010} appear to less useful for decoding character number.
 
-Despite the preponderance of retinotopic visual-area sensitivity, substantial sensitivity (16.6\%) is also present in dorsal parietal cortex. 
-The sensitivity along the dorsal stream suggests that the perception of motion and position are also useful for decoding subject number from our complex and dynamic VR stimuli.
-Our results indicate that something as abstract as the number of perceived human characters is not contained in a single voxel, but rather is encoded in a distributed manner across many different visual processing areas working together.
-Encouragingly, the sensitivity maps were consistent across subjects despite the lack of a controlled task.
+Despite the preponderance of retinotopic visual-area sensitivity, the dorsal parietal cortex is also substantialy sensitive (16.6\%). 
+Such sensitivity suggests that the perception of motion and position are also useful for decoding subject number from the complex and dynamic VR stimuli.
+The results indicate that something as abstract as the number of perceived human characters is not contained in a single voxel, but rather is encoded in a distributed manner across many different visual processing areas working together.
 
 In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).
-This seems to be in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between 1 and 2 characters than it is to tell the difference between 5 and 6 characters \citep{Shepard1975,Dehaene2003}.
-This phenomenon could also be related purely to retinotopic information, as indicated by the sensitivity analysis, rather than perception of numbers.
+This observation is in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between one and two characters than it is to tell the difference between five and six characters \citep{Shepard1975,Dehaene2003}.
+This phenomenon could also be related purely to retinotopic information, as indicated by the sensitivity analysis, rather than the perception of numbers.
 Without a fixation point and with varying character group configurations, the retinotopic pattern of activation will vary from presentation to presentation even for the same character count.
-However, the average activation in a retinotopically organized and object selective region will increase for larger group sizes regardless of the group's configuration and the subject's fixation point.
+However, the average activation in a retinotopically organized and object-selective region will increase for larger group sizes regardless of the group's configuration and the subject's fixation point.
 The relative difference in average activity is smaller between larger presentation sizes and thus more difficult to differentiate.
-However, There is an interesting exception to this trend that is difficult to account for with a retinotopic explanation; there is a significant increase in confusion between 2 and 6 characters.
-This could be a result of 6 characters being too much for the subject to consider individually and the subject perceives 2 groups of characters rather than 6 individual characters.
+However, there is an interesting exception to this trend that is difficult to account for with a retinotopic explanation; there is a significant increase in confusion between two and six characters.
+This could be a result of six characters being too much for the subject to consider individually and the subject perceives two groups of characters rather than six individual characters.
 
-There are some potential pitfalls in the use of dynamic and VR stimuli, such as increased design complexity and difficulty of interpretation. 
-Here, we have offered some initial tools and analyses to deal with these limitations, but further work is clearly needed.
+While dynamic and VR stimuli are more realistic than traditional ones, they are more complex to design and more difficult to interpret.
+This paper offers some initial tools and analyses to deal with these challenges, but further work is needed.
 Moreover, VR environments do carry some disadvantages over simpler dynamic stimuli such as prerecorded movies. 
-Recording a movie is typically easier than programming a VR environment and movies can have a more realistic appearance than VR environments.
-Additionally, the results presented in \cite{Han2005} indicate that there is some divergence in the way the brain processes real, that is recorded, and virtual visual worlds. 
-However, cartoons were used to represent virtual visual worlds in this study, and it is likely that as the realism of VR environments increases this divergence in processing will decrease
+It is typically easier to record a movie than to program a VR environment; movies can also have a more realistic appearance than VR environments.
+Additionally, the results of \cite{Han2005} indicate that there is some divergence in the way the brain processes real (i.e., recorded) and virtual visual worlds. 
+However, it is likely that as the realism of VR environments increases this divergence in processing will decrease as well.
 
-Complex and dynamic stimuli allow researchers to examine neural processing in a more natural state and VR environments make it easier to design and control such stimuli.
+Complex and dynamic stimuli allow researchers to examine neural processing in a more natural state, and VR environments make it easier to design and control such stimuli.
 MVPA allows researchers to explore the coding of information in the brain when an underlying neural processing model is not already known and to discover new and interesting interactions.
 Used together, VR stimuli and MVPA allow for novel and valuable experimental designs.
-Altogether, our results suggest that the combination of VR with machine-learning analysis schemes will offer a fruitful new tool for the analysis of brain responses in stimulus scenarios that more closely resemble natural human experience.
+Altogether, the results in this paper suggest that the combination of VR with machine-learning analysis schemes will offer a fruitful new tool for the analysis of brain responses in stimulus scenarios that more closely resemble natural human experience.
 
+\section{References}
 \bibliography{bib}
 
 \end{document}
