@@ -22,7 +22,7 @@
 
 \begin{frontmatter}
 
-\title{Identifying brain regions sufficient for decoding complex visual information from a virtual reality stimulus}
+\title{Identifying brain regions associated with virtual reality stimulus information}
 
 \author[ECE,NS]{Andrew Floren}
 
@@ -43,8 +43,8 @@
 \begin{abstract}
 Virtual reality (VR) environments provide a framework for creating complex and dynamic stimuli in a controlled fashion while multivariate pattern analysis (MVPA) makes it possible to characterize the neural-processing substrate when the underlying processing model is unknown. 
 Used together, VR stimuli and MVPA allow for the creation of very powerful experimental designs. 
-The benefits and potential pitfalls of these techniques are evaluated on the passive encoding of the number of human characters presented in a realistic and dynamic stimulus while functional magnetic resonance imaging (fMRI) data were analyzed using two different machine learning algorithms: the support vector machine (SVM) and feedforward neural network (NN). 
-These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation.
+The benefits and potential pitfalls of these techniques are evaluated on the passive encoding of the number of human characters presented in a realistic and dynamic stimulus while functional magnetic resonance imaging (fMRI) data were analyzed using MVPA. 
+Classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation.
 A sensitivity analysis was used to identify small and spatially distributed subsets of voxels that were sufficient for decoding the number of human characters from the fMRI signal.
 The discriminative models learned by both the SVM and NN had a prediction accuracy that was three to four times above chance for all subjects, demonstrating that VR + MVPA is a powerful approach for uncovering the neural circuitry in complex visual tasks.
 \end{abstract}
@@ -93,7 +93,9 @@ Furthermore, subjects interact with VR in real time, which makes it possible to 
 The stimulus in the experiment described in this paper employs a VR environment and a blocked design where the view alternates between moving through the environment and viewing groups of animated characters.
 \subref{fig:stimulus-town} An example frame from the stimulus where the camera is traveling through the virtual environment with no characters presented.
 \subref{fig:stimulus-five-soldiers} An example frame from the stimulus where five friendly characters are being presented.
-\subref{fig:stimulus-three-insurgents} An example frame from the stimulus where three hostile characters are being presented.}
+\subref{fig:stimulus-three-insurgents} An example frame from the stimulus where three hostile characters are being presented.
+Such stimuli allow studying how the brain respondes in a more natural and complex environment.
+}
 \label{fig:stimulus}
 \end{figure*}
 
@@ -119,8 +121,7 @@ By considering multiple voxels simultaneously, MVPA has been used to identify ef
 In this paper, the feasibility of extracting complex information from fMRI data while subjects view natural and dynamic stimuli is tested.
 The experiment were structured to identify those parts of the brain that contain information about the number of human characters in a scene.
 Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{Dehaene1999,Rickard2000,Barth2006}, a passive-viewing VR stimulus paradigm was used, and the fMRI data was analyzed using MVPA.
-More specifically, two different machine learning algorithms were tested: the support vector machine (SVM) and feedforward neural network (NN).
-These classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation. 
+Classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation. 
 A variety of temporal splitting schemes were carefully examined to assess their effect on classifier performance.
 Even for the most conservative splitting scheme, classification accuracy was three to four times better than chance for all subjects and both machine-learning techniques tested.
 A novel sensitivity mapping technique was then used to identify voxels that are important for classification and thus likely to be involved in processing the information that the classifiers were trained to identify.
@@ -190,10 +191,11 @@ The structural reference volume was T1-weighted with good gray-white contrast an
 \end{subfigure}
 \caption{
 %\subref{fig:wiener-hrf} The difference-of-gamma HRF employed as $h(t)$. 
-Wiener-filter deconvolution is an optimal method for obtaining neural activity from the BOLD response.
+Wiener filter deconvolution is an optimal method for obtaining neural activity from the BOLD response.
 Most importantly, such deconvolution aligns neural activity properly with the stimulus presentation in time.
 \subref{fig:wiener-square} A simple square wave in red, the same square wave after convolution with a canonical HRF in green, and after Wiener-filter deconvolution in blue. 
-\subref{fig:wiener-voxel} An example voxel time series in red and the same time series after Wiener-filter deconvolution in blue.}
+\subref{fig:wiener-voxel} An example voxel time series in red and the same time series after Wiener-filter deconvolution in blue.
+Wiener filter deconvolution removes the delay introduced by the HRF so that patterns of activation are properly associated with the stimulus that produced them.}
 \label{fig:wiener-deconvolution}
 \end{figure}
 
@@ -256,11 +258,11 @@ Therefore, classifier accuracy estimates will only be presented for character co
 However, as a check the classifiers were also trained to distinguish between time points with and without characters, and their performance was consistently above 95\%, confirming that the machine-learning algorithms were working correctly.
 
 \subsection{Classification}
-Using the time series from the voxels selected by the harmonic analysis, a linear SVM \citep{Cortes1995} and a feedforward neural network \citep{Hornik1989,Hagan1994} were trained to identify the number of characters presented in each scene, regardless of character type (friend or foe).
+Using the time series from the voxels selected by the harmonic analysis, a one-versus-one multi-class linear support vector machine (SVM) \citep{Cortes1995,Weston1999}, a feedforward neural network (NN) \citep{Hornik1989,Hagan1994}, a Gaussian naive Bayes classifier (GNB) \citep{Duda1973}, and a k-nearest neighbor classifier (KNN) \citep{Cover1967} were trained to identify the number of characters presented in each scene, regardless of character type (friend or foe).
 To maximize temporal resolution, each 2.5-second frame (time point) was treated as a separate example, rather than aggregating across the 15-second blocks.
 Similar methods were also used to classify scenes as friends or foes, but these classifiers did not perform significantly above chance and will not be mentioned further.
 
-To measure the significance of the results and to compare the SVM and NN a performance measure is needed.
+To measure the significance of the results and to compare the classifiers a performance measure is needed.
 The performance of machine learning algorithms is generally defined to be the expected accuracy of the classifier on previously unseen examples \citep{Bishop2006}.
 In practice, this measure can only be estimated.
 A typical approach is to split the available examples into training and test sets.
@@ -272,18 +274,6 @@ Furthermore, the null distribution for the cross-validated performance estimates
 That is, the distribution of performance estimates was generated under the assumption that the labels and data were independent.
 Using this distribution, $p$ values were calculated for the performance estimates.
 The resources of the Texas Advanced Computing Center (TACC) at The University of Texas at Austin were leveraged to perform this computation.
-
-The SVM finds the hyperplane in the high-dimensional input space that separates examples from different classes with the greatest margin \citep{Cortes1995}.
-A simple SVM can only discriminate between two classes.
-However, it is possible to combine multiple SVMs to discriminate between more than two classes.
-The two most common approaches to building a multi-class SVM are one-versus-all and one-versus-one \citep{Weston1999}.
-In a preliminary evaluation, the one-versus-one approach performed better and was therefore used in this experiment.
-
-Feedforward neural networks trained via back propagation learn to approximate functions using compressive non-linearities \citep{Hagan1994}.
-Any function (including non-linear and discontinuous functions) can be approximated to an arbitrary degree given a sufficient number of hidden units \citep{Hornik1989}.
-Precisely because of this flexibility, feedforward neural networks are prone to overfitting.
-For this reason, the feedforward neural network further subdivides the training examples into training and validation sets.
-The validation set is used to determine when the network has begun overfitting the training examples and ceases iteration.
 
 Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations that violate independence assumptions between training and test set samples \citep{Pereira2009}. 
 The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales less than 15 seconds.
@@ -323,7 +313,7 @@ However, the minimum temporal distance between a frame in the test set and any f
 \begin{table}
 \centering
 \input{tables/temporal-delay.tex}
-\caption{A summary of the temporal delay between the different training and test split methods.
+\caption{A summary of the temporal delay between the different training-and-test-split methods.
 There is very little difference in the average temporal delay between examples.
 However, the average minimum delay between any example in the training set and an example in the test set varies considerably.
 This average minimum delay is the important quantity to consider when trying to avoid optimistic performance estimates.}
@@ -358,9 +348,8 @@ One existing technique is to train machine learning classifiers on small localiz
 While this technique is effective for simple highly-localized functions, the results are less clear when the function is sparsely distributed over the brain.
 A single region may not contain enough information for accurate classification or a region may only contain relavant information when considered in conjunction with a spatially disparate region.
 
-To overcome this limitation, the classifiers were trained on all stimulus-responsive regions of the brain and a neural-network sensitivity analysis was used to display the spatially distributed set of voxels that are the most important for identifying the classes.
-Specifically, the sensitivity, or magnitude of change, of the classifier output was calculated with respect to a change in each voxel
- \citep{Zurada1994}.
+To overcome this limitation, a sensitivity analysis technique originally used to minimize the input data dimension of feedforward neural networks \citep{Zurada1994} was adapted to display the spatially distributed set of voxels that are most important for identifying the classes.
+Specifically, the sensitivity, or magnitude of change, of the neural network output was calculated with respect to a change in each voxel.
 Let $\mathbf{o}$ be the vector of outputs and $\mathbf{x}$ be the vector of inputs.
 Then the sensitivity of output $k$ to input $i$ is defined by
 \begin{equation}
@@ -398,6 +387,8 @@ Such a metric can be defined by taking the maximum sensitivity of each voxel acr
 \Phi_{i} = \max_{k=1 \dots K}{S_{ki,~avg}}.
 \end{equation}
 This sensitivity can now be projected back into the volume anatomy space to create a  map that reflects the relative incremental importance of each voxel's response to the classification decision.
+In theory, a similar technique could be introduced for any differentiable classifier such as the SVM.
+However, only the sensitivity analysis applied to neural networks will be presented and discussed as it has been well studied in the existing literature.
 
 \begin{figure*}
 \centering
@@ -434,8 +425,10 @@ Each subject's volume sensitivity map was then projected onto their cortical sur
 The results of the visualization procedure will be discussed in the next section.
 
 \section{Results}
-Cross-validated performance estimates of the linear SVM and feedforward neural networks averaged across subjects is plotted against the four training-and-test-split methods corresponding to four different average minimum temporal delays (Figure \ref{fig:performance-verse-temporal-distance}).
+Cross-validated performance estimates of all four classifiers are plotted against the four training-and-test-split methods corresponding to four different average minimum temporal delays (Figure \ref{fig:performance-verse-temporal-distance}).
+The SVM had the best performance overall followed by the feedforward neural network.
 There is some variation of classifier performance between subjects, but in all cases the performance is significantly ($p < 0.001$) above chance ($16.\overline{6}$\%). 
+The performance of all four independent classifiers being above chance increases confidence in the results, however the GNB and KNN classifiers will not be discussed further as their performance was significantly below the SVM and NN.
 As the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases somewhat.
 However, the only statistically significant shift occurs between the frame split and block split, corresponding to 2.6 second and 21 second average minimum temporal distance between examples in the training and test sets, respectively.
 Thus, as expected, optimistic performance estimates are driven by temporal correlations on the 15--20-s time-scale of the HRF.
@@ -443,7 +436,7 @@ Thus, as expected, optimistic performance estimates are driven by temporal corre
 \begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{figures/performance-verse-temporal-distance}
-\caption{The estimated performance of the SVM (purple) and neural network (green) classifiers averaged across all sessions and plotted across the four training-and-test-split methods, corresponding to the four different average minimum temporal delays between examples in the training and test sets. 
+\caption{The estimated performance of the classifiers averaged across all sessions and plotted across the four training-and-test-split methods, corresponding to the four different average minimum temporal delays between examples in the training and test sets. 
 The performance estimates were bootstrapped across sessions in order to obtain 68\% confidence intervals.
 There is a statistically significant drop in the estimated performance when the average minimum temporal delay increases from 2.6 to 21 seconds, confirming that temporal correlations result in optimistic performance estimates with short delays.}
 \label{fig:performance-verse-temporal-distance}
@@ -484,7 +477,8 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \caption{The average confusion matrices for the \subref{fig:average-confusion-svm} SVM and \subref{fig:average-confusion-nn} neural network classifiers across all subjects using the block split.
 The value in cell $(i,j)$ of the matrix is the percent of examples from class $i$ that were labeled as class $j$; percents along the diagonal indicate correctly classified examples while the rest indicate incorrectly classified examples.
 The color of the cell indicates deviation from chance probability ($16.\overline{6}$\%).
-The more green a cell is the further above chance that percent is, while the more red a cell is the further below chance that percent is.}
+The more green a cell is the further above chance that percent is, while the more red a cell is the further below chance that percent is.
+These confusion matrices indicate that the SVM and NN were able to distinguish all six characters counts, but as the number of characters rose the performance tended to decrease.}
 \label{fig:average-confusion}
 \end{figure}
 
@@ -500,7 +494,8 @@ Interestingly, there is also an upward trend up to 35\%, presumably because nois
 \caption{A plot of the feedforward neural network estimated performance and the percent of voxels used for training when the inputs are pruned at a particular sensitivity value.
 The fraction of voxels is calculated with respect to the 2000 voxels selected by harmonic analysis.
 The performance estimates and voxel counts were bootstrapped across sessions in order to obtain 68\% confidence intervals.
-The estimated performance is not significantly reduced until over 90\% of the voxels have been pruned.}
+The estimated performance is not significantly reduced until over 90\% of the voxels have been pruned.
+Interestingly, low levels of pruning may actually improve performance (presumably by reducing noise), although this effect was not statistically significant in the current experiment.} 
 \label{fig:sensitivity-cutoff}
 \end{figure}
 
@@ -563,11 +558,10 @@ The sensitivity maps are relatively homogeneous across subjects and hemispheres.
 \end{table*}
 
 \section{Discussion}
-Although both classifiers performed at well above chance levels for all subjects, the average performance on individual subjects varied significantly.
+Although all classifiers performed at well above chance levels for all subjects, the average performance on individual subjects varied significantly.
 These variations could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during a session.
 The lack of a task during the stimulus presentation makes these variations difficult to interpret since attention and cognitive state were not well controlled.
 In future experiments, the subjects will be asked to perform a challenging task, and the average performance is expected to increase and the variation between subjects to decrease.
-However, the fact that the classifiers performed at well above chance levels increases confidence in the results.
 
 This estimated prediction accuracy was calculated after correcting for the bias introduced by temporal correlations in the BOLD signal while minimizing variance.
 By characterizing the relationship between the average minimum temporal distance between the training and test sets and estimated classifier performance, the estimated performance was found to reach a minimum around 20 seconds.
@@ -577,6 +571,12 @@ However, it is interesting that slightly better performance may be obtained for 
 Many experiments separate their folds for crossfold-validation along runs.
 While this procedure ensures a sufficient temporal separation between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
 Instead, we recommend splitting the data along the shortest natural boundary of the experimental procedure that is not less than 20 seconds.
+
+The classifier performances validate the popularity of the SVM with MVPA.
+In general, better classifier performance leads to higher confidence in the results of MVPA.
+Therefore, it is important to identify new classification algorithms that could offer superior performance.
+Deep learning \citep{Hinton2006} is a recent neural network formulation that has shown potential for solving a variety of complex tasks \citep{Ciresan2012}.
+While the standard feedforward neural network did not have the best performance, it was not far behind, which indicates that deep learning could outperform even the SVM.
 
 Ideally, the classifiers should be trained using data from the whole brain so as not to miss any relevant interactions.
 Since such training is prohibitively expensive, the harmonic analysis technique was developed in this work to perform dimensionality reduction without making any assumptions about the signal other than linearity.
@@ -595,6 +595,8 @@ On the other hand, brain responses themselves can show strong spatial correlatio
 Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
 In any case, it is encouraging that the sensitivity maps were consistent across subjects.
+Sensitivity analysis was only performed on the feedforward neural network classifier because of the existing literature on the topic \citep{Zurada1994}.
+Applying a similar technique to the SVM is an avenue for future research, but the resulting maps are expected to be comparable due to the similar overall performance between the SVM and NN (figures \ref{fig:performance-verse-temporal-distance} and \ref{fig:average-confusion}).
 
 When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps suggest how this information may be processed in the brain (Table \ref{tab:full-sensitivity}).
 By far, the most sensitivity (42\%), and therefore the most relevant mutual information, is contained in the lateral occipital region (LO).
@@ -608,7 +610,7 @@ Because LO combines object-selectivity with retinotopic specificity \citep{Sayre
 Ventral early visual areas apparently also contribute to this information. 
 In contrast, the less retinotopic fusiform regions \citep{Schwarzlose2008,Sayres2010} appear to less useful for decoding character number.
 
-Despite the preponderance of retinotopic visual-area sensitivity, the dorsal parietal cortex is also substantialy sensitive (16.6\%). 
+Despite the preponderance of retinotopic visual-area sensitivity, the dorsal parietal cortex is also substantially sensitive (16.6\%). 
 Such sensitivity suggests that the perception of motion and position are also useful for decoding subject number from the complex and dynamic VR stimuli.
 The results indicate that something as abstract as the number of perceived human characters is not contained in a single voxel, but rather is encoded in a distributed manner across many different visual processing areas working together.
 
