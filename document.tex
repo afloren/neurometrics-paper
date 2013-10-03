@@ -1,4 +1,4 @@
-\documentclass[review,1p,authoryear]{elsarticle}
+\documentclass[5p,authoryear]{elsarticle}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -413,7 +413,11 @@ This sensitivity can now be projected back into the volume anatomy space to crea
 \caption{medial labels}
 \label{fig:medial-labels}
 \end{subfigure}
-\caption{After generating sensitivity maps, region labels were used for aggregating the results, as shown in table \ref{tab:full-sensitivity}. In this manner, it was possible to obtain a clearer representation of the pattern of sensitivity. <make the following into a color-coded legend> light blue -- superior temporal, dark blue -- middle temporal, light green -- inferior temporal, dark green -- fusiform, dark red -- superior parietal, light red -- inferior parietal, light orange -- lateral occipital, dark orange -- cuneus, light purple -- pericalcarine, and dark purple -- lingual}
+\begin{subfigure}{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/sensitivity-legend-crop}
+\end{subfigure}
+\caption{After generating sensitivity maps, region labels were used for aggregating the results, as shown in table \ref{tab:full-sensitivity}. In this manner, it was possible to obtain a clearer representation of the pattern of sensitivity.}
 \label{fig:labels}
 \end{figure*}
 
@@ -515,27 +519,27 @@ Averaged across subjects, classifier sensitivity was most affected (in order of 
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/s1-lh-medial-sensitivity}
-\caption{}
-\label{fig:s1-lh-medial-sensitivity}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\centering
 \includegraphics[width=\textwidth]{figures/s2-rh-lateral-sensitivity}
 \caption{}
 \label{fig:s2-rh-lateral-sensitivity}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/s2-rh-medial-sensitivity}
-\caption{}
-\label{fig:s2-rh-medial-sensitivity}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\centering
 \includegraphics[width=\textwidth]{figures/s3-lh-lateral-sensitivity}
 \caption{}
 \label{fig:s3-lh-lateral-sensitivity}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/s1-lh-medial-sensitivity}
+\caption{}
+\label{fig:s1-lh-medial-sensitivity}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/s2-rh-medial-sensitivity}
+\caption{}
+\label{fig:s2-rh-medial-sensitivity}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
 \centering
