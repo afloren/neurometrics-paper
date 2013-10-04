@@ -46,7 +46,7 @@ Used together, VR stimuli and MVPA allow for the creation of very powerful exper
 The benefits and potential pitfalls of these techniques are evaluated on the passive encoding of the number of human characters presented in a realistic and dynamic stimulus while functional magnetic resonance imaging (fMRI) data were analyzed using MVPA. 
 Classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation.
 A sensitivity analysis was used to identify small and spatially distributed subsets of voxels that were sufficient for decoding the number of human characters from the fMRI signal.
-The discriminative models learned by both the SVM and NN had a prediction accuracy that was three to four times above chance for all subjects, demonstrating that VR + MVPA is a powerful approach for uncovering the neural circuitry in complex visual tasks.
+The discriminative models learned by both the SVM and NN had a prediction accuracy that was three to four times above chance for all subjects, demonstrating that the combination of VR and MVPA is a powerful approach for uncovering the neural circuitry in complex visual tasks.
 \end{abstract}
 
 \begin{keyword}
@@ -140,7 +140,7 @@ To facilitate designing our VR stimulus, the Unreal Developer's Kit developed by
 This development kit is available free of charge for non-commercial applications and uses the same rendering and game engine found in many current and popular video games.
 
 One of the long-term goals of this research is to understand post-traumatic stress disorder (PTSD).
-Therefore, we created a virtual town intended to mirror the kinds of real-world settings encountered by many currently deployed peace-keeping forces (Fig. \ref{fig:stimulus}).
+Therefore, we created a virtual town intended to mirror the kinds of real-world settings encountered by many currently deployed military forces (Fig. \ref{fig:stimulus}).
 Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations throughout the virtual town.
 The stimulus was rendered in real-time from the point of view of a camera moving at eye level through the town. 
 
@@ -388,7 +388,7 @@ Such a metric can be defined by taking the maximum sensitivity of each voxel acr
 \end{equation}
 This sensitivity can now be projected back into the volume anatomy space to create a  map that reflects the relative incremental importance of each voxel's response to the classification decision.
 In theory, a similar technique could be introduced for any differentiable classifier such as the SVM.
-However, only the sensitivity analysis applied to neural networks will be presented and discussed as it has been well studied in the existing literature.
+However, only the sensitivity analysis applied to neural networks will be presented and discussed as it has been well studied in the existing literature \citep{Zurada1994}.
 
 \begin{figure*}
 \centering
@@ -428,7 +428,7 @@ The results of the visualization procedure will be discussed in the next section
 Cross-validated performance estimates of all four classifiers are plotted against the four training-and-test-split methods corresponding to four different average minimum temporal delays (Figure \ref{fig:performance-verse-temporal-distance}).
 The SVM had the best performance overall followed by the feedforward neural network.
 There is some variation of classifier performance between subjects, but in all cases the performance is significantly ($p < 0.001$) above chance ($16.\overline{6}$\%). 
-The performance of all four independent classifiers being above chance increases confidence in the results, however the GNB and KNN classifiers will not be discussed further as their performance was significantly below the SVM and NN.
+The performance of all four independent classifiers being above chance increases confidence in the results, however the GNB and KNN classifiers will not be discussed further as their performance was significantly below the SVM and NN (Figure \ref{fig:performance-verse-temporal-distance}).
 As the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases somewhat.
 However, the only statistically significant shift occurs between the frame split and block split, corresponding to 2.6 second and 21 second average minimum temporal distance between examples in the training and test sets, respectively.
 Thus, as expected, optimistic performance estimates are driven by temporal correlations on the 15--20-s time-scale of the HRF.
@@ -596,7 +596,7 @@ Voxels sampling these regions could all show similar classification sensitivity,
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
 In any case, it is encouraging that the sensitivity maps were consistent across subjects.
 Sensitivity analysis was only performed on the feedforward neural network classifier because of the existing literature on the topic \citep{Zurada1994}.
-Applying a similar technique to the SVM is an avenue for future research, but the resulting maps are expected to be comparable due to the similar overall performance between the SVM and NN (figures \ref{fig:performance-verse-temporal-distance} and \ref{fig:average-confusion}).
+Applying a similar technique to the SVM is an avenue for future research.
 
 When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps suggest how this information may be processed in the brain (Table \ref{tab:full-sensitivity}).
 By far, the most sensitivity (42\%), and therefore the most relevant mutual information, is contained in the lateral occipital region (LO).
