@@ -422,13 +422,26 @@ However, the banks of the superior temporal were incorporated into the superior 
 Additionally, the supramarginal label was merged with the inferior parietal label.
 For most subjects, several of the automatic labels were also edited by hand to conform better to the actual sulcal boundaries.
 Each subject's volume sensitivity map was then projected onto their cortical surface and blurred along the surface using a 5 mm full-width half-maximum (FWHM) Gaussian kernel.
-The results of the visualization procedure will be discussed in the next section.
+
+\subsection{GLM}
+GLM analysis was also performed on the data for comparison purposes as well as confirmation of the results of the sensitivity analysis. 
+fMRI data processing was carried out using FEAT (FMRI Expert Analysis Tool) Version 5.98, part of FSL (FMRIB's Software Library, \url{www.fmrib.ox.ac.uk/fsl}). 
+Z (Gaussianized T/F) statistic images were thresholded using clusteres determined by $Z > 2.3$ and a (corrected) cluster significant threshold of $P = 0.05$ \citep{Worsley2001}.
+A linear activation hypothesis was constructed based on the results from the sensitivity analysis.
+For each voxel above the signifigance threshold, this model was used to construct a simple linear estimator for the number of characters presented.
+The total accuracy of this model was calculated for comparison against the machine learning techniques.
+It should be noted that cross-validation was not employed and therefore the accuracy estimates will be highly optimistic.
+The thresholded Z statistic images were projected onto the same FreeSurfer generated surfaces as the sensitivity analysis.
 
 \section{Results}
 Cross-validated performance estimates of all four classifiers are plotted against the four training-and-test-split methods corresponding to four different average minimum temporal delays (Figure \ref{fig:performance-verse-temporal-distance}).
 The SVM had the best performance overall followed by the feedforward neural network.
 There is some variation of classifier performance between subjects, but in all cases the performance is significantly ($p < 0.001$) above chance ($16.\overline{6}$\%). 
 The performance of all four independent classifiers being above chance increases confidence in the results, however the GNB and KNN classifiers will not be discussed further as their performance was significantly below the SVM and NN (Figure \ref{fig:performance-verse-temporal-distance}).
+The average performance of the best linear estimator for each session after thresholding was 29\%.
+This puts the linear estimator on par with the GNB and KNN classifiers.
+However, do not forget that no cross-validation was performed and therefore this number is likely inflated.
+
 As the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases somewhat.
 However, the only statistically significant shift occurs between the frame split and block split, corresponding to 2.6 second and 21 second average minimum temporal distance between examples in the training and test sets, respectively.
 Thus, as expected, optimistic performance estimates are driven by temporal correlations on the 15--20-s time-scale of the HRF.
@@ -499,8 +512,8 @@ Interestingly, low levels of pruning may actually improve performance (presumabl
 \label{fig:sensitivity-cutoff}
 \end{figure}
 
-Sensitivity maps show a preponderance of classification sensitivity in
-lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe (Figure \ref{fig:individual-sensitivity}). 
+Sensitivity maps show a preponderance of classification sensitivity in lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe (Figure \ref{fig:individual-sensitivity}). 
+The Z statistic maps produced by GLM also indicate significant linear activation in ventral retinotopic early visual areas as well as some linear activation in lateral occipital regions.
 Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal and frontal cortex. 
 Averaged across subjects, classifier sensitivity was most affected (in order of importance) by lateral occipital regions, lingual areas, and dorsal parietal lobe (Table \ref{tab:full-sensitivity}). 
 
@@ -605,14 +618,10 @@ This observation is in contrast to the comparatively weak sensitivity (5.7\%) ob
 Additionally, there is substantial sensitivity contained in low-level retinotopic visual areas. 
 The pericalcarine, lingual, and cuneus areas altogether account for 25\% of the observed sensitivity; the more ventral lingual areas contribute more strongly (13.9\%) then cuneus (3.7\%).
 This result is somewhat surprising given that the relevant information in the scene is not necessarily retinotopically organized because of the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
-The sensitivity in early, retinotopic visual areas, together with the sensitivity in lateral-occipital areas suggests that retinotopic organization is important in decoding of group size. 
+However, the significant linear activation and sensitivity in early, retinotopic visual areas, together with the sensitivity in lateral-occipital areas suggests that retinotopic organization is important in decoding of group size. 
 Because LO combines object-selectivity with retinotopic specificity \citep{Sayres2008}, different group sizes could evoke complex but stereotypical patterns of responses in LO (and other retinotopically organized areas) as subjects visually interrogate the stimuli. 
 Ventral early visual areas apparently also contribute to this information. 
 In contrast, the less retinotopic fusiform regions \citep{Schwarzlose2008,Sayres2010} appear to less useful for decoding character number.
-
-Despite the preponderance of retinotopic visual-area sensitivity, the dorsal parietal cortex is also substantially sensitive (16.6\%). 
-Such sensitivity suggests that the perception of motion and position are also useful for decoding subject number from the complex and dynamic VR stimuli.
-The results indicate that something as abstract as the number of perceived human characters is not contained in a single voxel, but rather is encoded in a distributed manner across many different visual processing areas working together.
 
 In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).
 This observation is in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between one and two characters than it is to tell the difference between five and six characters \citep{Shepard1975,Dehaene2003}.
@@ -622,6 +631,14 @@ However, the average activation in a retinotopically organized and object-select
 The relative difference in average activity is smaller between larger presentation sizes and thus more difficult to differentiate.
 However, there is an interesting exception to this trend that is difficult to account for with a retinotopic explanation; there is a significant increase in confusion between two and six characters.
 This could be a result of six characters being too much for the subject to consider individually and the subject perceives two groups of characters rather than six individual characters.
+
+Despite the preponderance of retinotopic visual-area sensitivity, the dorsal parietal cortex is also substantially sensitive (16.6\%) while the GLM analysis reveals no significant linear activation.
+Such sensitivity suggests that the perception of motion and position are also useful for decoding subject number from the complex and dynamic VR stimuli, albeit not in a simple linear fashion.
+The presence of regions that were discovered to be sensitive for discrimination but did not have significant linear activation indicates that there may be other more complex factors that contribute to the superior performance of the machine learning algorithms.
+While more extensive modeling of the linear activation in early retinotopic regions could lead to superior estimators, it would require a significant investment of time.
+The advantage of the machine learning approach is that it tests a large range of models without user intervention.
+In fact, the linear activation hypothesis used for the GLM was only constructed after viewing the results of the sensitivity analysis.
+Once an initial working model is discovered, researchers can begin to refine that model to improve both performance and understanding of the underlying processes.
 
 While dynamic and VR stimuli are more realistic than traditional ones, they are more complex to design and more difficult to interpret.
 This paper offers some initial tools and analyses to deal with these challenges, but further work is needed.
