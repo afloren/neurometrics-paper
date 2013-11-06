@@ -22,7 +22,7 @@
 
 \begin{frontmatter}
 
-\title{Identifying brain regions associated with virtual reality stimulus information}
+\title{Identifying brain regions associated with virtual environment stimulus information}
 
 \author[ECE,NS]{Andrew Floren}
 
@@ -41,16 +41,16 @@
 \cortext[cor]{Corresponding author.}
 
 \begin{abstract}
-Virtual reality (VR) environments provide a framework for creating complex and dynamic stimuli in a controlled fashion while multivariate pattern analysis (MVPA) makes it possible to characterize the neural-processing substrate when the underlying processing model is unknown. 
-Used together, VR stimuli and MVPA allow for the creation of very powerful experimental designs. 
+Virtual environments provide a framework for creating complex and dynamic stimuli in a controlled fashion while multivariate pattern analysis (MVPA) makes it possible to characterize the neural-processing substrate when the underlying processing model is unknown. 
+Used together, virtual environments and MVPA allow for the creation of very powerful experimental designs. 
 The benefits and potential pitfalls of these techniques are evaluated on the passive encoding of the number of human characters presented in a realistic and dynamic stimulus while functional magnetic resonance imaging (fMRI) data were analyzed using MVPA. 
 Classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation.
 A sensitivity analysis was used to identify small and spatially distributed subsets of voxels that were sufficient for decoding the number of human characters from the fMRI signal.
-The discriminative models learned by both the SVM and NN had a prediction accuracy that was three to four times above chance for all subjects, demonstrating that the combination of VR and MVPA is a powerful approach for uncovering the neural circuitry in complex visual tasks.
+The discriminative models learned by both the SVM and NN had a prediction accuracy that was three to four times above chance for all subjects, demonstrating that the combination of virtual environments and MVPA is a powerful approach for uncovering the neural circuitry in complex visual tasks.
 \end{abstract}
 
 \begin{keyword}
-fMRI \sep MVPA \sep machine learning \sep virtual reality \sep vision
+fMRI \sep MVPA \sep machine learning \sep virtual environments\sep vision
 \end{keyword}
 
 \end{frontmatter}
@@ -63,11 +63,11 @@ More natural and dynamic stimuli will evoke a more complex network of brain resp
 The context in which a stimuli is presented will affect how it is processed, and such complex responses can make interpretation difficult.
 Therefore, it is important to test whether currently accepted neural correlates of experience remain valid in more natural settings.
 
-Researchers have been using dynamic stimuli in the form of virtual reality (VR) environments \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a,Hassabis2009} and prerecorded movies \citep{Hasson2004,Chadwick2010,Nishimoto2011} for some time.
-VR stimuli have two strong advantages over prerecorded movies: the stimulus designer has complete control over the stimuli and the subject can interact with the VR environment in real time.
-Precise control of the VR environment allows for the interrogation of very subtle parameters as well as automatic coding of relevant scene parameters.
-Many variables of interest, such as semantic labels for visible objects are explicitly specified by the VR design, avoiding the need to manually label each frame (as is usually done with movies).
-Furthermore, subjects interact with VR in real time, which makes it possible to examine learning mechanisms and decision making in a realistic context.
+Researchers have been using dynamic stimuli in the form of virtual environments \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a,Hassabis2009} and prerecorded movies \citep{Hasson2004,Chadwick2010,Nishimoto2011} for some time.
+Virtual environments have two strong advantages over prerecorded movies: the stimulus designer has complete control over the stimuli and the subject can interact with the environment in real time.
+Precise control of the environment allows for the interrogation of very subtle parameters as well as automatic coding of relevant scene parameters.
+Many variables of interest, such as semantic labels for visible objects are explicitly specified by the virtual environment's design, avoiding the need to manually label each frame (as is usually done with movies).
+Furthermore, subjects interact with virtual environments in real time, which makes it possible to examine learning mechanisms and decision making in a realistic context.
 This interactivity can also be employed to intentionally engage and control cognitive function.
 
 \begin{figure*}
@@ -91,7 +91,7 @@ This interactivity can also be employed to intentionally engage and control cogn
 \label{fig:stimulus-three-insurgents}
 \end{subfigure}
 \caption{
-The stimulus in the experiment described in this paper employs a VR environment and a blocked design where the view alternates between moving through the environment and viewing groups of animated characters.
+The stimulus in the experiment described in this paper employs a virtual environment and a blocked design where the view alternates between moving through the environment and viewing groups of animated characters.
 \subref{fig:stimulus-town} An example frame from the stimulus where the camera is traveling through the virtual environment with no characters presented.
 \subref{fig:stimulus-five-soldiers} An example frame from the stimulus where five friendly characters are being presented.
 \subref{fig:stimulus-three-insurgents} An example frame from the stimulus where three hostile characters are being presented.
@@ -109,7 +109,7 @@ A hybrid approach is also possible: data-driven analyses can first uncover compl
 However, it may also be possible to use these realistic stimulus-response relationships to understand subject training and pathophysiology better.
 
 Although many dynamic stimuli experiments employ GLM methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010}. 
-The application of MVPA analysis to VR stimuli opens up an exciting range of experiments to examine complex brain responses in more realistic stimulus scenarios.
+The application of MVPA analysis to virtual environments stimuli opens up an exciting range of experiments to examine complex brain responses in more realistic stimulus scenarios.
 MVPA has been used as a blanket term for the application of any classification algorithm to fMRI data, although the support vector machine (SVM) is by far the most popular choice.
 When applying MVPA, the stimulus is typically organized into multiple categories or classifications such as houses or faces, ambiguous or unambiguous sentences, or gratings of specific orientations \citep{Haxby2001,Mitchell2003,Haynes2006}.
 The algorithm is then trained to classify the patterns of BOLD activations into these categories at a particular time-point using labeled examples.
@@ -121,13 +121,13 @@ By considering multiple voxels simultaneously, MVPA has been used to identify ef
 
 In this paper, the feasibility of extracting complex information from fMRI data while subjects view natural and dynamic stimuli is tested.
 The experiment were structured to identify those parts of the brain that contain information about the number of human characters in a scene.
-Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{Dehaene1999,Rickard2000,Barth2006}, a passive-viewing VR stimulus paradigm was used, and the fMRI data was analyzed using MVPA.
+Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{Dehaene1999,Rickard2000,Barth2006}, a passive-viewing virtual environment stimulus paradigm was used, and the fMRI data was analyzed using MVPA.
 Classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation. 
 A variety of temporal splitting schemes were carefully examined to assess their effect on classifier performance.
 Even for the most conservative splitting scheme, classification accuracy was three to four times better than chance for all subjects and both machine-learning techniques tested.
 A novel sensitivity mapping technique was then used to identify voxels that are important for classification and thus likely to be involved in processing the information that the classifiers were trained to identify.
 Results indicate that information regarding  the number of visible characters in a complex stimulus is largely encoded early in visual processing, utilizing both ventral and dorsal visual streams.
-The results demonstrate that complex information can effectively be extracted from a realistic VR stimulus paradigm, opening up new prospects for the use of VR with MVPA in neuroscience.
+The results demonstrate that complex information can effectively be extracted from a realistic virtual environment stimulus paradigm, opening up new prospects for the use of virtual environments with MVPA in neuroscience.
 
 \section{Methods}
 
@@ -137,7 +137,7 @@ All subjects participated in two fMRI sessions and a third session to acquire a 
 Informed consent was obtained from all subjects.
 
 \subsection{Stimulus}
-To facilitate designing our VR stimulus, the Unreal Developer's Kit developed by Epic Games, Inc. was used (available at \url{http://www.unrealengine.com/udk}).
+To facilitate designing our virtual environment, the Unreal Developer's Kit developed by Epic Games, Inc. was used (available at \url{http://www.unrealengine.com/udk}).
 This development kit is available free of charge for non-commercial applications and uses the same rendering and game engine found in many current and popular video games.
 
 One of the long-term goals of this research is to understand post-traumatic stress disorder (PTSD).
@@ -520,78 +520,79 @@ Averaged across subjects, classifier sensitivity was most affected (in order of 
 
 \begin{figure*}
 \centering
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s1-lh-lateral-sensitivity}
-\caption{}
-\label{fig:s1-lh-lateral-sensitivity}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s1-lh-medial-sensitivity}
-\caption{}
-\label{fig:s1-lh-medial-sensitivity}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s1-lh-lateral-zscore}
-\caption{}
-\label{fig:s1-lh-lateral-zscore}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s1-lh-medial-zscore}
-\caption{}
-\label{fig:s1-lh-medial-zscore}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s2-rh-lateral-sensitivity}
-\caption{}
-\label{fig:s2-rh-lateral-sensitivity}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s2-rh-medial-sensitivity}
-\caption{}
-\label{fig:s2-rh-medial-sensitivity}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s2-rh-lateral-zscore}
-\caption{}
-\label{fig:s2-rh-lateral-zscore}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s2-rh-medial-zscore}
-\caption{}
-\label{fig:s2-rh-medial-zscore}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s3-lh-lateral-sensitivity}
-\caption{}
-\label{fig:s3-lh-lateral-sensitivity}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s3-lh-medial-sensitivity}
-\caption{}
-\label{fig:s3-lh-medial-sensitivity}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s3-lh-lateral-zscore}
-\caption{}
-\label{fig:s3-lh-lateral-zscore}
-\end{subfigure}
-\begin{subfigure}{0.2\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/s3-lh-medial-zscore}
-\caption{}
-\label{fig:s3-lh-medial-zscore}
-\end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s1-lh-lateral-sensitivity}
+% \caption{}
+% \label{fig:s1-lh-lateral-sensitivity}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s1-lh-medial-sensitivity}
+% \caption{}
+% \label{fig:s1-lh-medial-sensitivity}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s1-lh-lateral-zscore}
+% \caption{}
+% \label{fig:s1-lh-lateral-zscore}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s1-lh-medial-zscore}
+% \caption{}
+% \label{fig:s1-lh-medial-zscore}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s2-rh-lateral-sensitivity}
+% \caption{}
+% \label{fig:s2-rh-lateral-sensitivity}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s2-rh-medial-sensitivity}
+% \caption{}
+% \label{fig:s2-rh-medial-sensitivity}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s2-rh-lateral-zscore}
+% \caption{}
+% \label{fig:s2-rh-lateral-zscore}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s2-rh-medial-zscore}
+% \caption{}
+% \label{fig:s2-rh-medial-zscore}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s3-lh-lateral-sensitivity}
+% \caption{}
+% \label{fig:s3-lh-lateral-sensitivity}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s3-lh-medial-sensitivity}
+% \caption{}
+% \label{fig:s3-lh-medial-sensitivity}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s3-lh-lateral-zscore}
+% \caption{}
+% \label{fig:s3-lh-lateral-zscore}
+% \end{subfigure}
+% \begin{subfigure}{0.2\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/s3-lh-medial-zscore}
+% \caption{}
+% \label{fig:s3-lh-medial-zscore}
+% \end{subfigure}
+\input{surface-maps.pdf_tex}
 \caption{Here we present individual sensitivity maps and Z statistic maps of linear activation for three different subjects projected onto their semi-inflated cortical surfaces.
  The first row (figures a-d) present lateral and medial views of the sensitivity map (a-b) and Z statistic map (c-d) for the first subject.
  The second row (figures e-h) present lateral and medial views of the sensitivity map (e-f) and Z statistic map (g-h) for the second subject.
@@ -679,17 +680,17 @@ The relative difference in average activity is smaller between larger presentati
 However, there is an interesting exception to this trend that is difficult to account for with a retinotopic explanation; there is a significant increase in confusion between two and six characters.
 This could be a result of six characters being too much for the subject to consider individually and the subject perceives two groups of characters rather than six individual characters.
 
-While dynamic and VR stimuli are more realistic than traditional ones, they are more complex to design and more difficult to interpret.
+While virtual environments offer a more realistic stimulus than traditional stimuli such as sweeping bars or contrast gratings, they are more complex to design and more difficult to interpret.
 This paper offers some initial tools and analyses to deal with these challenges, but further work is needed.
-Moreover, VR environments do carry some disadvantages over simpler dynamic stimuli such as prerecorded movies. 
-It is typically easier to record a movie than to program a VR environment; movies can also have a more realistic appearance than VR environments.
+Moreover, virtual environments do carry some disadvantages over simpler dynamic stimuli such as prerecorded movies. 
+It is typically easier to record a movie than to program a virtual environment; movies can also have a more realistic appearance than virtual environments.
 Additionally, the results of \cite{Han2005} indicate that there is some divergence in the way the brain processes real (i.e., recorded) and virtual visual worlds. 
-However, it is likely that as the realism of VR environments increases this divergence in processing will decrease as well.
+However, it is likely that as the realism of virtual environments increases this divergence in processing will decrease as well.
 
-Complex and dynamic stimuli allow researchers to examine neural processing in a more natural state, and VR environments make it easier to design and control such stimuli.
+Complex and dynamic stimuli allow researchers to examine neural processing in a more natural state, and virtual environments make it easier to design and control such stimuli.
 MVPA allows researchers to explore the coding of information in the brain when an underlying neural processing model is not already known and to discover new and interesting interactions.
-Used together, VR stimuli and MVPA allow for novel and valuable experimental designs.
-Altogether, the results in this paper suggest that the combination of VR with machine-learning analysis schemes will offer a fruitful new tool for the analysis of brain responses in stimulus scenarios that more closely resemble natural human experience.
+Used together, virtual environments and MVPA allow for novel and valuable experimental designs.
+Altogether, the results in this paper suggest that the combination of virtual environments with machine-learning analysis schemes will offer a fruitful new tool for the analysis of brain responses in stimulus scenarios that more closely resemble natural human experience.
 
 \section{References}
 \bibliography{bib}
