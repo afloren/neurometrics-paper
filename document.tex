@@ -425,6 +425,11 @@ However, the banks of the superior temporal were incorporated into the superior 
 Additionally, the supramarginal label was merged with the inferior parietal label.
 For most subjects, several of the automatic labels were also edited by hand to conform better to the actual sulcal boundaries.
 Each subject's volume sensitivity map was then projected onto their cortical surface and blurred along the surface using a 5 mm full-width half-maximum (FWHM) Gaussian kernel.
+Group averaged sensitivity maps were also formed using both affine and non-linear registration algorithms.
+However, the quality of the registration between our subject brains was not satisfactory.
+In particular, group-average maps tended to mislocalize temporal-lobe activity onto the parietal lobe.
+Therefore, sensitivity maps will be only presented on individual subject brain surfaces.
+However, the total sensitivity in each anatomical label was averaged across subjects in order to examine group-average sensitivity without requiring registration.
 
 \subsection{GLM}
 GLM analysis was also performed on the data for comparison purposes as well as confirmation of the results of the sensitivity analysis. 
@@ -520,7 +525,7 @@ Interestingly, low levels of pruning may actually improve performance (presumabl
 \label{fig:sensitivity-cutoff}
 \end{figure}
 
-Sensitivity maps show a preponderance of classification sensitivity in lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe (Figure \ref{fig:individual-sensitivity}). 
+Sensitivity maps for individual subjects show a preponderance of classification sensitivity in lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe (Figure \ref{fig:individual-sensitivity}). 
 The Z statistic maps produced by GLM also indicate significant correlation between the magnitude of activation and character count in ventral retinotopic early visual areas and lateral occipital regions.
 Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal and frontal cortex. 
 Averaged across subjects, classifier sensitivity was most affected (in order of importance) by lateral occipital regions, lingual areas, and dorsal parietal lobe (Table \ref{tab:full-sensitivity}). 
@@ -601,7 +606,7 @@ Averaged across subjects, classifier sensitivity was most affected (in order of 
 % \end{subfigure}
 \input{surface-maps.pdf_tex}
 \caption{Here we present individual sensitivity maps and Z statistic maps of significant correlation between magnitude of activation and character count projected onto semi-inflated cortical surfaces for three different subjects.
-The sensitivity maps are relatively homogeneous across subjects and hemispheres.}
+The sensitivity and Z score maps are relatively homogeneous across subjects and hemispheres.}
 \label{fig:individual-sensitivity}
 \end{figure*}
 
