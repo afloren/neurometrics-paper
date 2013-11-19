@@ -70,36 +70,6 @@ Many variables of interest, such as semantic labels for visible objects are expl
 Furthermore, subjects interact with virtual environments in real time, which makes it possible to examine learning mechanisms and decision making in a realistic context.
 This interactivity can also be employed to intentionally engage and control cognitive function.
 
-\begin{figure*}
-\centering
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/stimulus-town}
-\caption{}
-\label{fig:stimulus-town}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/stimulus-five-soldiers}
-\caption{}
-\label{fig:stimulus-five-soldiers}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/stimulus-three-insurgents}
-\caption{}
-\label{fig:stimulus-three-insurgents}
-\end{subfigure}
-\caption{
-The stimulus in the experiment described in this paper employs a virtual environment and a blocked design where the view alternates between moving through the environment and viewing groups of animated characters.
-\subref{fig:stimulus-town} An example frame from the stimulus where the camera is traveling through the virtual environment with no characters presented.
-\subref{fig:stimulus-five-soldiers} An example frame from the stimulus where five friendly characters are being presented.
-\subref{fig:stimulus-three-insurgents} An example frame from the stimulus where three hostile characters are being presented.
-Such stimuli allow studying how the brain respondes in a more natural and complex environment.
-}
-\label{fig:stimulus}
-\end{figure*}
-
 More complex stimuli require more complex analysis methods.
 A wide variety of methods have been used to analyze dynamic stimuli; general linear models (GLM) including statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multivariate pattern analysis (MVPA) are the most popular \citep{Spiers2007}.
 These analysis methods can generally be split into stimulus-driven methods---such as SPM---that measure the statistical significance of a hypothesis, and data-driven methods---such as MVPA---that look for patterns in the fMRI signal.
@@ -129,6 +99,36 @@ Classification accuracy was three to four times better than chance for all subje
 A novel sensitivity mapping technique was then used to identify voxels that are important for classification and thus likely to be involved in processing the information that the classifiers were trained to identify.
 Results indicate that information regarding  the number of visible characters in a complex stimulus is largely encoded early in visual processing, utilizing both ventral and dorsal visual streams.
 The results demonstrate that complex information can effectively be extracted from a realistic virtual environment stimulus paradigm, opening up new prospects for the use of virtual environments with MVPA in neuroscience.
+
+\begin{figure*}
+\centering
+\begin{subfigure}{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/stimulus-town}
+\caption{}
+\label{fig:stimulus-town}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/stimulus-five-soldiers}
+\caption{}
+\label{fig:stimulus-five-soldiers}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/stimulus-three-insurgents}
+\caption{}
+\label{fig:stimulus-three-insurgents}
+\end{subfigure}
+\caption{
+The stimulus in the experiment described in this paper employs a virtual environment and a blocked design where the view alternates between moving through the environment and viewing groups of animated characters.
+\subref{fig:stimulus-town} An example frame from the stimulus where the camera is traveling through the virtual environment with no characters presented.
+\subref{fig:stimulus-five-soldiers} An example frame from the stimulus where five friendly characters are being presented.
+\subref{fig:stimulus-three-insurgents} An example frame from the stimulus where three hostile characters are being presented.
+Such stimuli allow studying how the brain respondes in a more natural and complex environment.
+}
+\label{fig:stimulus}
+\end{figure*}
 
 \section{Methods}
 
@@ -350,27 +350,27 @@ One existing technique is to train machine learning classifiers on small localiz
 While this technique is effective for simple highly-localized functions, the results are less clear when the function is sparsely distributed over the brain.
 A single region may not contain enough information for accurate classification or a region may only contain relavant information when considered in conjunction with a spatially disparate region.
 
-\begin{figure*}
-\centering
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/lh-lateral-labels}
-\caption{lateral labels}
-\label{fig:leteral-labels}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/lh-medial-labels}
-\caption{medial labels}
-\label{fig:medial-labels}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/sensitivity-legend-crop}
-\end{subfigure}
-\caption{After generating sensitivity maps, region labels were used for aggregating the results, as shown in table \ref{tab:full-sensitivity}. In this manner, it was possible to obtain a clearer representation of the pattern of sensitivity.}
-\label{fig:labels}
-\end{figure*}
+% \begin{figure*}
+% \centering
+% \begin{subfigure}{0.3\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/lh-lateral-labels}
+% \caption{lateral labels}
+% \label{fig:leteral-labels}
+% \end{subfigure}
+% \begin{subfigure}{0.3\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/lh-medial-labels}
+% \caption{medial labels}
+% \label{fig:medial-labels}
+% \end{subfigure}
+% \begin{subfigure}{0.3\textwidth}
+% \centering
+% \includegraphics[width=\textwidth]{figures/sensitivity-legend-crop}
+% \end{subfigure}
+% \caption{After generating sensitivity maps, region labels were used for aggregating the results, as shown in table \ref{tab:full-sensitivity}. In this manner, it was possible to obtain a clearer representation of the pattern of sensitivity.}
+% \label{fig:labels}
+% \end{figure*}
 
 To overcome this limitation, a sensitivity analysis technique originally used to minimize the input data dimension of feedforward neural networks \citep{Zurada1994} was adapted to display the spatially distributed set of voxels that are most important for identifying the classes.
 Specifically, the sensitivity, or magnitude of change, of the neural network output was calculated with respect to a change in each voxel.
@@ -418,11 +418,11 @@ To  explore the relationship between sensitivity and classifier performance, the
 This threshold was determined by iteratively retraining the neural network with successively higher thresholds.
 
 The Freesurfer image analysis suite was employed to construct cortical surfaces for each of the subjects using high-resolution anatomy volumes.
-Then, 10 anatomical labels were constructed on each surface based on FreeSurfer's automatically generated labels (Figure \ref{fig:labels}).
-The labels largely overlap with FreeSurfer's labels.
-However, the banks of the superior temporal were incorporated into the superior and middle temporal labels.
-Additionally, the supramarginal label was merged with the inferior parietal label.
-For most subjects, several of the automatic labels were also edited by hand to conform better to the actual sulcal boundaries.
+Then, 10 anatomical labels were constructed on each surface based on FreeSurfer's automatically generated labels.
+% The labels largely overlap with FreeSurfer's labels.
+% However, the banks of the superior temporal were incorporated into the superior and middle temporal labels.
+% Additionally, the supramarginal label was merged with the inferior parietal label.
+% For most subjects, several of the automatic labels were also edited by hand to conform better to the actual sulcal boundaries.
 Each subject's volume sensitivity map was then projected onto their cortical surface and blurred along the surface using a 5 mm full-width half-maximum (FWHM) Gaussian kernel.
 Group averaged sensitivity maps were also formed using both affine and non-linear registration algorithms.
 However, the quality of the registration between our subject brains was not satisfactory.
@@ -465,6 +465,15 @@ However, do not forget that no cross-validation was performed and therefore this
 % There is a statistically significant drop in the estimated performance when the average minimum temporal delay increases from 2.6 to 21 seconds, confirming that temporal correlations result in optimistic performance estimates with short delays.}
 % \label{fig:performance-verse-temporal-distance}
 % \end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{figures/performance}
+\caption{The estimated performace of all four classifiers averaged across all sessions.
+The performances estimates were bootstrapped across sessions in order to obtain 68\% confidence intervals.
+While the SVM had the best average performance, all four classifiers performed well above a chance performance of $16.\overline{6}$\%.}
+\label{fig:performance}
+\end{figure}
 
 The average confusion matrix gives an intuitive look at the performance of the classifiers (Figure \ref{fig:average-confusion}).
 The classifiers are much better at detecting the presence of a single character than any other count.
