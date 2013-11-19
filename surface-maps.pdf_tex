@@ -48,16 +48,18 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.46360153)%
+  \begin{picture}(1,0.4789272)%
     \put(0,0){\includegraphics[width=\unitlength]{surface-maps.pdf}}%
-    \put(0.56603957,0.00318786){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2.0}}}%
-    \put(0.94918133,0.00318786){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{5.0}}}%
-    \put(0.10626946,0.00318786){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0.001}}}%
-    \put(0.48941122,0.00318786){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0.01}}}%
-    \put(-0.00101024,0.40165529){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Subject A}}}%
-    \put(-0.00101024,0.26372426){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Subject B}}}%
-    \put(-0.00101024,0.12579322){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Subject C}}}%
-    \put(0.27485183,0.00318786){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Sensitivity}}}%
-    \put(0.73462195,0.00318786){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{GLM (Z score)}}}%
+    \put(0.58237548,0.00306513){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2.0}}}%
+    \put(0.96551724,0.00306513){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{5.0}}}%
+    \put(0.13793103,0.00306513){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0.001}}}%
+    \put(0.5210728,0.00306513){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0.01}}}%
+    \put(0.30651341,0.00306513){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Sensitivity}}}%
+    \put(0.75095785,0.00306513){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Z score}}}%
+    \put(0.32183908,0.46283525){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{MVPA}}}%
+    \put(0.76628352,0.46283525){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{GLM}}}%
+    \put(-0.00002278,0.41986176){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13795381\unitlength}\raggedright Subject A\\ left hemisphere\end{minipage}}}%
+    \put(0.00001506,0.28196185){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13384509\unitlength}\raggedright Subject B\\ right hemisphere\end{minipage}}}%
+    \put(0.00000889,0.1424752){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13116927\unitlength}\raggedright Subject C\\ left hemisphere\end{minipage}}}%
   \end{picture}%
 \endgroup%
