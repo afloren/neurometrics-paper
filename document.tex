@@ -46,7 +46,7 @@ Used together, virtual environments and MVPA allow for the creation of very powe
 The benefits and potential pitfalls of these techniques are evaluated on the passive encoding of the number of human characters presented in a realistic and dynamic stimulus while functional magnetic resonance imaging (fMRI) data were analyzed using MVPA. 
 Classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation.
 A sensitivity analysis was used to identify small and spatially distributed subsets of voxels that were sufficient for decoding the number of human characters from the fMRI signal.
-The discriminative models learned by both the SVM and NN had a prediction accuracy that was three to four times above chance for all subjects, demonstrating that the combination of virtual environments and MVPA is a powerful approach for uncovering the neural circuitry in complex visual tasks.
+The discriminative models learned by both the SVM and NN had a prediction accuracy that was three to four times above chance for all subjects, demonstrating that the combination of virtual environments and MVPA is a powerful approach to identify neural substrates evoked by complex visual stimuli.
 \end{abstract}
 
 \begin{keyword}
@@ -71,12 +71,12 @@ Furthermore, subjects interact with virtual environments in real time, which mak
 This interactivity can also be employed to intentionally engage and control cognitive function.
 
 More complex stimuli require more complex analysis methods.
-A wide variety of methods have been used to analyze dynamic stimuli; general linear models (GLM) including statistical parametric mapping (SPM), independent component analysis (ICA), reverse correlation, and multivariate pattern analysis (MVPA) are the most popular \citep{Spiers2007}.
+A wide variety of methods have been used to analyze dynamic stimuli; general linear models (GLM) including statistical parametric mapping (SPM), independent component analysis (ICA), and multivariate pattern analysis (MVPA) are among the most popular \citep{Spiers2007}.
 These analysis methods can generally be split into stimulus-driven methods---such as SPM---that measure the statistical significance of a hypothesis, and data-driven methods---such as MVPA---that look for patterns in the fMRI signal.
 Stimulus-driven analyses provide more easily interpretable results but become less tractable as the complexity of the stimulus increases.
 Data-driven analyses, on the other hand, can cope with more complex stimuli but are more difficult to relate to brain physiology.
 A hybrid approach is also possible: data-driven analyses can first uncover complex patterns evoked by realistic stimuli; the observed relationships can then help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses. 
-However, it may also be possible to use these realistic stimulus-response relationships to understand subject training and pathophysiology better.
+However, it may also be possible to use these realistic stimulus-response relationships to better understand subject training and pathophysiology.
 
 Although many dynamic stimuli experiments employ GLM methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010}. 
 The application of MVPA analysis to virtual environments stimuli opens up an exciting range of experiments to examine complex brain responses in more realistic stimulus scenarios.
@@ -90,12 +90,14 @@ MVPA methods consider the pattern of activation of many voxels at a particular i
 By considering multiple voxels simultaneously, MVPA has been used to identify effects that were previously thought to be too fine scale to resolve with fMRI \citep{Kamitani2005,Hassabis2009}.
 
 In this paper, the feasibility of extracting complex information from fMRI data while subjects view natural and dynamic stimuli is tested.
-The experiment were structured to identify those parts of the brain that contain information about the number of human characters in a scene.
+The experiments were structured to identify those parts of the brain that contain information about the number of human characters in a scene.
 Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{Dehaene1999,Rickard2000,Barth2006}, a passive-viewing paradigm was used.
 The recent work of \cite{Harvey2013} is more similar in that the visual perception of number was explored while the subject's task was unrelated to counting.
-However, this study employed simple high-contrast dots rather than dynamic objects in a three-dimensional environment.
-Classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation. 
-Classification accuracy was three to four times better than chance for all subjects and both machine-learning techniques tested.
+However, that study employed simple high-contrast dots rather than dynamic objects in a three-dimensional environment.
+
+In our experiments, classifiers were obtained using four machine-learning techniques to compare their relative performance. 
+All classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation. 
+Classification accuracy was two to four times better than chance for all subjects and machine-learning techniques tested.
 A novel sensitivity mapping technique was then used to identify voxels that are important for classification and thus likely to be involved in processing the information that the classifiers were trained to identify.
 Results indicate that information regarding  the number of visible characters in a complex stimulus is largely encoded early in visual processing, utilizing both ventral and dorsal visual streams.
 The results demonstrate that complex information can effectively be extracted from a realistic virtual environment stimulus paradigm, opening up new prospects for the use of virtual environments with MVPA in neuroscience.
@@ -158,7 +160,7 @@ Since there were four predefined character viewing locations, the camera made th
 While the number of characters presented in each block varied from one to six, the stimulus was controlled such that a presentation with a particular number of characters appeared twice in each run.
 The ordering of the presentations was also controlled such that presentations with the same number of characters were located at different viewing points.
 The order of the presentations was generated randomly given the previous constraints, but the same ordering was used for each subject.
-A single type of character (friend or foe) was presented in each run, but the type alternated from run to run.
+A single type of character (friend or foe) was presented in each run, and character type was alternated from run to run.
 
 \subsection{MRI protocols}
 Imaging was performed on a GE Signa Excite HD scanner using the product eight-channel head coil.
@@ -167,7 +169,7 @@ Sequence parameters were g-factor = 2,  TE = 25 ms, TR = 2.5 s, and  2.5-mm cubi
 The slice prescription included 40 slices oriented along the AC-PC axis. 
 A high-order shim was  performed to improve field homogeneity.
 
-A set of T1-weighted structural images was obtained on the same prescription at the end of functional acquisition session using a three-dimensional (3D) fast RF-spoiled GRASS (fSPGR) sequence. 
+A set of T1-weighted structural images was obtained on the same prescription before the functional acquisition runs using a three-dimensional (3D) fast RF-spoiled GRASS (fSPGR) sequence. 
 These anatomical images were then used to align the functional data to a structural 3D reference volume, which was acquired for each subject in a separate session. 
 The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D inversion-prepared fSPGR sequence (minimum TE and TR, TI = 450 ms, 15$^\circ$ flip angle, isometric voxel size of 0.7 mm, 2 excitations, $\sim$28-minute duration).
 
@@ -207,9 +209,9 @@ The first 15 seconds of data  were discarded to reduce transient effects.
 Within-scan motion was then estimated using a robust intensity-based scheme \citep{Nestares2000}. 
 Between-run motion was corrected using the same scheme, this time applied to the temporal average intensity of the entire scan. 
 The first run of the session was used as the reference. 
-Additionally, a Wiener filter deconvolution \citep{Poor1980} was applied using a generic difference-of-gamma hemodynamic response function (HRF; \cite{Glover1999}) as the kernel to the recorded BOLD signal.
-Mostly, the deconvolution served to shift the peak response in time so that it was aligned with its associated stimulus, but it also provided some amount of noise reduction.
 Because the goal is to learn associations between patterns of activation in the brain and stimulus presentation, it is important that the activation is temporally aligned with the stimulus.
+Therefore, a Wiener filter deconvolution \citep{Poor1980} was applied using a generic difference-of-gamma hemodynamic response function (HRF; \cite{Glover1999}) as the kernel to the recorded BOLD signal.
+Mostly, the deconvolution served to shift the peak response in time so that it was aligned with its associated stimulus, but it also provided some amount of noise reduction.
 
 In Wiener filter deconvolution, the deconvolution kernel $g(t)$ is most easily expressed in the Fourier domain as
 \begin{equation}
@@ -228,11 +230,11 @@ The high-resolution reference anatomies were segmented using the Freesurfer imag
 \subsection{Dimensionality reduction}
 When performing MVPA, each voxel can be thought of as corresponding to a separate dimension of a very high-dimensional space.
 For this experiment's acquisition parameters, the number of voxels/dimensions was $80 \times 80 \times 40 = 256,000$.
-Unfortunately, the number of examples necessary to train a classifier increases rapidly with the number of dimensions, so it was necessary to reduce this dimensionality.
-Such reduction not only speeded up both training and classification but also improved the performance of the resulting classifiers.
+Because the number of examples necessary to train a classifier increases rapidly with the number of dimensions, it was useful to reduce this dimensionality.
+This reduction not only speeded up both training and classification but also improved the performance of the resulting classifiers.
 
 Principal component analysis (PCA; \cite{Hotelling1933}) is a common tool for dimensionality reduction.
-However, PCA only selects the orthogonal dimensions with the highest variance, which is likely to be physiological nuisance and is therefore not well suited for fMRI analysis.
+However, PCA only selects the orthogonal dimensions with the highest variance, which are likely to include physiological nuisance and such approaches are therefore not well suited for fMRI analysis.
 Univariate statistical methods, as typically used in  fMRI analysis, can also be good candidates for selecting voxels \citep{Norman2006,Pereira2009}.
 While effective, these methods were not designed for feature selection and many of them make a number of assumptions about the data such as Gaussian statistical distribution.
 
@@ -256,7 +258,7 @@ Because the BOLD response has a predominantly low-pass temporal frequency respon
 Using $P_h$, a particular number $N$ (typically 2000) voxels with the greatest power are then selected. 
 
 This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
-Therefore, classifier accuracy estimates will only be presented for character count, and not for the presence or absence of characters, in order to avoid cross-contamination between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{Pereira2009}.
+Therefore, classifier accuracy estimates will only be presented for character count, and not for the presence or absence of characters, in order to avoid overlap between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{Pereira2009}.
 However, as a check the classifiers were also trained to distinguish between time points with and without characters, and their performance was consistently above 95\%, confirming that the machine-learning algorithms were working correctly.
 
 \subsection{Classification}
@@ -277,7 +279,7 @@ Therefore, training and test sets were constructed by randomly drawing 15 second
 Furthermore, the null distribution for the cross-validated performance estimates was generated by randomly permuting the labels on the examples 2000 times and repeating the training and cross-validation procedure.
 That is, the distribution of performance estimates was generated under the assumption that the labels and data were independent.
 Using this distribution, $p$ values were calculated for the performance estimates.
-The resources of the Texas Advanced Computing Center (TACC) at The University of Texas at Austin were leveraged to perform this computation.
+The high-performance computing resources of the Texas Advanced Computing Center (TACC) at The University of Texas at Austin were utilized to perform this computation.
 
 % Artificial correlations therefore occur in the data when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec) block.
 
@@ -343,7 +345,7 @@ The resources of the Texas Advanced Computing Center (TACC) at The University of
 % Finally, overall classifier performance can be estimated by dividing the sum along the diagonal, or the trace, by the sum of the entire matrix.
 
 \subsection{Sensitivity Analysis}
-MVPA can tell us whether the time-series data from a subset of human brain voxels can be used to discriminate from the stimuli. 
+MVPA can tell us whether the time-series data from a subset of human brain voxels can be used to discriminate character number from the stimuli. 
 However, these results do not show which voxels in the large group were actually important for that discrimination.
 This information is important for localizing functions in the brain.
 One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area; this is known as the ``searchlight'' technique \citep{Kriegeskorte2006}.
@@ -398,12 +400,12 @@ where
 \mathbf{Y}' = diag(y'_{1},~y'_{2},~\cdots,~y'_{K}).
 \end{equation}
 However, because the transfer functions are nonlinear they can only be evaluated for specific input values.
-Therefore, the average sensitivity matrix across all input vectors,
+Therefore, we calculated the average sensitivity matrix across all input vectors,
 \begin{equation}
 \mathbf{S}_{avg} = \sqrt{ \frac{ \sum_{n = 1}^{N}{ \left( \mathbf{S}_{n}\right)^{2} } }{N} },
 \label{eqn:sensitivity}
 \end{equation}
-where $N$ is the number of input vectors, is calculated.
+where $N$ is the number of input vectors.
 The magnitude is squared so that the effects of both positive and negative sensitivities are included in the average.
 Eq. \ref{eqn:sensitivity} gives a sensitivity value for each voxel with respect to every output, whereas it is useful to have a measure of the sensitivity of a voxel with respect to any output.
 Such a metric can be defined by taking the maximum sensitivity of each voxel across all outputs, i.e.
@@ -414,11 +416,11 @@ This sensitivity can now be projected back into the volume anatomy space to crea
 In theory, a similar technique could be introduced for any differentiable classifier such as the SVM.
 However, only the sensitivity analysis applied to neural networks will be presented and discussed as it has been well studied in the existing literature \citep{Zurada1994}.
 
-To  explore the relationship between sensitivity and classifier performance, the performance of the classifier was plotted when trained on only a subset of the input voxels as determined by a minimum-sensitivity cut off.
-This threshold was determined by iteratively retraining the neural network with successively higher thresholds.
+We  explored the relationship between sensitivity and classifier performance by training the classifier on only a subset of the input voxels as determined by a minimum-sensitivity threshold.
+The threshold was gradually increased until classifier performance was significantly degraded.
 
 The Freesurfer image analysis suite was employed to construct cortical surfaces for each of the subjects using high-resolution anatomy volumes.
-Then, 10 anatomical labels were constructed on each surface based on FreeSurfer's automatically generated labels.
+Ten anatomical labels were constructed on each surface based on FreeSurfer's automatically generated labels.
 % The labels largely overlap with FreeSurfer's labels.
 % However, the banks of the superior temporal were incorporated into the superior and middle temporal labels.
 % Additionally, the supramarginal label was merged with the inferior parietal label.
@@ -431,8 +433,8 @@ Therefore, sensitivity maps will be only presented on individual subject brain s
 However, the total sensitivity in each anatomical label was averaged across subjects in order to examine group-average sensitivity without requiring registration.
 
 \subsection{GLM}
-GLM analysis was also performed on the data for comparison purposes as well as confirmation of the results of the sensitivity analysis. 
-A linear activation model was constructed based on the results from the sensitivity analysis with an explanatory variable for each character count.
+GLM analysis was also performed on the data to compare classification performance and the spatial distribution of significant voxels with the MVPA sensitivity analysis maps. 
+A linear activation model was constructed using an explanatory variable for each character count.
 fMRI data processing was carried out using FEAT (FMRI Expert Analysis Tool) Version 5.98, part of FSL (FMRIB's Software Library, \url{www.fmrib.ox.ac.uk/fsl}). 
 Z (Gaussianized T/F) statistic images were thresholded using clusters determined by $Z > 2.3$ and a (corrected) cluster significant threshold of $P = 0.05$ \citep{Worsley2001}.
 Clusters in these images indicate regions where the magnitude of activation is linearly correlated with the number of characters presented.
@@ -440,18 +442,17 @@ The thresholded Z statistic images were projected onto the same Freesurfer gener
 
 For each voxel above the significance threshold, this model was used to construct a simple linear estimator for the number of characters presented.
 The linear estimator was constructed by fitting a line to the parameter estimates of each explanatory variable and their corresponding character counts.
-A continuous estimate of character count was obtained for each frame by plugging the voxel's normalized value into this line equation.
-The character count estimate was clamped between one and six and then rounded to the nearest whole number.
+A continuous estimate of character count was obtained for each frame using the linear fit and the current parameter value.
+This character count estimate was clipped between one and six and then rounded to the nearest whole number.
 The accuracy of this model was calculated for comparison with the machine learning techniques.
 It should be noted that cross-validation was not employed and therefore the accuracy estimates will be highly optimistic.
 
 \section{Results}
-Cross-validated performance estimates of all four classifiers are well above chance at $16.\overline{6}$\% (Figure \ref{fig:performance}).
+Cross-validated performance estimates of all four classifiers are well above chance at 16.7\% (Figure \ref{fig:performance}).
 The SVM had the best performance overall, followed by the feedforward neural network.
 The performance of all four independent classifiers being above chance increases confidence in the results, however the GNB and KNN classifiers will not be discussed further as their performance was significantly below the SVM and NN.
-The average performance of the best linear estimator for each session after thresholding was 29\%.
-This puts the linear estimator on par with the GNB and KNN classifiers.
-However, do not forget that no cross-validation was performed and therefore this estimate is likely inflated.
+The average performance of the best linear estimator for each session after thresholding was 29\%, roughly similar to the performance of the GNB and KNN classifiers.
+However, because no cross-validation was performed this estimate is likely to be very optimistic.
 
 % As the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases somewhat.
 % However, the only statistically significant shift occurs between the frame split and block split, corresponding to 2.6 second and 21 second average minimum temporal distance between examples in the training and test sets, respectively.
@@ -471,7 +472,7 @@ However, do not forget that no cross-validation was performed and therefore this
 \includegraphics{figures/performance}
 \caption{The estimated performace of all four classifiers averaged across all sessions.
 The performances estimates were bootstrapped across sessions in order to obtain 68\% confidence intervals.
-While the SVM had the best average performance, all four classifiers performed well above a chance performance of $16.\overline{6}$\%.}
+While the SVM had the best average performance, all four classifiers performed well above a chance performance of 16.7\%.}
 \label{fig:performance}
 \end{figure}
 
@@ -483,7 +484,7 @@ The rest of the character counts are distinguished with relatively equal accurac
 except for a slightly larger tendency to mis-classify the six character presentation.
 Note that the majority of the incorrect responses lay just off the main diagonal.
 These responses correspond to the classifier being wrong by a single character in its classification.
-For example, in 21\% of the test examples, the machine learning algorithm classified a frame as containing four characters when it only contained three characters.
+For example, in 21\% of the test examples, both the SVM and NN algorithms classified a frame as containing four characters when it only contained three characters.
 The estimated performance does not take the cardinality of the classes into account and considers mislabeling one character as two equivalent to mislabeling one character as six characters.
 A soft measure that would do that might be useful but the results are harder to interpret.
 A confusion matrix gives us the advantages of the soft measure while providing an easily interpretable look into the performance of the classifiers.
@@ -507,19 +508,16 @@ A confusion matrix gives us the advantages of the soft measure while providing a
 \caption{}
 \label{fig:average-confusion-nn}
 \end{subfigure}
-\caption{The average confusion matrices for the \subref{fig:average-confusion-svm} SVM and \subref{fig:average-confusion-nn} neural network classifiers across all subjects using the block split.
-The value in cell $(i,j)$ of the matrix is the percent of examples from class $i$ that were labeled as class $j$; percents along the diagonal indicate correctly classified examples while the rest indicate incorrectly classified examples.
-The color of the cell indicates deviation from chance probability ($16.\overline{6}$\%).
-The more green a cell is the further above chance that percent is, while the more red a cell is the further below chance that percent is.
-These confusion matrices indicate that the SVM and NN were able to distinguish all six characters counts, but as the number of characters rose the performance tended to decrease.}
+\caption{The average confusion matrices for the \subref{fig:average-confusion-svm} SVM and \subref{fig:average-confusion-nn} neural network classifiers across all subjects.
+The value in cell $(i,j)$ of the matrix is the percent of examples from class $i$ that were labeled as class $j$; values along the diagonal indicate correctly classified examples while the rest indicate incorrectly classified examples.
+The color of the cell indicates deviation from chance probability (16.7\%);
+greener cells indicating values above chance, and redder cells indicating values below chance.
+These confusion matrices show that the SVM and NN were able to distinguish all six possible character counts, but as the number of characters rose the performance tended to decrease.}
 \label{fig:average-confusion}
 \end{figure}
 
-Thresholds for the sensitivity maps were determined using the iterative retraining approach outlined in the methods section.
-Figure \ref{fig:sensitivity-cutoff} shows the performance estimate of the feedforward neural network averaged across subjects and the percent of input voxels used for training plotted against the sensitivity threshold value.
-The estimated performance of the classifier was not significantly affected until over 90\% of the voxels were removed.
-However, there is a downward trend in the performance after a peak when $\sim$35\% of the voxels are removed.
-Interestingly, there is also an upward trend up to 35\%, presumably because noisy voxels are being eliminated.
+The effects of using the sensitivity analysis to further reduce voxel number was studied using the iterative retraining approach (see Methods).
+As voxels are removed, performance first shows a non-significant increase to a peak when $\sim$35\% of the voxels are removed, possibly because redundant but less reliable voxels are  eliminated. Performance then gradually decreases (Figure \ref{fig:sensitivity-cutoff}), but the estimated performance of the classifier was not significantly affected until over 90\% of the voxels were removed.
 
 \begin{figure}
 \centering
@@ -617,6 +615,8 @@ The sensitivity and Z score maps are relatively homogeneous across subjects and 
 \label{fig:individual-sensitivity}
 \end{figure*}
 
+\section{Discussion}
+
 \begin{table*}
 \centering
 \input{tables/full-sensitivity-table.tex}
@@ -624,7 +624,6 @@ The sensitivity and Z score maps are relatively homogeneous across subjects and 
 \label{tab:full-sensitivity}
 \end{table*}
 
-\section{Discussion}
 Although all classifiers performed at well above chance levels for all subjects, the average performance on individual subjects varied significantly.
 These variations could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during a session.
 The lack of a task during the stimulus presentation makes these variations difficult to interpret since attention and cognitive state were not well controlled.
@@ -639,11 +638,11 @@ In future experiments, the subjects will be asked to perform a challenging task,
 % While this procedure ensures a sufficient temporal separation between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
 % Instead, we recommend splitting the data along the shortest natural boundary of the experimental procedure that is not less than 20 seconds.
 
-The classifier performances validate the popularity of the SVM with MVPA.
+The classifier performances validate the popularity of the SVM for MVPA.
 In general, better classifier performance leads to higher confidence in the results of MVPA.
 Therefore, it is important to identify new classification algorithms that could offer superior performance.
 Deep learning \citep{Hinton2006} is a recent neural network formulation that has shown potential for solving a variety of complex tasks \citep{Ciresan2012}.
-While the standard feedforward neural network did not have the best performance, it was not far behind, which indicates that deep learning could outperform even the SVM.
+While the standard feedforward neural network did not have the best performance, its performance was not significantly below that of the SVM, suggesting that the improvements offered by deep learning could outperform even the SVM.
 
 Ideally, the classifiers should be trained using data from the whole brain so as not to miss any relevant interactions.
 Since such training is prohibitively expensive, the harmonic analysis technique was developed in this work to perform dimensionality reduction without making any assumptions about the signal other than linearity.
@@ -661,15 +660,15 @@ These voxels will also be assigned low sensitivity values by the trained classif
 On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher order visual areas that dominate the sensitivity results \citep{Engel1997}. 
 Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
 Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
-In any case, it is encouraging that the sensitivity maps were consistent across subjects.
+
+It is encouraging that the sensitivity maps were consistent across subjects.
 Sensitivity analysis was only performed on the feedforward neural network classifier because of the existing literature on the topic \citep{Zurada1994}.
 Applying a similar technique to the SVM is an avenue for future research.
-
 When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps suggest how this information may be processed in the brain (Table \ref{tab:full-sensitivity}).
 By far, the most sensitivity (42\%), and therefore the most relevant mutual information, is contained in the lateral occipital region (LO).
 This region is most commonly associated with high-level object recognition \citep{Grill-Spector2001}, but also contains the extrastriate body area which has been implicated in the perception of body parts \citep{Astafiev2004}.
 This observation is in contrast to the comparatively weak sensitivity (5.7\%) observed in the fusiform gyrus, which is also associated with object classification tasks and in particular the perception of human faces \citep{Kanwisher1997,Sayres2010}.
-The superior temporal sulcus (STS), which has also been implicated in object selectivity \citep{Hasselmo1989,Beauchamp2004}, contained some sensitivity. 
+The superior temporal sulcus (STS), which has also been implicated in object selectivity \citep{Hasselmo1989,Beauchamp2004}, also contained some sensitivity. 
 
 Additionally, there is substantial sensitivity contained in low-level retinotopic visual areas. 
 The pericalcarine, lingual, and cuneus areas altogether account for 25\% of the observed sensitivity; the more ventral lingual areas contribute more strongly (13.9\%) then cuneus (3.7\%).
@@ -677,19 +676,20 @@ This result is somewhat surprising given that the relevant information in the sc
 However, the classification sensitivity and significant correlation between magnitude of activation and character count in early retinotopic visual areas and the sensitivity in lateral-occipital areas suggests that retinotopic organization is important in decoding group size. 
 Because LO combines object-selectivity with retinotopic specificity \citep{Sayres2008}, different group sizes could evoke complex but stereotypical patterns of responses in LO (and other retinotopically organized areas) as subjects visually interrogate the stimuli. 
 
-Despite the preponderance of retinotopic visual-area sensitivity, the dorsal parietal cortex is also substantially sensitive (16.6\%).
+Despite the preponderance of retinotopic visual-area sensitivity, the dorsal parietal cortex also shows substantial sensitivity (16.6\%).
 Regions in the parietal cortex have been shown to be involved in mental arithmetic and magnitude judgement \citep{Rickard2000} which may also play some role in decoding group size.
 More recent research suggests this region may even contain a topographic representation of numerosity \citep{Harvey2013}.
-There is some debate as to whether this topographic map represents numerosity or sensory processing \citep{Gebuis2013}, but it would be useful for decoding group size regardless.
-It is possible that there would be substantially higher sensitivity in this region on a 7 T magnet where the increased SNR and resolution would allow this map to  be better resolved.
+There is some debate as to whether this topographic map represents numerosity or sensory processing \citep{Gebuis2013}, but it would be useful for decoding group size regardless. 
+The relatively small sensitivity that we observe from this region could be the consequence of its small size and our limited spatial resolution; higher sensitivity in this region may be available at higher spatial resolutions.
 
-The maps of significant correlation between magnitude of activation and character count produced by GLM predominately covered early retinotopic visual areas with some coverage in lateral occipital and fusiform regions.
-In general, these maps covered only a small subset of those regions found to be sensitive for discrimination.
-The presence of sensitive regions that did not have significant correlation between magnitude of activation and character count along with the disparity in performance between the simple linear estimator and MVPA indicates that the performance of the MVPA can only be partially explained by simple linear and retinotopically organized activation.
+The maps of significant correlation between magnitude of activation and character count produced by a GLM are predominately observed in early retinotopic visual areas as well as lateral occipital and fusiform regions.
+In general, these maps covered only a small subset of those regions found to be sensitive by MVPA.
+Thus MVPA delineates a more distributed neural substrate for the encoding of character count, and also performs significantly better than a simple linear estimator.
+These differences suggest that the performance of the MVPA can only be partially explained by simple linear and retinotopically organized activation.
 While more extensive modeling of activation could lead to superior estimators, it would require a significant investment of time.
 The advantage of the machine learning approach is that it tests a large range of models without user intervention.
 In fact, the linear activation hypothesis used for the GLM was only constructed after viewing the results of the sensitivity analysis.
-Once an initial working model is discovered, researchers can begin to refine that model to improve both performance and understanding of the underlying processes.
+Once an initial working model is discovered, researchers can begin to refine that model to improve both performance and understanding of the underlying neural processes.
 
 In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).
 This observation is in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between one and two characters than it is to tell the difference between five and six characters \citep{Shepard1975,Dehaene2003}.
