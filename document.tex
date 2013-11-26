@@ -443,16 +443,18 @@ The thresholded Z statistic images were projected onto the same Freesurfer gener
 For each voxel above the significance threshold, this model was used to construct a simple linear estimator for the number of characters presented.
 The linear estimator was constructed by fitting a line to the parameter estimates of each explanatory variable and their corresponding character counts.
 A continuous estimate of character count was obtained for each frame using the linear fit and the current parameter value.
-This character count estimate was clipped between one and six and then rounded to the nearest whole number.
+This character count estimate was clipped between one and six, averaged across significant voxels, and then rounded to the nearest whole number.
 The accuracy of this model was calculated for comparison with the machine learning techniques.
-It should be noted that cross-validation was not employed and therefore the accuracy estimates will be highly optimistic.
 
 \section{Results}
-Cross-validated performance estimates of all four classifiers are well above chance at 16.7\% (Figure \ref{fig:performance}).
+The cross-validated performance estimates for both sessions from all five subjects and all four classifiers are above chance at 16.7\% (Figure \ref{fig:performance}).
+There is some variation in performance between sessions for the same subject, but there is a more pronounced variation in performance between subjects.
+That is, some subjects have better performance than others across both sessions and classifier types.
+Averaged across all 10 sessions (five subjects with two sessions each), the cross-validated performance estimates of all four classifiers are significantly above chance.
+The 68\% confidence intervals used for determining significance were obtained by bootstrapping across all sessions.
 The SVM had the best performance overall, followed by the feedforward neural network.
 The performance of all four independent classifiers being above chance increases confidence in the results, however the GNB and KNN classifiers will not be discussed further as their performance was significantly below the SVM and NN.
-The average performance of the best linear estimator for each session after thresholding was 29\%, roughly similar to the performance of the GNB and KNN classifiers.
-However, because no cross-validation was performed this estimate is likely to be very optimistic.
+The average performance of the linear estimator for each session after thresholding was 29\%, roughly similar to the performance of the GNB and KNN classifiers.
 
 % As the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases somewhat.
 % However, the only statistically significant shift occurs between the frame split and block split, corresponding to 2.6 second and 21 second average minimum temporal distance between examples in the training and test sets, respectively.
@@ -609,7 +611,7 @@ Averaged across subjects, classifier sensitivity was most affected (in order of 
 % \caption{}
 % \label{fig:s3-lh-medial-zscore}
 % \end{subfigure}
-\input{surface-maps.pdf_tex}
+\small{\input{surface-maps.pdf_tex}}
 \caption{Here we present individual sensitivity maps and Z statistic maps of significant correlation between magnitude of activation and character count projected onto semi-inflated cortical surfaces for three different subjects.
 The sensitivity and Z score maps are relatively homogeneous across subjects and hemispheres.}
 \label{fig:individual-sensitivity}
@@ -620,7 +622,7 @@ The sensitivity and Z score maps are relatively homogeneous across subjects and 
 \begin{table*}
 \centering
 \input{tables/full-sensitivity-table.tex}
-\caption{Sensitivity map values integrated across the cortical surface labels from figure \ref{fig:labels}. Sensitivities are shown for each subject (\emph{A}--\emph{E}), and their mean values, as shown ordered from greatest to least sensitive brain region.}
+\caption{Sensitivity map values integrated across the cortical surface labels. Sensitivities are shown for each subject (\emph{A}--\emph{E}), and their mean values, as shown ordered from greatest to least sensitive brain region.}
 \label{tab:full-sensitivity}
 \end{table*}
 
@@ -688,7 +690,6 @@ Thus MVPA delineates a more distributed neural substrate for the encoding of cha
 These differences suggest that the performance of the MVPA can only be partially explained by simple linear and retinotopically organized activation.
 While more extensive modeling of activation could lead to superior estimators, it would require a significant investment of time.
 The advantage of the machine learning approach is that it tests a large range of models without user intervention.
-In fact, the linear activation hypothesis used for the GLM was only constructed after viewing the results of the sensitivity analysis.
 Once an initial working model is discovered, researchers can begin to refine that model to improve both performance and understanding of the underlying neural processes.
 
 In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).

@@ -58,8 +58,8 @@
     \put(0.75095785,0.00306513){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Z score}}}%
     \put(0.32183908,0.46283525){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{MVPA}}}%
     \put(0.76628352,0.46283525){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{GLM}}}%
-    \put(-0.00002278,0.41986176){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13795381\unitlength}\raggedright Subject A\\ left hemisphere\end{minipage}}}%
-    \put(0.00001506,0.28196185){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13384509\unitlength}\raggedright Subject B\\ right hemisphere\end{minipage}}}%
-    \put(0.00000889,0.1424752){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13116927\unitlength}\raggedright Subject C\\ left hemisphere\end{minipage}}}%
+    \put(-0.00002278,0.15473264){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13795381\unitlength}\raggedright Subject D\\ left hemisphere\end{minipage}}}%
+    \put(0.00001506,0.28962966){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13384509\unitlength}\raggedright Subject C\\ right hemisphere\end{minipage}}}%
+    \put(0.00000889,0.4305978){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13116927\unitlength}\raggedright Subject A\\ left hemisphere\end{minipage}}}%
   \end{picture}%
 \endgroup%
