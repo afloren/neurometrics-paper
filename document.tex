@@ -259,7 +259,7 @@ Using $P_h$, a particular number $N$ (typically 2000) voxels with the greatest p
 
 This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
 Therefore, classifier accuracy estimates will only be presented for character count, and not for the presence or absence of characters, in order to avoid overlap between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{Pereira2009}.
-However, as a check the classifiers were also trained to distinguish between time points with and without characters, and their performance was consistently above 95\%, confirming that the machine-learning algorithms were working correctly.
+However, the classifiers were also trained to distinguish between time points with and without characters as a check, and their performance was consistently above 95\%, confirming that the machine-learning algorithms were working correctly.
 
 \subsection{Classification}
 Using the time series from the voxels selected by the harmonic analysis, a one-versus-one multi-class linear support vector machine (SVM) \citep{Cortes1995,Weston1999}, a feedforward neural network (NN) \citep{Hornik1989,Hagan1994}, a Gaussian naive Bayes classifier (GNB) \citep{Duda1973}, and a k-nearest neighbor classifier (KNN) \citep{Cover1967} were trained to identify the number of characters presented in each scene, regardless of character type (friend or foe).
@@ -447,14 +447,14 @@ This character count estimate was clipped between one and six, averaged across s
 The accuracy of this model was calculated for comparison with the machine learning techniques.
 
 \section{Results}
-The cross-validated performance estimates for both sessions from all five subjects and all four classifiers are above chance at 16.7\% (Figure \ref{fig:performance}).
-There is some variation in performance between sessions for the same subject, but there is a more pronounced variation in performance between subjects.
-That is, some subjects have better performance than others across both sessions and classifier types.
+The cross-validated performance estimates for nearly every session from all five subjects and all four classifiers are above chance at 16.7\% (Figure \ref{fig:performance}).
+However, the cross-validated performance estimates produced by the neural network for two sessions fell to chance.
+There is variation in performance between sessions for the same subject, as well as variation in average performance between subjects.
 Averaged across all 10 sessions (five subjects with two sessions each), the cross-validated performance estimates of all four classifiers are significantly above chance.
 The 68\% confidence intervals used for determining significance were obtained by bootstrapping across all sessions.
 The SVM had the best performance overall, followed by the feedforward neural network.
 The performance of all four independent classifiers being above chance increases confidence in the results, however the GNB and KNN classifiers will not be discussed further as their performance was significantly below the SVM and NN.
-The average performance of the linear estimator for each session after thresholding was 29\%, roughly similar to the performance of the GNB and KNN classifiers.
+The average performance of the linear estimator for each session after thresholding was 29\%, roughly similar to the performance of the KNN classifier.
 
 % As the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases somewhat.
 % However, the only statistically significant shift occurs between the frame split and block split, corresponding to 2.6 second and 21 second average minimum temporal distance between examples in the training and test sets, respectively.
@@ -487,9 +487,6 @@ except for a slightly larger tendency to mis-classify the six character presenta
 Note that the majority of the incorrect responses lay just off the main diagonal.
 These responses correspond to the classifier being wrong by a single character in its classification.
 For example, in 21\% of the test examples, both the SVM and NN algorithms classified a frame as containing four characters when it only contained three characters.
-The estimated performance does not take the cardinality of the classes into account and considers mislabeling one character as two equivalent to mislabeling one character as six characters.
-A soft measure that would do that might be useful but the results are harder to interpret.
-A confusion matrix gives us the advantages of the soft measure while providing an easily interpretable look into the performance of the classifiers.
 
 \begin{figure}
 \centering
@@ -519,7 +516,8 @@ These confusion matrices show that the SVM and NN were able to distinguish all s
 \end{figure}
 
 The effects of using the sensitivity analysis to further reduce voxel number was studied using the iterative retraining approach (see Methods).
-As voxels are removed, performance first shows a non-significant increase to a peak when $\sim$35\% of the voxels are removed, possibly because redundant but less reliable voxels are  eliminated. Performance then gradually decreases (Figure \ref{fig:sensitivity-cutoff}), but the estimated performance of the classifier was not significantly affected until over 90\% of the voxels were removed.
+As voxels are removed, performance first shows a non-significant increase to a peak when $\sim$35\% of the voxels are removed.
+Performance then gradually decreases (Figure \ref{fig:sensitivity-cutoff}), but the estimated performance of the classifier was not significantly affected until over 90\% of the voxels were removed.
 
 \begin{figure}
 \centering
@@ -626,7 +624,7 @@ The sensitivity and Z score maps are relatively homogeneous across subjects and 
 \label{tab:full-sensitivity}
 \end{table*}
 
-Although all classifiers performed at well above chance levels for all subjects, the average performance on individual subjects varied significantly.
+Although all classifiers performed at well above chance levels for all subjects, the average performance of individual subjects and the performance between sessions varied significantly (Figure \ref{fig:performance}).
 These variations could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during a session.
 The lack of a task during the stimulus presentation makes these variations difficult to interpret since attention and cognitive state were not well controlled.
 In future experiments, the subjects will be asked to perform a challenging task, and the average performance is expected to increase and the variation between subjects to decrease.
@@ -640,30 +638,31 @@ In future experiments, the subjects will be asked to perform a challenging task,
 % While this procedure ensures a sufficient temporal separation between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
 % Instead, we recommend splitting the data along the shortest natural boundary of the experimental procedure that is not less than 20 seconds.
 
+In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).
+This observation is in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between one and two characters than it is to tell the difference between five and six characters \citep{Shepard1975,Dehaene2003}.
+This phenomenon could also be related purely to retinotopic information, as suggested by the Z score maps, rather than the perception of numbers.
+Without a fixation point and with varying character group configurations, the retinotopic pattern of activation will vary from presentation to presentation even for the same character count.
+However, the average activation in a retinotopically organized and object-selective region will increase for larger group sizes regardless of the group's configuration and the subject's fixation point.
+The relative difference in average activity is smaller between larger presentation sizes and thus more difficult to differentiate.
+However, there is a significant increase in confusion between two and six characters which is difficult to account for with a retinotopic explanation.
+This could be a result of six characters being too much for the subject to consider individually and the subject perceives two groups of characters rather than six individual characters.
+
 The classifier performances validate the popularity of the SVM for MVPA.
 In general, better classifier performance leads to higher confidence in the results of MVPA.
 Therefore, it is important to identify new classification algorithms that could offer superior performance.
 Deep learning \citep{Hinton2006} is a recent neural network formulation that has shown potential for solving a variety of complex tasks \citep{Ciresan2012}.
-While the standard feedforward neural network did not have the best performance, its performance was not significantly below that of the SVM, suggesting that the improvements offered by deep learning could outperform even the SVM.
-
-Ideally, the classifiers should be trained using data from the whole brain so as not to miss any relevant interactions.
-Since such training is prohibitively expensive, the harmonic analysis technique was developed in this work to perform dimensionality reduction without making any assumptions about the signal other than linearity.
-While less appropriate for statistical analysis, this technique works well as a preprocessing step before MVPA.
+Discounting the two sessions with chance performance on the feedforward neural network, the performance of the NN was nearly identical to the SVM which suggests that deep learning could outperform even the SVM.
+The poor performance of these two sessions on the NN may be due to the stochastic nature of the NN; the network simply was not given enough time to converge to a good solution.
 
 The classifiers' performance indicates that there is sufficient information in the pattern of BOLD signals to decode character count in a freely viewed stimulus. 
-The results also suggest that the neural substrates that encode such information are both distributed and redundant.
-In order to explore where in the brain this information is encoded, a sensitivity mapping technique was developed.
-This technique made it possible to identify a small distributed subset of voxels that are sufficient for decoding the character count.
-Using dimensionality reduction via harmonic analysis, the classification began with 2000 voxels.
-Sensitivity analysis then identified a much smaller subset of voxels that could be used for decoding with nearly the same accuracy as the full set.
-This result could indicate that only a small number of voxels are relevant for classification, or that the information is highly redundant between voxels, or, most likely, a combination of the two.
-Specifically, the harmonic analysis will select voxels that covary with the stimulus, but their patterns of activation may not be highly discriminative with respect to character count.
-These voxels will also be assigned low sensitivity values by the trained classifiers.
-On the other hand, brain responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher order visual areas that dominate the sensitivity results \citep{Engel1997}. 
-Voxels sampling these regions could all show similar classification sensitivity, but yield redundant information.
-Therefore, high sensitivity is sufficient but not necessary for the localization of a function in a particular region.
+The results of the sensitivity analysis suggest that the neural substrates that encode such information are distributed across a number of visual areas.
+However, a lack of sensitivity in an area does not imply that no information is encoded there.
+Voxels with redundant or noisy information will exhibit low sensitivity.
+Neural responses themselves can show strong spatial correlations on the centimeter scale, particularly in the higher order visual areas that dominate the sensitivity results \citep{Engel1997}. 
+Voxels sampling these regions will contain useful but highly redundant information and will have a commensurately lower sensitivity.
+As the pruning process proceeds, noisy and redundant voxels will be removed, thus reducing the redundancy of the remaining voxels and therefore boosting their sensitivity.
+The resulting set of voxels will be highly reliable with very little redundant information.
 
-It is encouraging that the sensitivity maps were consistent across subjects.
 Sensitivity analysis was only performed on the feedforward neural network classifier because of the existing literature on the topic \citep{Zurada1994}.
 Applying a similar technique to the SVM is an avenue for future research.
 When examined in conjunction with existing vision and cognitive neuroscience experiments, the sensitivity maps suggest how this information may be processed in the brain (Table \ref{tab:full-sensitivity}).
@@ -674,7 +673,7 @@ The superior temporal sulcus (STS), which has also been implicated in object sel
 
 Additionally, there is substantial sensitivity contained in low-level retinotopic visual areas. 
 The pericalcarine, lingual, and cuneus areas altogether account for 25\% of the observed sensitivity; the more ventral lingual areas contribute more strongly (13.9\%) then cuneus (3.7\%).
-This result is somewhat surprising given that the relevant information in the scene is not necessarily retinotopically organized because of the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
+This result is somewhat surprising given that the relevant information in the scene is not obviously retinotopically organized due to the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
 However, the classification sensitivity and significant correlation between magnitude of activation and character count in early retinotopic visual areas and the sensitivity in lateral-occipital areas suggests that retinotopic organization is important in decoding group size. 
 Because LO combines object-selectivity with retinotopic specificity \citep{Sayres2008}, different group sizes could evoke complex but stereotypical patterns of responses in LO (and other retinotopically organized areas) as subjects visually interrogate the stimuli. 
 
@@ -688,25 +687,15 @@ The maps of significant correlation between magnitude of activation and characte
 In general, these maps covered only a small subset of those regions found to be sensitive by MVPA.
 Thus MVPA delineates a more distributed neural substrate for the encoding of character count, and also performs significantly better than a simple linear estimator.
 These differences suggest that the performance of the MVPA can only be partially explained by simple linear and retinotopically organized activation.
-While more extensive modeling of activation could lead to superior estimators, it would require a significant investment of time.
-The advantage of the machine learning approach is that it tests a large range of models without user intervention.
-Once an initial working model is discovered, researchers can begin to refine that model to improve both performance and understanding of the underlying neural processes.
-
-In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).
-This observation is in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between one and two characters than it is to tell the difference between five and six characters \citep{Shepard1975,Dehaene2003}.
-This phenomenon could also be related purely to retinotopic information, as indicated by the sensitivity analysis, rather than the perception of numbers.
-Without a fixation point and with varying character group configurations, the retinotopic pattern of activation will vary from presentation to presentation even for the same character count.
-However, the average activation in a retinotopically organized and object-selective region will increase for larger group sizes regardless of the group's configuration and the subject's fixation point.
-The relative difference in average activity is smaller between larger presentation sizes and thus more difficult to differentiate.
-However, there is an interesting exception to this trend that is difficult to account for with a retinotopic explanation; there is a significant increase in confusion between two and six characters.
-This could be a result of six characters being too much for the subject to consider individually and the subject perceives two groups of characters rather than six individual characters.
+By modeling the higher level visual areas indicated by the sensitivity analysis, it should be possible to improve the performance of the model based estimator.
+This process illuminates a strategy for moving from flexible yet difficult to interpret machine learning results to well understood models that are amenable to GLM testing.
 
 While virtual environments offer a more realistic stimulus than traditional stimuli such as sweeping bars or contrast gratings, they are more complex to design and more difficult to interpret.
 This paper offers some initial tools and analyses to deal with these challenges, but further work is needed.
 Moreover, virtual environments do carry some disadvantages over simpler dynamic stimuli such as prerecorded movies. 
 It is typically easier to record a movie than to program a virtual environment; movies can also have a more realistic appearance than virtual environments.
 Additionally, the results of \cite{Han2005} indicate that there is some divergence in the way the brain processes real (i.e., recorded) and virtual visual worlds. 
-However, it is likely that as the realism of virtual environments increases this divergence in processing will decrease as well.
+However, it is likely that this divergence in processing will decrease as the realism of virtual environments increases.
 
 Complex and dynamic stimuli allow researchers to examine neural processing in a more natural state, and virtual environments make it easier to design and control such stimuli.
 MVPA allows researchers to explore the coding of information in the brain when an underlying neural processing model is not already known and to discover new and interesting interactions.
