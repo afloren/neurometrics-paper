@@ -43,10 +43,10 @@
 \begin{abstract}
 Virtual environments provide a framework for creating complex and dynamic stimuli in a controlled fashion while multivariate pattern analysis (MVPA) makes it possible to characterize the neural-processing substrate when the underlying processing model is unknown. 
 Used together, virtual environments and MVPA allow for the creation of very powerful experimental designs. 
-The benefits and potential pitfalls of these techniques are evaluated on the passive encoding of the number of human characters presented in a realistic and dynamic stimulus while functional magnetic resonance imaging (fMRI) data were analyzed using MVPA. 
+The benefits and potential pitfalls of these techniques are evaluated on the passive encoding of the number of human characters presented in a realistic and dynamic stimulus using functional magnetic resonance imaging (fMRI) data analyzed by MVPA. 
 Classifiers were trained using a spatially distributed subset of stimulus-responsive voxels at each time point and their performance was estimated using multi-fold cross-validation.
 A sensitivity analysis was used to identify small and spatially distributed subsets of voxels that were sufficient for decoding the number of human characters from the fMRI signal.
-The discriminative models learned by both the SVM and NN had a prediction accuracy that was three to four times above chance for all subjects, demonstrating that the combination of virtual environments and MVPA is a powerful approach to identify neural substrates evoked by complex visual stimuli.
+The discriminative models learned by MVPA had a prediction accuracy that was two to four times above chance for all subjects, demonstrating that the combination of virtual environments and MVPA is a powerful approach to identify neural substrates evoked by complex visual stimuli.
 \end{abstract}
 
 \begin{keyword}
@@ -67,7 +67,7 @@ Researchers have been using dynamic stimuli in the form of virtual environments 
 Virtual environments have two strong advantages over prerecorded movies: the stimulus designer has complete control over the stimuli and the subject can interact with the environment in real time.
 Precise control of the environment allows for the interrogation of very subtle parameters as well as automatic coding of relevant scene parameters.
 Many variables of interest, such as semantic labels for visible objects are explicitly specified by the virtual environment's design, avoiding the need to manually label each frame (as is usually done with movies).
-Furthermore, subjects interact with virtual environments in real time, which makes it possible to examine learning mechanisms and decision making in a realistic context.
+Furthermore, subjects can interact with virtual environments in real time,  making it possible to examine learning mechanisms and decision making in a realistic context.
 This interactivity can also be employed to intentionally engage and control cognitive function.
 
 More complex stimuli require more complex analysis methods.
@@ -76,7 +76,7 @@ These analysis methods can generally be split into stimulus-driven methods---suc
 Stimulus-driven analyses provide more easily interpretable results but become less tractable as the complexity of the stimulus increases.
 Data-driven analyses, on the other hand, can cope with more complex stimuli but are more difficult to relate to brain physiology.
 A hybrid approach is also possible: data-driven analyses can first uncover complex patterns evoked by realistic stimuli; the observed relationships can then help formulate hypotheses and design stimuli to be tested by stimulus-driven analyses. 
-However, it may also be possible to use these realistic stimulus-response relationships to better understand subject training and pathophysiology.
+Moreover, it may also be possible to use these realistic stimulus-response relationships to better understand subject training and pathophysiology.
 
 Although many dynamic stimuli experiments employ GLM methods \citep{Maguire1998,Calhoun2002,King2006,Mathiak2006,Spiers2007a}, there is a general trend in newer experiments to use MVPA \citep{Hassabis2009,Chadwick2010}. 
 The application of MVPA analysis to virtual environments stimuli opens up an exciting range of experiments to examine complex brain responses in more realistic stimulus scenarios.
@@ -89,7 +89,7 @@ MVPA can be applied to the whole brain as well as to small localized regions (e.
 MVPA methods consider the pattern of activation of many voxels at a particular interval in time, in contrast to GLM, which treats each voxel independently as a time-series of responses over an extended period of time.
 By considering multiple voxels simultaneously, MVPA has been used to identify effects that were previously thought to be too fine scale to resolve with fMRI \citep{Kamitani2005,Hassabis2009}.
 
-In this paper, the feasibility of extracting complex information from fMRI data while subjects view natural and dynamic stimuli is tested.
+In this paper, we test the feasibility of extracting complex information from fMRI data while subjects view natural and dynamic stimuli.
 The experiments were structured to identify those parts of the brain that contain information about the number of human characters in a scene.
 Unlike previous experiments that examined the neural correlates of object counting or number evaluation \citep{Dehaene1999,Rickard2000,Barth2006}, a passive-viewing paradigm was used.
 The recent work of \cite{Harvey2013} is more similar in that the visual perception of number was explored while the subject's task was unrelated to counting.
@@ -100,7 +100,7 @@ All classifiers were trained using a spatially distributed subset of stimulus-re
 Classification accuracy was two to four times better than chance for all subjects and machine-learning techniques tested.
 A novel sensitivity mapping technique was then used to identify voxels that are important for classification and thus likely to be involved in processing the information that the classifiers were trained to identify.
 Results indicate that information regarding  the number of visible characters in a complex stimulus is largely encoded early in visual processing, utilizing both ventral and dorsal visual streams.
-The results demonstrate that complex information can effectively be extracted from a realistic virtual environment stimulus paradigm, opening up new prospects for the use of virtual environments with MVPA in neuroscience.
+The results also  demonstrate that complex information can effectively be extracted from a realistic virtual environment stimulus paradigm, opening up new prospects for the use of virtual environments with MVPA in neuroscience.
 
 \begin{figure*}
 \centering
@@ -135,7 +135,7 @@ Such stimuli allow studying how the brain respondes in a more natural and comple
 \section{Methods}
 
 \subsection{Subjects}
-Five adult males, with normal or corrected-to-normal vision, participated in the experiments. 
+Five adult males, ages 24--57, with normal or corrected-to-normal vision, participated in the experiments. 
 All subjects participated in two fMRI sessions and a third session to acquire a high-resolution structural anatomy. 
 Informed consent was obtained from all subjects.
 
@@ -143,7 +143,7 @@ Informed consent was obtained from all subjects.
 To facilitate designing our virtual environment, the Unreal Developer's Kit developed by Epic Games, Inc. was used (available at \url{http://www.unrealengine.com/udk}).
 This development kit is available free of charge for non-commercial applications and uses the same rendering and game engine found in many current and popular video games.
 
-One of the long-term goals of this research is to understand post-traumatic stress disorder (PTSD).
+One of the long-term goals of this research is to understand post-traumatic stress disorder.
 Therefore, we created a virtual town intended to mirror the kinds of real-world settings encountered by many currently deployed military forces (Fig. \ref{fig:stimulus}).
 Virtual characters representing friendly forces and hostile combatants were situated at a variety of locations throughout the virtual town.
 The stimulus was rendered in real-time from the point of view of a camera moving at eye level through the town. 
@@ -236,7 +236,7 @@ This reduction not only speeded up both training and classification but also imp
 Principal component analysis (PCA; \cite{Hotelling1933}) is a common tool for dimensionality reduction.
 However, PCA only selects the orthogonal dimensions with the highest variance, which are likely to include physiological nuisance and such approaches are therefore not well suited for fMRI analysis.
 Univariate statistical methods, as typically used in  fMRI analysis, can also be good candidates for selecting voxels \citep{Norman2006,Pereira2009}.
-While effective, these methods were not designed for feature selection and many of them make a number of assumptions about the data such as Gaussian statistical distribution.
+While effective, these methods were not designed for feature selection and many of them make a number of assumptions about the data such as a Gaussian statistical distribution.
 
 A novel method of dimensionality reduction was developed in this research.
 This method, called harmonic analysis, selects voxels that are driven most strongly by the 30-second duty cycle of the block design.
@@ -254,8 +254,8 @@ The fractional harmonic power of that time series is defined as
 P_h = \frac{\sum_{i = 1}^{M}{\left|Y(i \cdot N)\right|^{2}}}{\sum_{f}{\left|Y(f)\right|^{2}}},
 \end{equation}
 where $P_h$ is the fractional harmonic power, $M$ is the number of harmonics, and $N$ is the frequency of interest, in our case the period of the block alternations. 
-Because the BOLD response has a predominantly low-pass temporal frequency response, $M = 4$ is sufficient. 
-Using $P_h$, a particular number $N$ (typically 2000) voxels with the greatest power are then selected. 
+Because the BOLD response has a predominantly low-pass temporal frequency response, we chose $M = 4$ as sufficient. 
+Using $P_h$, a particular number, $N = 2000$, voxels with the greatest power are selected. 
 
 This harmonic-power selection was based on the alternation between characters present and characters absent, without regard to the number of characters presented. 
 Therefore, classifier accuracy estimates will only be presented for character count, and not for the presence or absence of characters, in order to avoid overlap between dimension-reduction and  classification criteria that would result in inflated classifier performance estimates \citep{Pereira2009}.
@@ -263,17 +263,17 @@ However, the classifiers were also trained to distinguish between time points wi
 
 \subsection{Classification}
 Using the time series from the voxels selected by the harmonic analysis, a one-versus-one multi-class linear support vector machine (SVM) \citep{Cortes1995,Weston1999}, a feedforward neural network (NN) \citep{Hornik1989,Hagan1994}, a Gaussian naive Bayes classifier (GNB) \citep{Duda1973}, and a k-nearest neighbor classifier (KNN) \citep{Cover1967} were trained to identify the number of characters presented in each scene, regardless of character type (friend or foe).
-To maximize temporal resolution, each 2.5-second frame (time point) was treated as a separate example, rather than aggregating across the 15-second blocks.
+To maximize temporal resolution, each 2.5-second frame (time point) was treated as a separate example, rather than averaging across the 15-second blocks.
 Similar methods were also used to classify scenes as friends or foes, but these classifiers did not perform significantly above chance and will not be mentioned further.
 
 The performance of machine learning algorithms is generally defined to be the expected accuracy of the classifier on previously unseen examples \citep{Bishop2006}.
 In practice, this measure can only be estimated.
 A typical approach is to split the available examples into training and test sets.
 The classifier is first trained on the training set, and its performance on the test set is then taken as the estimate.
-In practice, the process of splitting all of the available examples into training and test sets is performed multiple ($n$; typically 10) times to reduce the variance of the performance estimate.
+The process of splitting all of the available examples into training and test sets is performed multiple ($n$; typically 10) times to reduce the variance of the performance estimate.
 This procedure is known as $n$-fold cross-validation \citep{Kohavi1995}.
 Previous studies have discussed issues with optimistically biased performance estimates due to temporal correlations that violate independence assumptions between training and test set samples \citep{Pereira2009}. 
-The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales less than 15 seconds.
+The slow speed of the fMRI hemodynamic response clearly introduces temporal correlations on time scales less than 10 seconds.
 Therefore, training and test sets were constructed by randomly drawing 15 second blocks rather than individual frames after which 10-fold cross-validation was performed.
 
 Furthermore, the null distribution for the cross-validated performance estimates was generated by randomly permuting the labels on the examples 2000 times and repeating the training and cross-validation procedure.
@@ -349,8 +349,8 @@ MVPA can tell us whether the time-series data from a subset of human brain voxel
 However, these results do not show which voxels in the large group were actually important for that discrimination.
 This information is important for localizing functions in the brain.
 One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area; this is known as the ``searchlight'' technique \citep{Kriegeskorte2006}.
-While this technique is effective for simple highly-localized functions, the results are less clear when the function is sparsely distributed over the brain.
-A single region may not contain enough information for accurate classification or a region may only contain relavant information when considered in conjunction with a spatially disparate region.
+While this technique is effective for brain functions already known to be highly localized, the results are less clear when the function is sparsely distributed over the brain.
+A single region may not contain enough information for accurate classification or a region may only contain relavant information only when considered in conjunction with a spatially disparate region.
 
 % \begin{figure*}
 % \centering
@@ -440,11 +440,10 @@ Z (Gaussianized T/F) statistic images were thresholded using clusters determined
 Clusters in these images indicate regions where the magnitude of activation is linearly correlated with the number of characters presented.
 The thresholded Z statistic images were projected onto the same Freesurfer generated surfaces as the sensitivity analysis.
 
-For each voxel above the significance threshold, this model was used to construct a simple linear estimator for the number of characters presented.
-The linear estimator was constructed by fitting a line to the parameter estimates of each explanatory variable and their corresponding character counts.
+For each voxel above the significance threshold, we used this model to construct a simple linear estimator for the number of characters presented by fitting a line to the parameter estimates of each explanatory variable versus their corresponding character counts.
 A continuous estimate of character count was obtained for each frame using the linear fit and the current parameter value.
 This character count estimate was clipped between one and six, averaged across significant voxels, and then rounded to the nearest whole number.
-The accuracy of this model was calculated for comparison with the machine learning techniques.
+The accuracy of this model was calculated for comparison with the machine-learning techniques.
 
 \section{Results}
 The cross-validated performance estimates for nearly every session from all five subjects and all four classifiers are above chance at 16.7\% (Figure \ref{fig:performance}).
@@ -531,7 +530,7 @@ Interestingly, low levels of pruning may actually improve performance (presumabl
 \end{figure}
 
 Sensitivity maps for individual subjects show a preponderance of classification sensitivity in lateral occipital areas, ventral retinotopic early visual areas, and dorsal parietal lobe (Figure \ref{fig:individual-sensitivity}). 
-The Z statistic maps produced by GLM also indicate significant correlation between the magnitude of activation and character count in ventral retinotopic early visual areas and lateral occipital regions.
+The Z-statistic maps produced by GLM also indicate significant correlation between the magnitude of activation and character count in ventral retinotopic early visual areas and lateral occipital regions.
 Individual subjects also displayed small regions of high sensitivity in idiosyncratic portions of temporal and frontal cortex. 
 Averaged across subjects, classifier sensitivity was most affected (in order of importance) by lateral occipital regions, lingual areas, and dorsal parietal lobe (Table \ref{tab:full-sensitivity}). 
 
@@ -610,8 +609,8 @@ Averaged across subjects, classifier sensitivity was most affected (in order of 
 % \label{fig:s3-lh-medial-zscore}
 % \end{subfigure}
 \small{\input{surface-maps.pdf_tex}}
-\caption{Here we present individual sensitivity maps and Z statistic maps of significant correlation between magnitude of activation and character count projected onto semi-inflated cortical surfaces for three different subjects.
-The sensitivity and Z score maps are relatively homogeneous across subjects and hemispheres.}
+\caption{Sensitivity and GLM linear-response Z-statistic maps projected onto semi-inflated cortical surfaces for three different subjects.
+The sensitivity and Z-score maps are roughly similar across subjects and hemispheres, but substantial individual variations are evident.}
 \label{fig:individual-sensitivity}
 \end{figure*}
 
@@ -640,19 +639,19 @@ In future experiments, the subjects will be asked to perform a challenging task,
 
 In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).
 This observation is in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between one and two characters than it is to tell the difference between five and six characters \citep{Shepard1975,Dehaene2003}.
-This phenomenon could also be related purely to retinotopic information, as suggested by the Z score maps, rather than the perception of numbers.
+This phenomenon could also be related purely to retinotopic information, as suggested by the GLM Z-score maps, rather than the perception of numbers.
 Without a fixation point and with varying character group configurations, the retinotopic pattern of activation will vary from presentation to presentation even for the same character count.
 However, the average activation in a retinotopically organized and object-selective region will increase for larger group sizes regardless of the group's configuration and the subject's fixation point.
 The relative difference in average activity is smaller between larger presentation sizes and thus more difficult to differentiate.
 However, there is a significant increase in confusion between two and six characters which is difficult to account for with a retinotopic explanation.
-This could be a result of six characters being too much for the subject to consider individually and the subject perceives two groups of characters rather than six individual characters.
+This could be a result of six characters being too much for the subject to consider individually, and the subject may sometimes encode two groups of characters rather than six individual characters.
 
 The classifier performances validate the popularity of the SVM for MVPA.
 In general, better classifier performance leads to higher confidence in the results of MVPA.
 Therefore, it is important to identify new classification algorithms that could offer superior performance.
 Deep learning \citep{Hinton2006} is a recent neural network formulation that has shown potential for solving a variety of complex tasks \citep{Ciresan2012}.
 Discounting the two sessions with chance performance on the feedforward neural network, the performance of the NN was nearly identical to the SVM which suggests that deep learning could outperform even the SVM.
-The poor performance of these two sessions on the NN may be due to the stochastic nature of the NN; the network simply was not given enough time to converge to a good solution.
+The poor performance of these two sessions on the NN may be due to the stochastic nature of NN training; the network simply was not given enough time to converge to a good solution.
 
 The classifiers' performance indicates that there is sufficient information in the pattern of BOLD signals to decode character count in a freely viewed stimulus. 
 The results of the sensitivity analysis suggest that the neural substrates that encode such information are distributed across a number of visual areas.
@@ -675,7 +674,7 @@ Additionally, there is substantial sensitivity contained in low-level retinotopi
 The pericalcarine, lingual, and cuneus areas altogether account for 25\% of the observed sensitivity; the more ventral lingual areas contribute more strongly (13.9\%) then cuneus (3.7\%).
 This result is somewhat surprising given that the relevant information in the scene is not obviously retinotopically organized due to the randomized arrangement of buildings and characters as well as the free-viewing paradigm.
 However, the classification sensitivity and significant correlation between magnitude of activation and character count in early retinotopic visual areas and the sensitivity in lateral-occipital areas suggests that retinotopic organization is important in decoding group size. 
-Because LO combines object-selectivity with retinotopic specificity \citep{Sayres2008}, different group sizes could evoke complex but stereotypical patterns of responses in LO (and other retinotopically organized areas) as subjects visually interrogate the stimuli. 
+Because LO combines object-selectivity with retinotopic specificity \citep{Sayres2008}, different group sizes could evoke complex but stereotypical patterns of responses in LO (and other retinotopically organized areas) as subjects visually interrogate the stimuli with a sequence of eye movements. 
 
 Despite the preponderance of retinotopic visual-area sensitivity, the dorsal parietal cortex also shows substantial sensitivity (16.6\%).
 Regions in the parietal cortex have been shown to be involved in mental arithmetic and magnitude judgement \citep{Rickard2000} which may also play some role in decoding group size.
@@ -688,11 +687,11 @@ In general, these maps covered only a small subset of those regions found to be 
 Thus MVPA delineates a more distributed neural substrate for the encoding of character count, and also performs significantly better than a simple linear estimator.
 These differences suggest that the performance of the MVPA can only be partially explained by simple linear and retinotopically organized activation.
 By modeling the higher level visual areas indicated by the sensitivity analysis, it should be possible to improve the performance of the model based estimator.
-This process illuminates a strategy for moving from flexible yet difficult to interpret machine learning results to well understood models that are amenable to GLM testing.
+This process illuminates a strategy for moving from flexible yet difficult to interpret machine learning results to well understood models that are amenable to testing with a GLM .
 
 While virtual environments offer a more realistic stimulus than traditional stimuli such as sweeping bars or contrast gratings, they are more complex to design and more difficult to interpret.
-This paper offers some initial tools and analyses to deal with these challenges, but further work is needed.
-Moreover, virtual environments do carry some disadvantages over simpler dynamic stimuli such as prerecorded movies. 
+This paper offers some initial tools and analyses to deal with these challenges, but further work is needed to explore the application of these techniques in richer virtual environments.
+It should also be noted that virtual environments do carry some disadvantages over simpler dynamic stimuli such as prerecorded movies. 
 It is typically easier to record a movie than to program a virtual environment; movies can also have a more realistic appearance than virtual environments.
 Additionally, the results of \cite{Han2005} indicate that there is some divergence in the way the brain processes real (i.e., recorded) and virtual visual worlds. 
 However, it is likely that this divergence in processing will decrease as the realism of virtual environments increases.
