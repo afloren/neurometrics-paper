@@ -435,12 +435,12 @@ However, the total sensitivity in each anatomical label was averaged across subj
 \subsection{GLM}
 GLM analysis was also performed on the data to compare classification performance and the spatial distribution of significant voxels with the MVPA sensitivity analysis maps. 
 A linear activation model was constructed using an explanatory variable for each character count.
-fMRI data processing was carried out using FEAT (FMRI Expert Analysis Tool) Version 5.98, part of FSL (FMRIB's Software Library, \url{www.fmrib.ox.ac.uk/fsl}). 
+Processing of fMRI data was carried out using FEAT (FMRI Expert Analysis Tool) Version 5.98, part of FSL (FMRIB's Software Library, \url{www.fmrib.ox.ac.uk/fsl}). 
 Z (Gaussianized T/F) statistic images were thresholded using clusters determined by $Z > 2.3$ and a (corrected) cluster significant threshold of $P = 0.05$ \citep{Worsley2001}.
 Clusters in these images indicate regions where the magnitude of activation is linearly correlated with the number of characters presented.
 The thresholded Z statistic images were projected onto the same Freesurfer generated surfaces as the sensitivity analysis.
 
-For each voxel above the significance threshold, we used this model to construct a simple linear estimator for the number of characters presented by fitting a line to the parameter estimates of each explanatory variable versus their corresponding character counts.
+For each voxel above the significance threshold, this model was used to construct a simple linear estimator for the number of characters presented by fitting a line to the parameter estimates of each explanatory variable versus their corresponding character counts.
 A continuous estimate of character count was obtained for each frame using the linear fit and the current parameter value.
 This character count estimate was clipped between one and six, averaged across significant voxels, and then rounded to the nearest whole number.
 The accuracy of this model was calculated for comparison with the machine-learning techniques.
@@ -651,7 +651,7 @@ In general, better classifier performance leads to higher confidence in the resu
 Therefore, it is important to identify new classification algorithms that could offer superior performance.
 Deep learning \citep{Hinton2006} is a recent neural network formulation that has shown potential for solving a variety of complex tasks \citep{Ciresan2012}.
 Discounting the two sessions with chance performance on the feedforward neural network, the performance of the NN was nearly identical to the SVM which suggests that deep learning could outperform even the SVM.
-The poor performance of these two sessions on the NN may be due to the stochastic nature of NN training; the network simply was not given enough time to converge to a good solution.
+The poor performance of the NN on these two sessions may be due to the stochastic nature of NN training: The network possibly was not given enough time to converge to a good solution.
 
 The classifiers' performance indicates that there is sufficient information in the pattern of BOLD signals to decode character count in a freely viewed stimulus. 
 The results of the sensitivity analysis suggest that the neural substrates that encode such information are distributed across a number of visual areas.
@@ -686,8 +686,8 @@ The maps of significant correlation between magnitude of activation and characte
 In general, these maps covered only a small subset of those regions found to be sensitive by MVPA.
 Thus MVPA delineates a more distributed neural substrate for the encoding of character count, and also performs significantly better than a simple linear estimator.
 These differences suggest that the performance of the MVPA can only be partially explained by simple linear and retinotopically organized activation.
-By modeling the higher level visual areas indicated by the sensitivity analysis, it should be possible to improve the performance of the model based estimator.
-This process illuminates a strategy for moving from flexible yet difficult to interpret machine learning results to well understood models that are amenable to testing with a GLM .
+By modeling the higher level visual areas indicated by the sensitivity analysis, it should be possible to improve the performance of the model-based estimator.
+This process illuminates a strategy for moving from flexible yet difficult to interpret machine-learning results to well-understood models that are amenable to testing with a GLM.
 
 While virtual environments offer a more realistic stimulus than traditional stimuli such as sweeping bars or contrast gratings, they are more complex to design and more difficult to interpret.
 This paper offers some initial tools and analyses to deal with these challenges, but further work is needed to explore the application of these techniques in richer virtual environments.
