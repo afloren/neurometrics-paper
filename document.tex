@@ -1,4 +1,4 @@
-\documentclass[5p,authoryear]{elsarticle}
+\documentclass[review,3p,authoryear]{elsarticle}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -173,36 +173,6 @@ A set of T1-weighted structural images was obtained on the same prescription bef
 These anatomical images were then used to align the functional data to a structural 3D reference volume, which was acquired for each subject in a separate session. 
 The structural reference volume was T1-weighted with good gray-white contrast and was acquired using a 3D inversion-prepared fSPGR sequence (minimum TE and TR, TI = 450 ms, 15$^\circ$ flip angle, isometric voxel size of 0.7 mm, 2 excitations, $\sim$28-minute duration).
 
-%\begin{figure}
-%\centering
-% \begin{subfigure}{0.3\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/hrf}
-% \caption{}
-% \label{fig:wiener-hrf}
-% \end{subfigure}
-%\begin{subfigure}{0.4\textwidth}
-%\centering
-%\includegraphics[width=\textwidth]{figures/square-wiener-deconvolution}
-%\caption{}
-%\label{fig:wiener-square}
-%\end{subfigure}
-%\begin{subfigure}{0.4\textwidth}
-%\centering
-%\includegraphics[width=\textwidth]{figures/voxel-wiener-deconvolution}
-%\caption{}
-%\label{fig:wiener-voxel}
-%\end{subfigure}
-%\caption{
-%\subref{fig:wiener-hrf} The difference-of-gamma HRF employed as $h(t)$. 
-%Wiener filter deconvolution is an optimal method for obtaining neural activity from the BOLD response.
-%Most importantly, such deconvolution aligns neural activity properly with the stimulus presentation in time.
-%\subref{fig:wiener-square} A simple square wave in red, the same square wave after convolution with a canonical HRF in green, and after Wiener-filter deconvolution in blue. 
-%\subref{fig:wiener-voxel} An example voxel time series in red and the same time series after Wiener-filter deconvolution in blue.
-%Wiener filter deconvolution removes the delay introduced by the HRF so that patterns of activation are properly associated with the stimulus that produced them.}
-%\label{fig:wiener-deconvolution}
-%\end{figure}
-
 \subsection{Preprocessing}
 Preprocessing of the fMRI data was performed using the mrVista software package (available at \url{http://vistalab.stanford.edu/}). 
 The first 15 seconds of data  were discarded to reduce transient effects.
@@ -281,69 +251,6 @@ That is, the distribution of performance estimates was generated under the assum
 Using this distribution, $p$ values were calculated for the performance estimates.
 The high-performance computing resources of the Texas Advanced Computing Center (TACC) at The University of Texas at Austin were utilized to perform this computation.
 
-% Artificial correlations therefore occur in the data when the random sampling that divides the data into the different sets yields training and test samples from the same (15 sec) block.
-
-% This issue raises a more general question: What is the relationship between performance estimates and temporal correlation?
-% To answer this question, classifier performance was estimated using four different methods for splitting the training and test examples, in order to vary the temporal distance between frames in the two sets. 
-% In the first method, referred to as  ``frame split", frames were independently drawn into the training and test sets. 
-% Although the draws were independent, there is no restriction to prevent adjacent frames from being split between the training and test sets.
-% This method should exhibit artificially high performance because of the temporal correlation.
-% In the second method, referred to as ``block split", sets of frames corresponding to the 15 second blocks were independently drawn into the training and test sets.
-% The third method exploits the fact that each six minute run cycles through all combinations twice, but in a different order the second time.
-% Accordingly, sets of frames were independently drawn from these half-runs, referred to as ``half-run split". 
-% In the fourth method, termed ``run split", entire six-minute runs of frames were independently drawn. 
-% Table \ref{tab:training-split} summarizes these training and test set split methods and the temporal separations between the training and test data for single runs. 
-% The mean temporal separations do not vary much between the various splits because the randomization extends across the entire run. 
-% However, the minimum temporal distance between a frame in the test set and any frame in the training set is a more relevant measure for comparison: It doesn't matter that on average the examples are highly separated temporally if on average there is at least one example in the training set which was temporally close to each example in the test set.
-
-%\begin{figure*}
-%\centering
-%\begin{subfigure}{0.3\textwidth}
-%\centering
-%\includegraphics[width=\textwidth]{figures/mean-delay-graph}
-%\caption{}
-%\label{fig:mean-delay-graph}
-%\end{subfigure}
-%\begin{subfigure}{0.3\textwidth}
-%\centering
-%\includegraphics[width=\textwidth]{figures/min-delay-graph}
-%\caption{}
-%\label{fig:min-delay-graph}
-%\end{subfigure}
-%\caption{The \subref{fig:mean-delay-graph} mean delay and \subref{fig:min-delay-graph} minimum mean delay between examples in the train and test set for four of the split methods. 
-%The session split method is excluded because both the mean and minimum delay are much larger than the other splits and the delays vary significantly between subjects.}
-%\end{figure*}
-
-% \begin{table}
-% \centering
-% \input{tables/temporal-delay.tex}
-% \caption{A summary of the temporal delay between the different training-and-test-split methods.
-% There is very little difference in the average temporal delay between examples.
-% However, the average minimum delay between any example in the training set and an example in the test set varies considerably.
-% This average minimum delay is the important quantity to consider when trying to avoid optimistic performance estimates.}
-% \label{tab:training-split}
-% \end{table}
-
-% For the frame and block splits, classifier performance was estimated using ten-fold cross-validation.
-% For the half-run and run splits, only eight and four unique splits are possible, respectively, due to the much smaller number of runs per subject. 
-% Therefore, only eight-fold and four-fold cross-validation were employed for estimating classifier performance on these splits.
-
-% We can also discuss classifier performance with respect to a single class.
-% Single class performance is traditionally measured along two axes: \emph{precision} and \emph{recall}.
-% \emph{Precision} with respect to class $c$ is the probability that a previously unseen data point was classified correctly given that it was classified as $c$.
-% \emph{Recall} with respect to class $c$ is the probability that a previously unseen data point was classified correctly given that it is actually a member of $c$.
-% Again, these measures can only be estimated from the test set.
-% $\mbox{\emph{precision}} = tp / (tp + fp)$, where $tp$ is the number of true positives and $fp$ is the number of false positives.
-% $\mbox{\emph{recall}} = tp / (tp + fn)$, where $fn$ is the number of false negatives.
-
-% Another tool for examining classifier performance is the confusion matrix.
-% If $\mathbf{C}$ is a confusion matrix, then the value of $C_{ij}$ is equal to the number examples of class $i$ that were classified as class $j$.
-% Therefore, values along the diagonal of a confusion matrix correspond to correct classifications while other values correspond to incorrect classifications.
-% The confusion matrix also simplifies estimating precision and recall for each class.
-% The value of $C_{ii}$ divided by the sum of all values along row $i$ is the estimate for the recall of the $i^{th}$ class.
-% Similarly, the value of $C_{jj}$ divided by the sum of all values along column $j$ is the estimate for the precision of the $j^{th}$ class.
-% Finally, overall classifier performance can be estimated by dividing the sum along the diagonal, or the trace, by the sum of the entire matrix.
-
 \subsection{Sensitivity Analysis}
 MVPA can tell us whether the time-series data from a subset of human brain voxels can be used to discriminate character number from the stimuli. 
 However, these results do not show which voxels in the large group were actually important for that discrimination.
@@ -351,28 +258,6 @@ This information is important for localizing functions in the brain.
 One existing technique is to train machine learning classifiers on small localized areas in the brain and use their performance as a measure of the strength of the function in question in that area; this is known as the ``searchlight'' technique \citep{Kriegeskorte2006}.
 While this technique is effective for brain functions already known to be highly localized, the results are less clear when the function is sparsely distributed over the brain.
 A single region may not contain enough information for accurate classification or a region may only contain relavant information only when considered in conjunction with a spatially disparate region.
-
-% \begin{figure*}
-% \centering
-% \begin{subfigure}{0.3\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/lh-lateral-labels}
-% \caption{lateral labels}
-% \label{fig:leteral-labels}
-% \end{subfigure}
-% \begin{subfigure}{0.3\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/lh-medial-labels}
-% \caption{medial labels}
-% \label{fig:medial-labels}
-% \end{subfigure}
-% \begin{subfigure}{0.3\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/sensitivity-legend-crop}
-% \end{subfigure}
-% \caption{After generating sensitivity maps, region labels were used for aggregating the results, as shown in table \ref{tab:full-sensitivity}. In this manner, it was possible to obtain a clearer representation of the pattern of sensitivity.}
-% \label{fig:labels}
-% \end{figure*}
 
 To overcome this limitation, a sensitivity analysis technique originally used to minimize the input data dimension of feedforward neural networks \citep{Zurada1994} was adapted to display the spatially distributed set of voxels that are most important for identifying the classes.
 Specifically, the sensitivity, or magnitude of change, of the neural network output was calculated with respect to a change in each voxel.
@@ -421,10 +306,6 @@ The threshold was gradually increased until classifier performance was significa
 
 The Freesurfer image analysis suite was employed to construct cortical surfaces for each of the subjects using high-resolution anatomy volumes.
 Ten anatomical labels were constructed on each surface based on FreeSurfer's automatically generated labels.
-% The labels largely overlap with FreeSurfer's labels.
-% However, the banks of the superior temporal were incorporated into the superior and middle temporal labels.
-% Additionally, the supramarginal label was merged with the inferior parietal label.
-% For most subjects, several of the automatic labels were also edited by hand to conform better to the actual sulcal boundaries.
 Each subject's volume sensitivity map was then projected onto their cortical surface and blurred along the surface using a 5 mm full-width half-maximum (FWHM) Gaussian kernel.
 Group averaged sensitivity maps were also formed using both affine and non-linear registration algorithms.
 However, the quality of the registration between our subject brains was not satisfactory.
@@ -454,19 +335,6 @@ The 68\% confidence intervals used for determining significance were obtained by
 The SVM had the best performance overall, followed by the feedforward neural network.
 The performance of all four independent classifiers being above chance increases confidence in the results, however the GNB and KNN classifiers will not be discussed further as their performance was significantly below the SVM and NN.
 The average performance of the linear estimator for each session after thresholding was 29\%, roughly similar to the performance of the KNN classifier.
-
-% As the temporal delay between data in the training and test sets increases, the estimated performance of the classifiers decreases somewhat.
-% However, the only statistically significant shift occurs between the frame split and block split, corresponding to 2.6 second and 21 second average minimum temporal distance between examples in the training and test sets, respectively.
-% Thus, as expected, optimistic performance estimates are driven by temporal correlations on the 15--20-s time-scale of the HRF.
-
-% \begin{figure}
-% \centering
-% \includegraphics[width=0.4\textwidth]{figures/performance-verse-temporal-distance}
-% \caption{The estimated performance of the classifiers averaged across all sessions and plotted across the four training-and-test-split methods, corresponding to the four different average minimum temporal delays between examples in the training and test sets. 
-% The performance estimates were bootstrapped across sessions in order to obtain 68\% confidence intervals.
-% There is a statistically significant drop in the estimated performance when the average minimum temporal delay increases from 2.6 to 21 seconds, confirming that temporal correlations result in optimistic performance estimates with short delays.}
-% \label{fig:performance-verse-temporal-distance}
-% \end{figure}
 
 \begin{figure}
 \centering
@@ -536,78 +404,6 @@ Averaged across subjects, classifier sensitivity was most affected (in order of 
 
 \begin{figure*}
 \centering
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s1-lh-lateral-sensitivity}
-% \caption{}
-% \label{fig:s1-lh-lateral-sensitivity}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s1-lh-medial-sensitivity}
-% \caption{}
-% \label{fig:s1-lh-medial-sensitivity}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s1-lh-lateral-zscore}
-% \caption{}
-% \label{fig:s1-lh-lateral-zscore}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s1-lh-medial-zscore}
-% \caption{}
-% \label{fig:s1-lh-medial-zscore}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s2-rh-lateral-sensitivity}
-% \caption{}
-% \label{fig:s2-rh-lateral-sensitivity}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s2-rh-medial-sensitivity}
-% \caption{}
-% \label{fig:s2-rh-medial-sensitivity}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s2-rh-lateral-zscore}
-% \caption{}
-% \label{fig:s2-rh-lateral-zscore}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s2-rh-medial-zscore}
-% \caption{}
-% \label{fig:s2-rh-medial-zscore}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s3-lh-lateral-sensitivity}
-% \caption{}
-% \label{fig:s3-lh-lateral-sensitivity}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s3-lh-medial-sensitivity}
-% \caption{}
-% \label{fig:s3-lh-medial-sensitivity}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s3-lh-lateral-zscore}
-% \caption{}
-% \label{fig:s3-lh-lateral-zscore}
-% \end{subfigure}
-% \begin{subfigure}{0.2\textwidth}
-% \centering
-% \includegraphics[width=\textwidth]{figures/s3-lh-medial-zscore}
-% \caption{}
-% \label{fig:s3-lh-medial-zscore}
-% \end{subfigure}
 \small{\input{surface-maps.pdf_tex}}
 \caption{Sensitivity and GLM linear-response Z-statistic maps projected onto semi-inflated cortical surfaces for three different subjects.
 The sensitivity and Z-score maps are roughly similar across subjects and hemispheres, but substantial individual variations are evident.}
@@ -627,15 +423,6 @@ Although all classifiers performed at well above chance levels for all subjects,
 These variations could be the result of differences in age, general cognitive state, or simply how much attention the subject was paying to the stimulus during a session.
 The lack of a task during the stimulus presentation makes these variations difficult to interpret since attention and cognitive state were not well controlled.
 In future experiments, the subjects will be asked to perform a challenging task, and the average performance is expected to increase and the variation between subjects to decrease.
-
-% This estimated prediction accuracy was calculated after correcting for the bias introduced by temporal correlations in the BOLD signal while minimizing variance.
-% By characterizing the relationship between the average minimum temporal distance between the training and test sets and estimated classifier performance, the estimated performance was found to reach a minimum around 20 seconds.
-% These findings are consistent with knowledge of the hemodynamic response.
-% That is, so long as the frames are separated by approximately the time-scale of the HRF then they can reasonably be considered independent, and this separation produces an appropriately conservative measure of classification performance. 
-% However, it is interesting that slightly better performance may be obtained for somewhat longer delays, although this trend was not statistically significant.
-% Many experiments separate their folds for crossfold-validation along runs.
-% While this procedure ensures a sufficient temporal separation between training and test set examples, it also reduces the total number of folds available and thus increases the variance of the estimate.
-% Instead, we recommend splitting the data along the shortest natural boundary of the experimental procedure that is not less than 20 seconds.
 
 In general, the classification accuracy of a particular number of presented human characters decreased as the number of characters increased (Figure \ref{fig:average-confusion}).
 This observation is in agreement with the logarithmic nature of perception; i.e., it is easier to tell the difference between one and two characters than it is to tell the difference between five and six characters \citep{Shepard1975,Dehaene2003}.
